@@ -1,0 +1,81 @@
+{% extends "base.html" %} {% load static %} {% block head %}
+
+<h1 class="h2">Clientes</h1>
+{% include 'include/buscador.html' %}
+<div class="btn-toolbar mb-2 mb-md-0">
+  <button
+    type="button"
+    class="btn btn-primary"
+    onclick="abrir_modal_add_client('{% url 'agregar_cliente' %}')"
+  >
+    Agregar
+  </button>
+</div>
+
+{% endblock %} {% block content %} {% if object_list %}
+<div class="overflow-x-auto">
+  <table class="table table-striped table-hover mt-4">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>RUN</th>
+        <th>Email</th>
+        <th>Tipo de giro</th>
+        <th>Comuna</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cliente in object_list %}
+      <tr>
+        <td class="alignCenter">{{cliente.nombre_cliente}}</td>
+        <td class="alignCenter">{{cliente.apellido_cliente}}</td>
+        <td class="alignCenter">{{cliente.run_cliente}}</td>
+        <td class="alignCenter">{{cliente.correo_cliente}}</td>
+        <td class="alignCenter">
+          {% if cliente.tipo_giro == 1 %} Mayorista {% else %} Minorista
+          {%endif%}
+        </td>
+        <td class="alignCenter">{{cliente.comuna_FK}}</td>
+        <td class="alignCenterBtn">
+          <div class="d-flex gap-2">
+            <button
+              class="btn btn-outline-success d-flex"
+              onclick="abrir_modal_edit_client('{% url 'editar_cliente' cliente.id_cliente %}')"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button
+              class="btn btn-outline-danger d-flex"
+              onclick="eliminar_cliente({{ cliente.id_cliente }}, '{{ cliente.run_cliente }}')"
+            >
+              <i class="bi bi-trash3"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% include 'include/paginador.html' %}
+
+<div
+  class="modal fade"
+  id="editModalClient"
+  tabindex="-1"
+  aria-hidden="true"
+></div>
+
+{% else %}
+<strong>NO HAY REGISTROS</strong>
+{% endif %}
+<div
+  class="modal fade"
+  id="addModalClient"
+  tabindex="-1"
+  aria-hidden="true"
+></div>
+{%endblock %}

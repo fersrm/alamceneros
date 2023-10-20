@@ -1,0 +1,131 @@
+{% load static %}
+<div
+  class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary position-fixed z-3"
+>
+  <div
+    class="offcanvas-md offcanvas-end bg-body-tertiary"
+    tabindex="-1"
+    id="sidebarMenu"
+    aria-labelledby="sidebarMenuLabel"
+  >
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="sidebarMenuLabel">Coffe Company</h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="offcanvas"
+        data-bs-target="#sidebarMenu"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div
+      class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto min-vh-100"
+    >
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a
+            class="nav-link d-flex align-items-center gap-2 {% if request.path == '/' %}active{% endif %}"
+            aria-current="page"
+            href="{% url 'Home' %}"
+          >
+            <svg class="bi"><use xlink:href="#house-fill" /></svg>
+            Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link d-flex align-items-center gap-2 {% if request.path == '/tienda/' %}active{% endif %}"
+            href="{% url 'Tienda' %}"
+          >
+            <svg class="bi"><use xlink:href="#cart" /></svg>
+            Productos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link d-flex align-items-center gap-2 {% if request.path == '/usuarios/' %}active{% endif %}"
+            href="{% url 'Usuarios' %}"
+          >
+            <svg class="bi"><use xlink:href="#people" /></svg>
+            Usuario
+          </a>
+        </li>
+        {% if 'ClientesStoreApp' in request.enabled_apps %}
+        <li class="nav-item">
+          <a
+            class="nav-link d-flex align-items-center gap-2 {% if request.path == '/clientes/' %}active{% endif %}"
+            href="{% url 'Clientes' %}"
+          >
+            <svg
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-person-vcard"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5ZM9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8Zm1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Z"
+              />
+              <path
+                d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2ZM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96c.026-.163.04-.33.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1.006 1.006 0 0 1 1 12V4Z"
+              />
+            </svg>
+            Clientes
+          </a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a
+            class="nav-link d-flex align-items-center gap-2 {% if request.path == '/pagos/' %}active{% endif %}"
+            href="{% url 'Pagos' %}"
+          >
+            <svg class="bi"><use xlink:href="#graph-up" /></svg>
+            Ventas
+          </a>
+        </li>
+      </ul>
+
+      <h6
+        class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
+      >
+        <span>Saved reports</span>
+      </h6>
+      <ul class="nav flex-column mb-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link d-flex align-items-center gap-2"
+            href="{% url 'Informes' %}"
+          >
+            <svg class="bi">
+              <use xlink:href="#file-earmark-text" />
+            </svg>
+            Informes
+          </a>
+        </li>
+      </ul>
+      <hr class="my-3" />
+      <ul class="nav flex-column mb-auto">
+        <li class="nav-item">
+          <a
+            class="nav-link d-flex align-items-center gap-2"
+            href="{% url 'Setting' %}"
+          >
+            <svg class="bi">
+              <use xlink:href="#gear-wide-connected" />
+            </svg>
+            Settings
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link d-flex align-items-center gap-2"
+            href="{% url 'salir' %}"
+          >
+            <svg class="bi"><use xlink:href="#door-closed" /></svg>
+            Sign out
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

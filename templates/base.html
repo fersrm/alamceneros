@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    {% load static %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard Template</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"
+    />
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <script defer src="{% static 'js/color-modes.js' %}"></script>
+    <script
+      defer
+      src="
+    {% static 'js/bootstrap.bundle.min.js' %}"
+    ></script>
+    <script defer src="{% static 'js/carrito.js' %}"></script>
+    <script defer src="{% static 'js/modal.js' %}"></script>
+
+    <!-- Script dinamico -->
+    {% block script %} {% endblock %}
+    <!-- Script dinamico -->
+
+    <meta name="description" content="" />
+    <meta
+      name="author"
+      content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
+    />
+    <meta name="generator" content="Hugo 0.115.4" />
+  </head>
+  <body>
+    {% include 'include/tema.html' %}
+    <header
+      class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow"
+      data-bs-theme="dark"
+    >
+      {% include 'include/header.html' %}
+    </header>
+    <div class="container-fluid">
+      <div class="row">
+        {% include 'include/navbar.html' %}
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <!-- encabezado dinamico -->
+          <div
+            class="d-flex justify-content-between flex-wrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            {% block head %} {% endblock %}
+            <!-- contenido dinamico -->
+          </div>
+
+          <!-- contenido dinamico -->
+          {% block content %} {% endblock %}
+          <!-- contenido dinamico -->
+        </main>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="tablaStock"
+      tabindex="-1"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="modal fade"
+      id="addProducModal"
+      tabindex="-1"
+      aria-hidden="true"
+    ></div>
+
+    <div class="modal fade" id="carritoModal" tabindex="-1" aria-hidden="true">
+      {% include 'modal/Carrito.html' %}
+    </div>
+    {% include 'include/mensajeBorrar.html' %}
+    <!-- mensajes de error -->
+    {% include 'include/mensajes.html' %}
+  </body>
+</html>

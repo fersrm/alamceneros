@@ -1,0 +1,49 @@
+<script>
+  function eliminar_producto(id, nombre) {
+    Swal.fire({
+      titleText: "¿Estas seguro que eliminar?",
+      text: nombre,
+      icon: "question",
+      showCancelButton: true,
+      cancelButtonText: "No, Cancelar",
+      confirmButtonText: "Si, Eliminar",
+      confirmButtonColor: "#dc3545",
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        window.location.href = "/tienda/borrar/" + id + "/";
+      }
+    });
+  }
+
+  function eliminar_usuario(id, nombre) {
+    Swal.fire({
+      titleText: "¿Estas seguro de eliminar al Usuario?",
+      text: nombre,
+      icon: "question",
+      showCancelButton: true,
+      cancelButtonText: "No, Cancelar",
+      confirmButtonText: "Si, Eliminar",
+      confirmButtonColor: "#dc3545",
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        window.location.href = "/usuarios/borrar/" + id + "/";
+      }
+    });
+  }
+
+  function eliminar_cliente(id, nombre) {
+    Swal.fire({
+      titleText: "¿Estas seguro de eliminar al Cliente?",
+      text: nombre,
+      icon: "question",
+      showCancelButton: true,
+      cancelButtonText: "No, Cancelar",
+      confirmButtonText: "Si, Eliminar",
+      confirmButtonColor: "#dc3545",
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        window.location.href = "/clientes/borrar/" + id + "/";
+      }
+    });
+  }
+</script>

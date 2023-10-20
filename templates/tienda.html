@@ -1,0 +1,89 @@
+{% extends "base.html" %} {% load static %} {% block head %}
+
+<h1 class="h2">Tienda</h1>
+{% include 'include/buscador.html' %}
+<div class="btn-toolbar mb-2 mb-md-0">
+  <button
+    type="button"
+    class="btn btn-primary"
+    onclick="abrir_modal_add('{% url 'agregar_prodcuto' %}')"
+  >
+    Agregar
+  </button>
+</div>
+
+{% endblock %} {% block content %} {% if object_list %}
+<div class="overflow-x-auto">
+  <table class="table table-striped table-hover mt-4">
+    <thead>
+      <tr>
+        <th>Imagen</th>
+        <th>Codigo</th>
+        <th>Nombre</th>
+        <th>Categoria</th>
+        <th>Marca</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for producto in object_list %}
+      <tr>
+        <td>
+          <img
+            class="img-fluid mx-auto d-block"
+            src="{{producto.imagen.url}}"
+            loading="lazy"
+            alt="{{producto.nombre_producto}}"
+          />
+        </td>
+        <td class="alignCenter">{{producto.codigo_producto}}</td>
+        <td class="alignCenter">{{producto.nombre_producto}}</td>
+        <td class="alignCenter">{{producto.categoria_FK}}</td>
+        <td class="alignCenter">{{producto.marca_FK}}</td>
+        <td class="alignCenter">${{producto.precio_producto}}</td>
+        <td class="alignCenter">{{producto.stock}}</td>
+        <td class="alignCenterBtn">
+          <div class="d-flex gap-2">
+            <button
+              class="btn btn-outline-success d-flex"
+              onclick="abrir_modal_edit('{% url 'editar_producto' producto.id_producto %}')"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button
+              class="btn btn-outline-danger d-flex"
+              onclick="eliminar_producto({{producto.id_producto}},'{{producto.nombre_producto}}')"
+            >
+              <i class="bi bi-trash3"></i>
+            </button>
+
+            <button
+              class="btn btn-outline-warning d-flex"
+              onclick="agregarAlCarrito({{ producto.id_producto }},'{{ producto.nombre_producto }}',{{ producto.stock }},{{ producto.precio_producto }})"
+            >
+              <i class="bi bi-cart-plus"></i>
+            </button>
+            <button
+              class="btn btn-outline-light d-flex"
+              onclick="abrir_modal_add_produc('{% url 'añadir_producto' producto.id_producto %}')"
+            >
+              <i class="bi bi-plus-square"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% include 'include/paginador.html' %}
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true"></div>
+{% else %}
+<strong>NO HAY REGISTROS</strong>
+{% endif %}
+<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true"></div>
+{%endblock %}

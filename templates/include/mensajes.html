@@ -1,0 +1,18 @@
+<script>
+  {% if messages %}
+      {% for message in messages %}
+          var icon = "success";
+          var titleText = "Felicidades"
+
+          if ("{{ message.tags }}".includes("error")) {
+            icon = 'error'
+            titleText = "Error"
+          }
+          Swal.fire({
+              titleText,
+              text: "{{ message }}",
+              icon
+          })
+      {% endfor %}
+  {% endif %}
+</script>

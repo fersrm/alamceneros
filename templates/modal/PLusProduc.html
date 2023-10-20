@@ -1,0 +1,41 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5">Añadir producto</h1>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <p class="text-center mt-3">{{ object.nombre_producto }}</p>
+    <p class="text-center mt-1">
+      <img
+        src="{{ object.imagen.url }}"
+        alt="{{ object.nombre_producto }}"
+        width="200"
+        class="imgPlus"
+      />
+    </p>
+    <form
+      action="{% url 'añadir_producto' object.id_producto %}"
+      method="post"
+      enctype="multipart/form-data"
+      id="myFormEdit"
+    >
+      <div class="modal-body">{% csrf_token %} {{ form.as_p }}</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="submit" value="Añadir Producto" class="btn btn-success">
+          Añadir
+        </button>
+        {% if error_message %}
+        <div class="alert-login">{{ error_message }}</div>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
