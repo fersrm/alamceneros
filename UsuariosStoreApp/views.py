@@ -35,7 +35,7 @@ class UsuarioListView(ListView):
         'username',
         'telefono_user',
         'email',
-        'rol_FK__rol_usuario']
+        'cargo_FK__cargo_usuario']
     queryset = buscar_campos(
         self.model, campos_busqueda, busqueda)
     queryset = queryset.order_by('-id')

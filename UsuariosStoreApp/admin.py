@@ -6,7 +6,18 @@ from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
 
-admin.site.register(Cargo)
+
+class SharedModelAdminBase(admin.ModelAdmin):
+  def has_module_permission(self, request):
+    tenant_type = request.tenant.type
+    allowed_tenant_types = ['type1', 'type2']
+    return tenant_type in allowed_tenant_types
+
+
+# Registro de Cargo
+@admin.register(Cargo)
+class CargoAdmin(SharedModelAdminBase):
+  pass
 
 # -----------------USUARIO----------------------------------------------
 
@@ -68,5 +79,11 @@ class CustomUserAdmin(UserAdmin):
       'cargo_FK',
       'is_staff')
 
+  def has_module_permission(self, request):
+    # Utiliza la misma restricción de acceso para los modelos de usuario
+    return SharedModelAdminBase.has_module_permission(self, request)
 
-admin.site.register(Usuario, CustomUserAdmin)
+
+@admin.register(Usuario)
+class UsuarioAdmin(CustomUserAdmin):
+  pass

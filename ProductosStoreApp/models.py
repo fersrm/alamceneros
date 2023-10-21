@@ -61,9 +61,7 @@ class Producto(models.Model):
       try:
         producto_anterior = Producto.objects.get(id_producto=self.id_producto)
         if producto_anterior.imagen != self.imagen:
-          imagen_relativa = str(producto_anterior.imagen)
-          ruta_img = os.path.join(settings.MEDIA_ROOT, imagen_relativa)
-          print(ruta_img)
+          ruta_img = os.path.abspath(producto_anterior.imagen.path)
           if os.path.exists(ruta_img):
             os.remove(ruta_img)
       except Producto.DoesNotExist as e:

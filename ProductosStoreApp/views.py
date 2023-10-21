@@ -1,6 +1,5 @@
 # Librerías de Django
 from django.http import HttpResponseRedirect
-# from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.utils.decorators import method_decorator

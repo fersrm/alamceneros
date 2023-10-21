@@ -1,35 +1,27 @@
 from django.contrib import admin
 from VentasStoreApp.models import Boletas, Ventas
 
-# Register your models here.
-
-# ------------------FACTURAS-BOLETAS---------------
+# Clase base de administración con el método común
 
 
-def generate_voucher(model, user_field_name):
-  class CustomAdmin(admin.ModelAdmin):
-    # readonly_fields = ('fecha_emision',)
+class SharedModelAdminBase(admin.ModelAdmin):
+  def has_module_permission(self, request):
+    tenant_type = request.tenant.type
+    allowed_tenant_types = ['type1', 'type2']
+    return tenant_type in allowed_tenant_types
 
-    # def vendedor(self, obj):
-    #   return getattr(obj, user_field_name)
-    # vendedor.short_description = 'Vendedor'
-    id_field = 'id_boleta' if hasattr(model, 'id_boleta') else 'id_factura'
-    list_display = (
-        id_field,
-        'total_factura' if hasattr(
-            model,
-            'total_factura') else 'total_boleta')
-  return CustomAdmin
+# Registro de Boletas
 
 
-admin.site.register(Boletas, generate_voucher(Boletas, 'usuario_FK'))
+@admin.register(Boletas)
+class BoletasAdmin(SharedModelAdminBase):
+  list_display = (
+      'id_boleta',
+      'total_boleta')
+
+# Registro de Ventas
 
 
-# ------------------Ventas--------------
-
-
-class VentasAdmin(admin.ModelAdmin):
+@admin.register(Ventas)
+class VentasAdmin(SharedModelAdminBase):
   list_display = ('id_venta', 'fecha_emision', 'usuario_FK')
-
-
-admin.site.register(Ventas, VentasAdmin)

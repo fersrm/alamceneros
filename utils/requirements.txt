@@ -1,7 +1,0 @@
-Django==4.2.4
-django_tenant_schemas==1.12.0
-
-
-# pipreqs "C:\Users\ferro\OneDrive\Escritorio\Django\ProyectoTaller"
-
-# pip freeze > requirements.txt

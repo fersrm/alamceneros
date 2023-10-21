@@ -42,6 +42,7 @@ DEFAULT_DJANGO_APPS = [
 
 # Compartidas
 PUBLIC_APPS = DEFAULT_DJANGO_APPS + [
+    'django_tenants',
     'ClientSharedApp',
     'UsuariosStoreApp',
 ]
@@ -57,19 +58,20 @@ COMMON_APPS = DEFAULT_DJANGO_APPS + [
 
 
 HAS_MULTI_TYPE_TENANTS = True
+MULTI_TYPE_DATABASE_FIELD = 'type'
 
 TENANT_TYPES = {
     "public": {  # this is the name of the public schema from get_public_schema_name
         "APPS": PUBLIC_APPS,
-        "URLCONF": "tenant_multi_types_tutorial.urls_public",  # url for the public type here
+        "URLCONF": "ProyectoTaller.urls",  # url for the public type here
     },
     "type1": {
         "APPS": COMMON_APPS,
-        "URLCONF": "tenant_multi_types_tutorial.urls_type1",
+        "URLCONF": "ProyectoTaller.urls_type1",
     },
     "type2": {
         "APPS": COMMON_APPS + ['ClientesStoreApp',],
-        "URLCONF": "tenant_multi_types_tutorial.urls_type2",
+        "URLCONF": "ProyectoTaller.urls_type2",
     }
 }
 
@@ -92,7 +94,6 @@ MIDDLEWARE = [
     'ProductosStoreApp.middleware.ProductosStockMiddleware',
     'ClientSharedApp.middleware.RedirectMiddleware',
     'utils.custom_middleware.TenantAccessMiddleware',
-    'utils.custom_middleware.TenantAccessUrlMiddleware',
 ]
 
 ROOT_URLCONF = 'ProyectoTaller.urls'
@@ -175,8 +176,6 @@ USE_TZ = True
 # Cambia la ruta de STATIC_URL
 STATIC_URL = '/static/'
 
-# Configuración para buscar archivos estáticos en la carpeta 'static' en
-# el nivel superior del proyecto
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = '/media/'
@@ -187,12 +186,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DEFAULT_FILE_STORAGE = 'tenant_schemas.storage.TenantFileSystemStorage'
+DEFAULT_FILE_STORAGE = "django_tenants.files.storage.TenantFileSystemStorage"
 
 TENANT_MODEL = 'ClientSharedApp.Client'
 TENANT_DOMAIN_MODEL = "ClientSharedApp.Domain"
 
 AUTH_USER_MODEL = 'UsuariosStoreApp.Usuario'
-
 # AUTH_USER_MODEL = 'auth.User'
+
 LOGIN_URL = '/login/'
