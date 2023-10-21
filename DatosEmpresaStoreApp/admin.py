@@ -13,4 +13,4 @@ class SharedModelAdminBase(admin.ModelAdmin):
 
 @admin.register(DatosEmpresa)
 class DatosEmpresaAdmin(SharedModelAdminBase):
-  list_display = ('id_datos_empresa', 'nombre_empresa')
+  list_display = ('rut_empresa', 'nombre_empresa', 'email')

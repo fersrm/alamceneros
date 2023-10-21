@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.utils import timezone
-from VentasStoreApp.models import Boletas
+from VentasStoreApp.models import Boletas, DetalleBoletas
+from ProductosStoreApp.models import Producto
 # Para trabajar con clases
 from django.contrib.auth.views import LogoutView
 from django.views.generic import TemplateView
@@ -44,7 +45,7 @@ class HomeView(TemplateView):
         'precio_producto',
     )
     top_mas_vendidos, top_menos_vendidos = top_productos(
-        campos_producto)
+        Producto, DetalleBoletas, campos_producto)
     context['top_mas_vendidos'] = top_mas_vendidos
     context['top_menos_vendidos'] = top_menos_vendidos
     return context

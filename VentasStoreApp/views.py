@@ -7,7 +7,7 @@ from .models import Boletas, Ventas
 # Para trabajar con clases
 from django.views.generic import ListView
 # imporat funciones
-from utils.helpers import buscar_fecha_rango, buscar_campos
+from utils.helpers import buscar_fecha_rango, buscar_venta, buscar_fecha
 
 # -------------------INFORMES----------
 
@@ -45,8 +45,10 @@ class BoletaListView(ListView):
     campos_busqueda = [
         'id_boleta',
         'total_boleta']
-    return buscar_campos(
-        self.model, campos_busqueda, busqueda, busquedaF)
+    if busquedaF:
+      return buscar_fecha(self.model, busquedaF)
+    return buscar_venta(
+        self.model, campos_busqueda, busqueda)
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)

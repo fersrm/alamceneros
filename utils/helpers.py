@@ -1,40 +1,41 @@
-# para filtar
 from django.utils import timezone
 from django.db.models import Q, Sum
-# modelos
-from ProductosStoreApp.models import Producto
-from UsuariosStoreApp.models import Usuario
-from VentasStoreApp.models import DetalleBoletas
-# otros
 from datetime import timedelta
 
 
-def generar_pdf(queryset, camposH, camposB):
-  pass
-
-
-def buscar_campos(model, campos, busqueda, busquedaF=""):
+def buscar_campos(model, campos, busqueda):
   modelo = model.objects.all()
   queries = []
   if busqueda:
-    if isinstance(model(), Producto):
-      queries = [Q(**{campo + '__icontains': busqueda}) for campo in campos]
-    elif isinstance(model(), Usuario):
-      queries = [Q(**{campo + '__icontains': busqueda}) for campo in campos]
-    else:
-      if busqueda.isdigit():
-        busqueda = int(busqueda)
-        for campo in campos:
-          queries.append(Q(**{campo: busqueda}))
-      else:
-        queries.append(Q(**{'venta_FK__usuario_FK__username': busqueda}))
-    if queries:
-      query = queries.pop()
-      for item in queries:
-        query |= item
-      modelo = modelo.filter(query).distinct()
-  elif busquedaF:
-    query = Q(venta_FK__fecha_emision__icontains=busquedaF)
+    queries = [Q(**{campo + '__icontains': busqueda}) for campo in campos]
+  if queries:
+    query = queries.pop()
+    for item in queries:
+      query |= item
+    modelo = modelo.filter(query).distinct()
+  return modelo
+
+
+def buscar_fecha(model, busquedaF):
+  modelo = model.objects.all()
+  query = Q(venta_FK__fecha_emision__icontains=busquedaF)
+  modelo = modelo.filter(query).distinct()
+  return modelo
+
+
+def buscar_venta(model, campos, busqueda):
+  modelo = model.objects.all()
+  queries = []
+  if busqueda is not None and busqueda.isdigit():
+    busqueda = int(busqueda)
+    for campo in campos:
+      queries.append(Q(**{campo: busqueda}))
+  elif busqueda:
+    queries.append(Q(**{'venta_FK__usuario_FK__username': busqueda}))
+  if queries:
+    query = queries.pop()
+    for item in queries:
+      query |= item
     modelo = modelo.filter(query).distinct()
   return modelo
 
@@ -103,12 +104,12 @@ def total_ventas(boleta, periodo='semana'):
   return ventas_totales
 
 
-def top_productos(campos_producto):
+def top_productos(model_productos, model_detalle, campos_producto):
   # Calcular la fecha de hace 30 días desde la fecha actual
   fecha_hace_30_dias = timezone.localtime(timezone.now()) - timedelta(days=30)
 
   # Obtener todos los productos
-  productos_no_en_boletas = Producto.objects.exclude(
+  productos_no_en_boletas = model_productos.objects.exclude(
       detalleboletas__isnull=False).values(*campos_producto)
 
   # Agrega el prefijo 'producto_FK__' a cada campo en la lista campos_producto
@@ -117,7 +118,7 @@ def top_productos(campos_producto):
       campo for campo in campos_producto]
 
   # Obtener los productos más vendidos de DetalleBoletas
-  productos_boletas = DetalleBoletas.objects.filter(
+  productos_boletas = model_detalle.objects.filter(
       boleta_FK__venta_FK__fecha_emision__gte=fecha_hace_30_dias
   ).values(*campos_producto_con_prefijo)
 
@@ -143,4 +144,8 @@ def top_productos(campos_producto):
 
 
 def buscar_fecha_rango(modal, fecha1, fecha2, periodo):
+  pass
+
+
+def generar_pdf(queryset, camposH, camposB):
   pass
