@@ -30,10 +30,9 @@ class ProductoListView(ListView):
   def get_queryset(self):
     busqueda = self.request.GET.get('buscar')
     campos_busqueda = [
-        'nombre_producto',
+        'descripcion_producto',
         'codigo_producto',
         'stock',
-        'marca_FK__nombre_marca',
         'categoria_FK__nombre_categoria']
     queryset = buscar_campos(
         self.model, campos_busqueda, busqueda)

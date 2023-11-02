@@ -1,4 +1,4 @@
-<div class="modal-dialog">
+<div class="modal-dialog modal-lg">
   <div class="modal-content">
     <div class="modal-header">
       <h1 class="modal-title fs-5">Agregar Producto</h1>
@@ -13,7 +13,7 @@
       action="{% url 'agregar_prodcuto' %}"
       method="post"
       enctype="multipart/form-data"
-      id="myForm"
+      id="myFormAdd"
     >
       <div class="modal-body">
         {% csrf_token %}
@@ -23,30 +23,52 @@
         </p>
 
         <p>
-          <span>{{ form.nombre_producto.label_tag }}</span>
-          <span>{{ form.nombre_producto }}</span>
+          <span>{{ form.descripcion_producto.label_tag }}</span>
+          <span>{{ form.descripcion_producto }}</span>
         </p>
 
-        <p>
-          <span>{{ form.precio_producto.label_tag }}</span>
-          <span>{{ form.precio_producto }}</span>
-        </p>
+        <div class="d-flex gap-2">
+          <p class="w-50">
+            <span>{{ form.imagen.label_tag }}</span>
+            <span>{{ form.imagen }}</span>
+          </p>
+          <p class="w-50">
+            <span>{{ form.categoria_FK.label_tag }}</span>
+            <span>{{ form.categoria_FK }}</span>
+          </p>
+        </div>
 
-        <p>
-          <span>{{ form.stock.label_tag }}</span>
-          <span>{{ form.stock }}</span>
-        </p>
+        <div class="d-flex gap-2">
+          <p class="w-50">
+            <span>{{ form.precio_bruto_producto.label_tag }}</span>
+            <span>{{ form.precio_bruto_producto }}</span>
+          </p>
+          <p class="w-50">
+            <span>{{ form.precio_venta.label_tag }}</span>
+            <span>{{ form.precio_venta }}</span>
+          </p>
+        </div>
 
-        <p>
-          <span>{{ form.imagen.label_tag }}</span>
-          <span>{{ form.imagen }}</span>
-        </p>
+        <div class="d-flex gap-2">
+          <p class="w-50">
+            <span>{{ form.margen_ganancia.label_tag }}</span>
+            <span>{{ form.margen_ganancia }}</span>
+          </p>
+          <p class="w-50">
+            <span>{{ form.stock.label_tag }}</span>
+            <span>{{ form.stock }}</span>
+          </p>
+        </div>
 
-        <div class="mb-3 d-flex gap-2">
-          <span>{{ form.marca_FK.label_tag }}</span>
-          {{ form.marca_FK }}
-          <span class="ms-3">{{ form.categoria_FK.label_tag }}</span>
-          {{ form.categoria_FK }}
+        <div class="d-flex gap-2">
+          <p class="w-50">
+            <span>{{ form.tipo_medida.label_tag }}</span>
+            <span>{{ form.tipo_medida }}</span>
+          </p>
+          <p class="w-50">
+            <span>{{ form.tipo_impuesto.label_tag }}</span>
+            <span>{{ form.tipo_impuesto }}</span>
+          </p>
         </div>
       </div>
       <div class="modal-footer">

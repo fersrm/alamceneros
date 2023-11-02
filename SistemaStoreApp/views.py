@@ -39,10 +39,10 @@ class HomeView(TemplateView):
     # Top Productos Ventas ---------------------
     campos_producto = (
         'codigo_producto',
-        'nombre_producto',
+        'descripcion_producto',
         'categoria_FK__nombre_categoria',
-        'marca_FK__nombre_marca',
-        'precio_producto',
+        'stock',
+        'precio_venta',
     )
     top_mas_vendidos, top_menos_vendidos = top_productos(
         Producto, DetalleBoletas, campos_producto)

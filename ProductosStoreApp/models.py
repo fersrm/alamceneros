@@ -1,10 +1,10 @@
 from django.db import models
+from .choices import tipoMedida, tipoImpuesto
 # son para borrar imagen al actualizar
 import os
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
 from UsuariosStoreApp.models import Usuario
-from django.conf import settings
 # Create your models here.
 
 
@@ -13,17 +13,6 @@ def dynamic_upload_path(instance, filename):
 
 
 # -----------------------Productos----------------
-
-
-class Marca(models.Model):
-  id_marca = models.AutoField(primary_key=True)
-  nombre_marca = models.CharField(max_length=45, unique=True)
-
-  class Meta:
-    db_table = 'marca'
-
-  def __str__(self):
-    return f"{self.nombre_marca}"
 
 
 class Categoria(models.Model):
@@ -40,21 +29,22 @@ class Categoria(models.Model):
 class Producto(models.Model):
   id_producto = models.AutoField(primary_key=True)
   codigo_producto = models.CharField(max_length=45, unique=True)
-  nombre_producto = models.CharField(max_length=45)
-  precio_producto = models.IntegerField()
-  imagen = models.ImageField(upload_to=dynamic_upload_path)
+  descripcion_producto = models.CharField(max_length=45)
+  precio_bruto_producto = models.IntegerField()
+  precio_venta = models.IntegerField(default=10)
+  imagen = models.ImageField(upload_to=dynamic_upload_path, null=True)
   stock = models.IntegerField(default=10)
   fecha = models.DateField(auto_now_add=True)
-  marca_FK = models.ForeignKey(Marca, on_delete=models.CASCADE)
+  tipo_medida = models.IntegerField(choices=tipoMedida, default=1)
+  tipo_impuesto = models.IntegerField(choices=tipoImpuesto, default=1)
   usuario_FK = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-  # usuario_FK = models.IntegerField()
   categoria_FK = models.ForeignKey(Categoria, on_delete=models.CASCADE)
 
   class Meta:
     db_table = 'producto'
 
   def __str__(self):
-    return f"{self.nombre_producto}"
+    return f"{self.descripcion_producto}"
 
   def borrar_imagen_anterior(self):
     if self.id_producto is not None:
@@ -71,3 +61,16 @@ class Producto(models.Model):
 @receiver(pre_save, sender=Producto)
 def borrar_imagen_anterior(sender, instance, **kwargs):
   instance.borrar_imagen_anterior()
+
+
+# class CantidadesStock(models.Model):
+#   id_cantidadStock = models.AutoField(primary_key=True)
+#   minino_stock = models.IntegerField()
+#   maximo_stock = models.IntegerField()
+#   producto_FK = models.ForeignKey(Producto, on_delete=models.CASCADE)
+
+#   class Meta:
+#     db_table = 'cantidad_stock'
+
+#   def __str__(self):
+#     return f"{self.id_cantidadStock}"

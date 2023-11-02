@@ -1,5 +1,5 @@
 from django.contrib import admin
-from ProductosStoreApp.models import Marca, Producto, Categoria
+from ProductosStoreApp.models import Producto, Categoria
 
 # para borrar imagenes
 from django.dispatch import receiver
@@ -13,13 +13,6 @@ class SharedModelAdminBase(admin.ModelAdmin):
     tenant_type = request.tenant.type
     allowed_tenant_types = ['type1', 'type2']
     return tenant_type in allowed_tenant_types
-
-# Registro de Marca
-
-
-@admin.register(Marca)
-class MarcaAdmin(SharedModelAdminBase):
-  pass
 
 # Registro de Categoria
 
@@ -35,19 +28,15 @@ class CategoriaAdmin(SharedModelAdminBase):
 class ProductoAdmin(SharedModelAdminBase):
   readonly_fields = ('fecha',)
 
-  def marca(self, obj):
-    return getattr(obj, 'marca_FK')
-  marca.short_description = 'Marca'
-
   def categoria(self, obj):
     return getattr(obj, 'categoria_FK')
+
   categoria.short_description = 'Categoria'
   list_display = (
       'id_producto',
       'codigo_producto',
-      'nombre_producto',
-      'precio_producto',
-      'marca',
+      'descripcion_producto',
+      'precio_bruto_producto',
       'categoria')
 
 

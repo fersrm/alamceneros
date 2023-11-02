@@ -1,3 +1,4 @@
+{% load static %}
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
@@ -12,19 +13,49 @@
     <p class="text-center mt-3">{{ object.nombre_producto }}</p>
     <p class="text-center mt-1">
       <img
-        src="{{ object.imagen.url }}"
-        alt="{{ object.nombre_producto }}"
+        src="{% if object.imagen %}{{ object.imagen.url }}{% else %}{% static 'img/producto.jpg' %}{% endif %}"
+        alt="{{ object.descripcion_producto }}"
         width="200"
         class="imgPlus"
       />
     </p>
+    <p class="text-center mb-0">{{ object.descripcion_producto }}</p>
     <form
       action="{% url 'añadir_producto' object.id_producto %}"
       method="post"
       enctype="multipart/form-data"
-      id="myFormEdit"
+      id="myFormPlus"
     >
-      <div class="modal-body">{% csrf_token %} {{ form.as_p }}</div>
+      <div class="modal-body">
+        {% csrf_token %}
+
+        <p>
+          <span>{{ form.stock_increment.label_tag }}</span>
+          <span>{{ form.stock_increment }}</span>
+        </p>
+
+        <div class="d-flex gap-2">
+          <p class="w-50">
+            <span>{{ form.precio_bruto_producto.label_tag }}</span>
+            <span>{{ form.precio_bruto_producto }}</span>
+          </p>
+          <p class="w-50">
+            <span>{{ form.precio_bruto_old.label_tag }}</span>
+            <span>{{ form.precio_bruto_old }}</span>
+          </p>
+        </div>
+
+        <div class="d-flex gap-2">
+          <p class="w-50">
+            <span>{{ form.margen_ganancia.label_tag }}</span>
+            <span>{{ form.margen_ganancia }}</span>
+          </p>
+          <p class="w-50">
+            <span>{{ form.precio_venta.label_tag }}</span>
+            <span>{{ form.precio_venta }}</span>
+          </p>
+        </div>
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Close

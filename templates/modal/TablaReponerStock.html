@@ -1,3 +1,4 @@
+{% load static %}
 <div class="modal-dialog modal-xl">
   <div class="modal-content">
     <div class="modal-header">
@@ -16,9 +17,9 @@
             <tr>
               <th>Imagen</th>
               <th>Codigo</th>
-              <th>Nombre de producto</th>
+              <th>Descripcion</th>
               <th>Categoria</th>
-              <th>Marca</th>
+              <th>Medida</th>
               <th>Precio</th>
               <th>Stock</th>
               <th>Acciones</th>
@@ -30,16 +31,23 @@
               <td>
                 <img
                   class="img-fluid mx-auto d-block"
-                  src="{{producto.imagen.url}}"
+                  src="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'img/producto.jpg' %}{% endif %}"
                   alt="{{producto.nombre_producto}}"
                 />
               </td>
+
               <td class="alignCenter">{{producto.codigo_producto}}</td>
-              <td class="alignCenter">{{producto.nombre_producto}}</td>
+              <td class="alignCenter">{{producto.descripcion_producto}}</td>
               <td class="alignCenter">{{producto.categoria_FK}}</td>
-              <td class="alignCenter">{{producto.marca_FK}}</td>
-              <td class="alignCenter">$ {{producto.precio_producto}}</td>
+
+              <td class="alignCenter">
+                {% if producto.tipo_medida == 1 %} Unidad {% else %} Granel
+                {%endif%}
+              </td>
+
+              <td class="alignCenter">${{producto.precio_venta}}</td>
               <td class="alignCenter">{{producto.stock}}</td>
+
               <td class="alignCenterBtn">
                 <div class="d-flex gap-2">
                   <button
@@ -51,7 +59,7 @@
 
                   <button
                     class="btn btn-outline-light d-flex"
-                    onclick="abrir_modal_add_produc('{% url 'añadir_producto' producto.id_producto %}')"
+                    onclick="abrir_modal_plus('{% url 'añadir_producto' producto.id_producto %}')"
                   >
                     <i class="bi bi-plus-square"></i>
                   </button>

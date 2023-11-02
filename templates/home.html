@@ -8,8 +8,8 @@
   defer
   src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"
   integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG"
-  crossorigin="anonymous"
-></script>
+  crossorigin="anonymous">
+</script>
 <script defer src="{% static 'js/dashboard.js' %}"></script>
 {% endblock %}
 
@@ -86,7 +86,7 @@
         <th>Codigo</th>
         <th>Nombre de producto</th>
         <th>Categoria</th>
-        <th>Marca</th>
+        <th>Stock</th>
         <th>Precio</th>
         <th>Cantidad Vendida</th>
       </tr>
@@ -95,10 +95,10 @@
       {% for producto in top_mas_vendidos %}
       <tr>
         <td>{{ producto.producto_FK__codigo_producto }}</td>
-        <td>{{ producto.producto_FK__nombre_producto }}</td>
+        <td>{{ producto.producto_FK__descripcion_producto }}</td>
         <td>{{ producto.producto_FK__categoria_FK__nombre_categoria }}</td>
-        <td>{{ producto.producto_FK__marca_FK__nombre_marca }}</td>
-        <td>${{ producto.producto_FK__precio_producto }}</td>
+        <td >{{ producto.producto_FK__stock }}</td>
+        <td>${{ producto.producto_FK__precio_venta}}</td>
         <td>{{ producto.total_vendido }}</td>
       </tr>
       {% endfor %}
@@ -114,7 +114,7 @@
         <th>Codigo</th>
         <th>Nombre de producto</th>
         <th>Categoria</th>
-        <th>Marca</th>
+        <th>Stock</th>
         <th>Precio</th>
         <th>Cantidad Vendida</th>
       </tr>
@@ -130,10 +130,10 @@
             {% endif %}
         </td>
         <td>
-            {% if producto.nombre_producto %}
-              {{ producto.nombre_producto }}
+            {% if producto.descripcion_producto %}
+              {{ producto.descripcion_producto }}
             {% else %}
-              {{ producto.producto_FK__nombre_producto }}
+              {{ producto.producto_FK__descripcion_producto }}
             {% endif %}
         </td>
         <td>
@@ -144,17 +144,17 @@
             {% endif %}
         </td>
         <td>
-            {% if producto.marca_FK__nombre_marca %}
-              {{ producto.marca_FK__nombre_marca }}
+            {% if producto.stock %}
+              {{ producto.stock }}
             {% else %}
-              {{ producto.producto_FK__marca_FK__nombre_marca }}
+              {{ producto.producto_FK__stock }}
             {% endif %}
         </td>
         <td>$
-            {% if producto.precio_producto %}
-              {{ producto.precio_producto }}
+            {% if producto.precio_venta %}
+              {{ producto.precio_venta}}
             {% else %}
-              {{ producto.producto_FK__precio_producto }}
+              {{ producto.producto_FK__precio_venta }}
             {% endif %}
         </td>
         <td>{{ producto.total_vendido|default:"0" }}</td>

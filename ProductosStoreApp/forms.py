@@ -1,91 +1,127 @@
 from django import forms
-from .models import Producto, Marca, Categoria
-
+from .models import Producto, Categoria
+from .choices import tipoMedida, tipoImpuesto
 # -------------------------Productos--------------
 
 
 class BaseProductoForm(forms.ModelForm):
 
-  nombre_producto = forms.CharField(
-      label='Nombre del producto',
-      widget=forms.TextInput(attrs={'class': 'form-control'})
-  )
-  precio_producto = forms.DecimalField(
-      label='Precio del producto',
+  precio_bruto_producto = forms.DecimalField(
+      label='Precio Bruto',
       widget=forms.NumberInput(attrs={'class': 'form-control'})
   )
-  imagen = forms.ImageField(
-      label='Imagen',
-      widget=forms.ClearableFileInput(attrs={'class': 'form-control'})
+
+  margen_ganancia = forms.DecimalField(
+      label='Margen de Ganancia %',
+      widget=forms.NumberInput(
+          attrs={
+              'class': 'form-control',
+              'readonly': 'readonly'}),
+      required=False
   )
-  stock = forms.DecimalField(
-      label='Stock del producto',
+
+  precio_venta = forms.DecimalField(
+      label='Precio de Venta',
       widget=forms.NumberInput(attrs={'class': 'form-control'})
-  )
-  marca_FK = forms.ModelChoiceField(
-      label='Marca',
-      queryset=Marca.objects.all(),
-      widget=forms.Select(attrs={'class': 'form-select w-50'})
-  )
-  categoria_FK = forms.ModelChoiceField(
-      label='Categoria',
-      queryset=Categoria.objects.all(),
-      widget=forms.Select(attrs={'class': 'form-select w-50'})
   )
 
   class Meta:
     model = Producto
     fields = [
-        'nombre_producto',
-        'precio_producto',
-        'imagen',
-        'stock',
-        'marca_FK',
-        'categoria_FK']
+        'precio_bruto_producto',
+        'margen_ganancia',
+        'precio_venta']
 
   def clean(self):
     cleaned_data = super().clean()
-    nombre_producto = cleaned_data.get('nombre_producto')
-    codigo_producto = cleaned_data.get('codigo_producto')
+    descripcion_producto = cleaned_data.get('descripcion_producto')
 
-    # por si quiere agregar un mensaje adicional
-    # if not nombre_producto:
-    #     self.add_error('nombre_producto', 'El campo Nombre de Producto es requerido.')
-    # elif not codigo_producto:
-    #     self.add_error('codigo_producto', 'El campo Código de Producto es requerido.')
-    if nombre_producto and codigo_producto:
-      cleaned_data['nombre_producto'] = nombre_producto.upper()
-      cleaned_data['codigo_producto'] = codigo_producto.upper()
+    if descripcion_producto:
+      cleaned_data['descripcion_producto'] = descripcion_producto.upper()
 
     return cleaned_data
 
 
-class ProductoAgregarForm(BaseProductoForm):
+class ProductoEditarForm(BaseProductoForm):
+
+  descripcion_producto = forms.CharField(
+      label='Descripcion',
+      widget=forms.TextInput(attrs={'class': 'form-control'})
+  )
+
+  imagen = forms.ImageField(
+      label='Imagen',
+      widget=forms.ClearableFileInput(attrs={'class': 'form-control'}),
+      required=False
+  )
+
+  stock = forms.DecimalField(
+      label='Stock',
+      widget=forms.NumberInput(attrs={'class': 'form-control'})
+  )
+
+  tipo_medida = forms.ChoiceField(
+      label='Medida',
+      choices=tipoMedida,
+      widget=forms.Select(attrs={'class': 'form-select'})
+  )
+
+  tipo_impuesto = forms.ChoiceField(
+      label='Impuesto',
+      choices=tipoImpuesto,
+      widget=forms.Select(attrs={'class': 'form-select'})
+  )
+  categoria_FK = forms.ModelChoiceField(
+      label='Categoria',
+      queryset=Categoria.objects.all(),
+      widget=forms.Select(attrs={'class': 'form-select'})
+  )
+
+  class Meta:
+    model = Producto
+    fields = BaseProductoForm.Meta.fields + [
+        'descripcion_producto',
+        'imagen',
+        'stock',
+        'tipo_impuesto',
+        'tipo_medida',
+        'categoria_FK']
+
+
+class ProductoAgregarForm(ProductoEditarForm):
   codigo_producto = forms.CharField(
-      label='Codigo del producto',
+      label='Codigo',
       widget=forms.TextInput(attrs={'class': 'form-control'})
   )
 
   class Meta:
     model = Producto
-    fields = BaseProductoForm.Meta.fields + ['codigo_producto']
+    fields = ProductoEditarForm.Meta.fields + ['codigo_producto']
 
+  def clean(self):
+    cleaned_data = super().clean()
+    descripcion_producto = cleaned_data.get('descripcion_producto')
+    codigo_producto = cleaned_data.get('codigo_producto')
 
-class ProductoEditarForm(BaseProductoForm):
-  class Meta:
-    model = Producto
-    fields = BaseProductoForm.Meta.fields
+    if descripcion_producto and codigo_producto:
+      cleaned_data['descripcion_producto'] = descripcion_producto.upper()
+      cleaned_data['codigo_producto'] = codigo_producto.upper()
 
+    return cleaned_data
 
 # -----------------Añadido--Productos-------------
 
 
-class PlusProductoForm(forms.ModelForm):
+class PlusProductoForm(BaseProductoForm):
 
-  precio_producto = forms.DecimalField(
-      label='Precio del producto',
-      widget=forms.NumberInput(attrs={'class': 'form-control'})
+  precio_bruto_old = forms.DecimalField(
+      label='Precio bruto antiguo',
+      widget=forms.NumberInput(
+          attrs={
+              'class': 'form-control',
+              'readonly': 'readonly'})
   )
+
   stock_increment = forms.DecimalField(
       label='Agregar al Stock',
       widget=forms.NumberInput(attrs={'class': 'form-control'}),
@@ -93,7 +129,13 @@ class PlusProductoForm(forms.ModelForm):
 
   class Meta:
     model = Producto
-    fields = ['precio_producto', 'stock_increment']
+    fields = BaseProductoForm.Meta.fields + [
+        'precio_bruto_old', 'stock_increment'
+    ]
+
+  def __init__(self, *args, **kwargs):
+    super(PlusProductoForm, self).__init__(*args, **kwargs)
+    self.fields['precio_bruto_old'].initial = self.instance.precio_bruto_producto
 
   def clean_stock_increment(self):
     stock_increment = self.cleaned_data.get('stock_increment')

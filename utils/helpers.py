@@ -109,8 +109,8 @@ def top_productos(model_productos, model_detalle, campos_producto):
   fecha_hace_30_dias = timezone.localtime(timezone.now()) - timedelta(days=30)
 
   # Obtener todos los productos
-  productos_no_en_boletas = model_productos.objects.exclude(
-      detalleboletas__isnull=False).values(*campos_producto)
+  productos_no_en_boletas = model_productos.objects.filter(
+      detalleboletas__isnull=True, tipo_medida=1).values(*campos_producto)
 
   # Agrega el prefijo 'producto_FK__' a cada campo en la lista campos_producto
   campos_producto_con_prefijo = [
@@ -119,7 +119,7 @@ def top_productos(model_productos, model_detalle, campos_producto):
 
   # Obtener los productos más vendidos de DetalleBoletas
   productos_boletas = model_detalle.objects.filter(
-      boleta_FK__venta_FK__fecha_emision__gte=fecha_hace_30_dias
+      boleta_FK__venta_FK__fecha_emision__gte=fecha_hace_30_dias, producto_FK__tipo_medida=1
   ).values(*campos_producto_con_prefijo)
 
   productos_boletas = productos_boletas.annotate(
