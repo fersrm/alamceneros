@@ -21,8 +21,7 @@
         <th>Apellido</th>
         <th>RUN</th>
         <th>Email</th>
-        <th>Tipo de giro</th>
-        <th>Comuna</th>
+        <th>Telefono</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -33,11 +32,7 @@
         <td class="alignCenter">{{cliente.apellido_cliente}}</td>
         <td class="alignCenter">{{cliente.run_cliente}}</td>
         <td class="alignCenter">{{cliente.correo_cliente}}</td>
-        <td class="alignCenter">
-          {% if cliente.tipo_giro == 1 %} Mayorista {% else %} Minorista
-          {%endif%}
-        </td>
-        <td class="alignCenter">{{cliente.comuna_FK}}</td>
+        <td class="alignCenter">{{cliente.telefono_cliente}}</td>
         <td class="alignCenterBtn">
           <div class="d-flex gap-2">
             <button

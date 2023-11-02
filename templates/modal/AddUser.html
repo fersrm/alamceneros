@@ -1,4 +1,4 @@
-<div class="modal-dialog">
+<div class="modal-dialog modal-lg">
   <div class="modal-content">
     <div class="modal-header">
       <h1 class="modal-title fs-5">Agregar Usuario</h1>
@@ -15,7 +15,51 @@
       enctype="multipart/form-data"
       id="myFormUser"
     >
-      <div class="modal-body">{% csrf_token %} {{ form.as_p }}</div>
+      <div class="modal-body">
+        {% csrf_token %}
+
+        <p>
+          <span>{{ form.first_name.label_tag }}</span>
+          <span>{{ form.first_name }}</span>
+        </p>
+
+        <p>
+          <span>{{ form.last_name.label_tag }}</span>
+          <span>{{ form.last_name }}</span>
+        </p>
+
+        <p>
+          <span>{{ form.username.label_tag }}</span>
+          <span>{{ form.username }}</span>
+        </p>
+
+        <p>
+          <span>{{ form.email.label_tag }}</span>
+          <span>{{ form.email }}</span>
+        </p>
+
+        <div class="d-flex gap-2">
+          <p class="w-50">
+            <span>{{ form.telefono_user.label_tag }}</span>
+            <span>{{ form.telefono_user }}</span>
+          </p>
+          <p class="w-50">
+            <span>{{ form.cargo_FK.label_tag }}</span>
+            <span>{{ form.cargo_FK }}</span>
+          </p>
+        </div>
+
+        <div class="d-flex gap-2">
+          <p class="w-50">
+            <span>{{ form.password1.label_tag }}</span>
+            <span>{{ form.password1 }}</span>
+          </p>
+          <p class="w-50">
+            <span>{{ form.password2.label_tag }}</span>
+            <span>{{ form.password2 }}</span>
+          </p>
+        </div>
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Close

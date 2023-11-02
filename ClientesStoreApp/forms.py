@@ -1,6 +1,5 @@
 from django import forms
-from .models import Cliente, Comuna
-from .choices import tipoGiro
+from .models import Cliente
 
 # --------------------Tabla Usuario ----------
 
@@ -23,23 +22,13 @@ class BaseClienteForm(forms.ModelForm):
       label='Email',
       widget=forms.EmailInput(attrs={'class': 'form-control'})
   )
-  razon_social = forms.CharField(
-      label='Razon social',
+  telefono_cliente = forms.CharField(
+      label='Telefono',
       widget=forms.TextInput(attrs={'class': 'form-control'})
   )
   direccion = forms.CharField(
       label='Direccion',
       widget=forms.TextInput(attrs={'class': 'form-control'})
-  )
-  comuna_FK = forms.ModelChoiceField(
-      label='Comuna',
-      queryset=Comuna.objects.all(),
-      widget=forms.Select(attrs={'class': 'form-select w-100'})
-  )
-  tipo_giro = forms.ChoiceField(
-      label='Tipo de Giro',
-      choices=tipoGiro,
-      widget=forms.Select(attrs={'class': 'form-select w-100'})
   )
 
   class Meta:
@@ -49,10 +38,8 @@ class BaseClienteForm(forms.ModelForm):
         'nombre_cliente',
         'apellido_cliente',
         'correo_cliente',
-        'razon_social',
+        'telefono_cliente',
         'direccion',
-        'tipo_giro',
-        'comuna_FK'
     ]
 
   def clean(self):

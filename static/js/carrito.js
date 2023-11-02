@@ -1,5 +1,5 @@
 // Función para agregar un producto al localStorage
-function agregarAlCarrito(productoId, nombre, stock, precio) {
+function agregarAlCarrito(productoId, nombre, stock, precio, medida, impuesto) {
   // Comprobar si ya hay elementos en el carrito en el localStorage
   let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
   // Buscar el producto en el carrito por su ID
@@ -25,6 +25,8 @@ function agregarAlCarrito(productoId, nombre, stock, precio) {
         cantidad: 1,
         stock,
         precio,
+        medida,
+        impuesto,
       });
     } else {
       Swal.fire({
@@ -116,25 +118,28 @@ function mostrarCarritoEnModal() {
         eliminarDelCarrito(producto.id)
       );
 
-      // Botón para aumentar cantidad
-      let botonAumentar = document.createElement("button");
-      botonAumentar.innerHTML = '<i class="bi bi-plus-circle"></i>';
-      botonAumentar.classList.add("btn", "btn-outline-success", "btn-sm");
-      botonAumentar.addEventListener("click", () =>
-        aumentarCantidad(producto.id)
-      );
+      if (producto.medida === 1) {
+        // Botón para aumentar cantidad
+        let botonAumentar = document.createElement("button");
+        botonAumentar.innerHTML = '<i class="bi bi-plus-circle"></i>';
+        botonAumentar.classList.add("btn", "btn-outline-success", "btn-sm");
+        botonAumentar.addEventListener("click", () =>
+          aumentarCantidad(producto.id)
+        );
 
-      // Botón para disminuir cantidad
-      let botonDisminuir = document.createElement("button");
-      botonDisminuir.innerHTML = '<i class="bi bi-dash-circle"></i>';
-      botonDisminuir.classList.add("btn", "btn-outline-warning", "btn-sm");
-      botonDisminuir.addEventListener("click", () =>
-        disminuirCantidad(producto.id)
-      );
+        // Botón para disminuir cantidad
+        let botonDisminuir = document.createElement("button");
+        botonDisminuir.innerHTML = '<i class="bi bi-dash-circle"></i>';
+        botonDisminuir.classList.add("btn", "btn-outline-warning", "btn-sm");
+        botonDisminuir.addEventListener("click", () =>
+          disminuirCantidad(producto.id)
+        );
+
+        containerBtn.appendChild(botonAumentar);
+        containerBtn.appendChild(botonDisminuir);
+      }
 
       containerBtn.appendChild(botonEliminar);
-      containerBtn.appendChild(botonAumentar);
-      containerBtn.appendChild(botonDisminuir);
 
       acciones.appendChild(containerBtn);
 

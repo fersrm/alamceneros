@@ -33,10 +33,7 @@ class CLienteListView(ListView):
         'run_cliente',
         'nombre_cliente',
         'apellido_cliente',
-        'correo_cliente',
-        # 'razon_social',
-        'tipo_giro',  # ver si funciona asi solo
-        'comuna_FK__nombre_comuna'
+        'correo_cliente'
     ]
     queryset = buscar_campos(
         self.model, campos_busqueda, busqueda)

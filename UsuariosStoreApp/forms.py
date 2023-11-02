@@ -30,7 +30,7 @@ class BaseUsuarioForm(forms.ModelForm):
   cargo_FK = forms.ModelChoiceField(
       label='Cargo',
       queryset=Cargo.objects.exclude(pk=1),
-      widget=forms.Select(attrs={'class': 'form-select w-50'})
+      widget=forms.Select(attrs={'class': 'form-select'})
   )
 
   class Meta:
