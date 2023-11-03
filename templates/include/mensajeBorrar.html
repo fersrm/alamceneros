@@ -1,7 +1,14 @@
 <script>
-  function eliminar_producto(id, nombre) {
+  function confirmAndDeleteEntity(entityType, id, nombre) {
+    const entity = {
+      tienda: "Producto",
+      usuarios: "Usuario",
+      clientes: "Cliente",
+      proveedores: "Proveedor",
+    };
+
     Swal.fire({
-      titleText: "¿Estas seguro que eliminar?",
+      titleText: `¿Estás seguro de eliminar al ${entity[entityType]}?`,
       text: nombre,
       icon: "question",
       showCancelButton: true,
@@ -10,40 +17,25 @@
       confirmButtonColor: "#dc3545",
     }).then(function (result) {
       if (result.isConfirmed) {
-        window.location.href = "/tienda/borrar/" + id + "/";
+        window.location.href = `/${entityType}/borrar/${id}/`;
       }
     });
+  }
+
+  // Usage examples
+  function eliminar_producto(id, nombre) {
+    confirmAndDeleteEntity("tienda", id, nombre);
   }
 
   function eliminar_usuario(id, nombre) {
-    Swal.fire({
-      titleText: "¿Estas seguro de eliminar al Usuario?",
-      text: nombre,
-      icon: "question",
-      showCancelButton: true,
-      cancelButtonText: "No, Cancelar",
-      confirmButtonText: "Si, Eliminar",
-      confirmButtonColor: "#dc3545",
-    }).then(function (result) {
-      if (result.isConfirmed) {
-        window.location.href = "/usuarios/borrar/" + id + "/";
-      }
-    });
+    confirmAndDeleteEntity("usuarios", id, nombre);
   }
 
   function eliminar_cliente(id, nombre) {
-    Swal.fire({
-      titleText: "¿Estas seguro de eliminar al Cliente?",
-      text: nombre,
-      icon: "question",
-      showCancelButton: true,
-      cancelButtonText: "No, Cancelar",
-      confirmButtonText: "Si, Eliminar",
-      confirmButtonColor: "#dc3545",
-    }).then(function (result) {
-      if (result.isConfirmed) {
-        window.location.href = "/clientes/borrar/" + id + "/";
-      }
-    });
+    confirmAndDeleteEntity("clientes", id, nombre);
+  }
+
+  function eliminar_proveedor(id, nombre) {
+    confirmAndDeleteEntity("proveedores", id, nombre);
   }
 </script>

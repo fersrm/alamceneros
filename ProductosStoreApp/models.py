@@ -32,7 +32,11 @@ class Producto(models.Model):
   descripcion_producto = models.CharField(max_length=45)
   precio_bruto_producto = models.IntegerField()
   precio_venta = models.IntegerField(default=10)
-  imagen = models.ImageField(upload_to=dynamic_upload_path, null=True)
+  imagen = models.ImageField(
+      upload_to=dynamic_upload_path,
+      null=True,
+      blank=True,
+      default=None)
   stock = models.IntegerField(default=10)
   fecha = models.DateField(auto_now_add=True)
   tipo_medida = models.IntegerField(choices=tipoMedida, default=1)
@@ -47,7 +51,7 @@ class Producto(models.Model):
     return f"{self.descripcion_producto}"
 
   def borrar_imagen_anterior(self):
-    if self.id_producto is not None:
+    if self.id_producto is not None and self.imagen:
       try:
         producto_anterior = Producto.objects.get(id_producto=self.id_producto)
         if producto_anterior.imagen != self.imagen:

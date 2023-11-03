@@ -55,6 +55,18 @@ function abrir_modal_edit_client(url) {
   });
 }
 
+// para Proveedores
+function abrir_modal_add_proveedor(url) {
+  $("#addModalProveedor").load(url, function () {
+    $(this).modal("show");
+  });
+}
+
+function abrir_modal_edit_proveedor(url) {
+  $("#editModalProveedor").load(url, function () {
+    $(this).modal("show");
+  });
+}
 //--------------------Variables de margenes---------------------
 
 function inicializarModal(formId) {

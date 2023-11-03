@@ -1,0 +1,82 @@
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5">Agregar Proveedor</h1>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <form
+      action="{% url 'agregar_proveedor' %}"
+      method="post"
+      enctype="multipart/form-data"
+      id="myFormProveedor"
+    >
+      <div class="modal-body">
+        {% csrf_token %}
+
+        <div class="d-flex gap-2">
+          <p class="w-50">
+            <span>{{ form.run_proveedor.label_tag }}</span>
+            <span>{{ form.run_proveedor }}</span>
+          </p>
+          <p class="w-50">
+            <span>{{ form.nombre_proveedor.label_tag }}</span>
+            <span>{{ form.nombre_proveedor }}</span>
+          </p>
+        </div>
+
+        <p>
+          <span>{{ form.razon_social.label_tag }}</span>
+          <span>{{ form.razon_social }}</span>
+        </p>
+
+        <p>
+          <span>{{ form.correo_proveedor.label_tag }}</span>
+          <span>{{ form.correo_proveedor }}</span>
+        </p>
+
+        <div class="d-flex gap-2">
+          <p class="w-50">
+            <span>{{ form.contacto.label_tag }}</span>
+            <span>{{ form.contacto }}</span>
+          </p>
+          <p class="w-50">
+            <span>{{ form.telefono_proveedor.label_tag }}</span>
+            <span>{{ form.telefono_proveedor }}</span>
+          </p>
+        </div>
+
+        <p>
+          <span>{{ form.direccion.label_tag }}</span>
+          <span>{{ form.direccion }}</span>
+        </p>
+
+        <div class="d-flex gap-2">
+          <p class="w-50">
+            <span>{{ form.giro_FK.label_tag }}</span>
+            <span>{{ form.giro_FK }}</span>
+          </p>
+          <p class="w-50">
+            <span>{{ form.rubro_FK.label_tag }}</span>
+            <span>{{ form.rubro_FK }}</span>
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="submit" value="Agregar Proveedor" class="btn btn-primary">
+          Guardar
+        </button>
+        {% if error_message %}
+        <div class="alert-login">{{ error_message }}</div>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
