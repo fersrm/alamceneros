@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% load static %} {% block head %}
 
-<h1 class="h2">Tienda</h1>
+<h1 class="h2">Productos</h1>
 {% include 'include/buscador.html' %}
 <div class="btn-toolbar mb-2 mb-md-0">
   <button
@@ -33,8 +33,9 @@
         <td>
           <img
             class="img-fluid mx-auto d-block"
-            src="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'img/producto.jpg' %}{% endif %}"
+            src="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'img/producto.png' %}{% endif %}"
             loading="lazy"
+            style="max-height: 75px"
             alt="{{producto.nombre_producto}}"
           />
         </td>

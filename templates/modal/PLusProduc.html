@@ -13,9 +13,9 @@
     <p class="text-center mt-3">{{ object.nombre_producto }}</p>
     <p class="text-center mt-1">
       <img
-        src="{% if object.imagen %}{{ object.imagen.url }}{% else %}{% static 'img/producto.jpg' %}{% endif %}"
+        src="{% if object.imagen %}{{ object.imagen.url }}{% else %}{% static 'img/producto.png' %}{% endif %}"
         alt="{{ object.descripcion_producto }}"
-        width="200"
+        height="120px"
         class="imgPlus"
       />
     </p>
