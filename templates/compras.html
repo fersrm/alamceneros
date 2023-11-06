@@ -1,0 +1,121 @@
+{% extends "base.html" %} {% block head %}
+<h1 class="h2">Compras</h1>
+
+<div class="btn-toolbar mb-2 mb-md-0"></div>
+{% endblock %} {% block content %}
+
+<form
+  action="{% url 'Compras' %}"
+  method="post"
+  enctype="multipart/form-data"
+  id="formDatosCompra"
+>
+  {% csrf_token %}
+  <div class="d-flex gap-4">
+    <p style="flex: 1">
+      <span>{{ form.num_documento.label_tag }}</span>
+      <span>{{ form.num_documento }}</span>
+    </p>
+    <p style="flex: 1">
+      <span>{{ form.fecha.label_tag }}</span>
+      <input
+        type="date"
+        name="{{ form.fecha.name }}"
+        value="{{ form.fecha.value|date:'Y-m-d' }}"
+        class="form-control"
+        id="fecha"
+      />
+    </p>
+    <p style="flex: 1">
+      <span>{{ form.descuento.label_tag }}</span>
+      <span>{{ form.descuento }}</span>
+    </p>
+    <p style="flex: 1">
+      <span>{{ form.tipo_documento.label_tag }}</span>
+      <span>{{ form.tipo_documento }}</span>
+    </p>
+  </div>
+
+  <div class="d-flex gap-4">
+    <p style="flex: 1">
+      <span>{{ form.tipo_impuesto.label_tag }}</span>
+      <span>{{ form.tipo_impuesto }}</span>
+    </p>
+    <p style="flex: 2">
+      <span>{{ form.proveedor_FK.label_tag }}</span>
+      <span>{{ form.proveedor_FK }}</span>
+    </p>
+  </div>
+
+  {% if error_message %}
+  <div class="alert-login">{{ error_message }}</div>
+  {% endif %}
+</form>
+
+<div class="mt-3">
+  <p class="mb-3 h4">Ingresar Producto por Codigo</p>
+  {% include 'include/buscador.html' %}
+</div>
+
+<div class="d-flex gap-4">
+  <div class="overflow-auto" style="width: 70%">
+    <table class="table table-striped table-hover mt-4" style="min-width: auto">
+      <thead>
+        <tr>
+          <th>Codigo</th>
+          <th>Descripcion</th>
+          <th>Cantidad</th>
+          <th>Precio Bruto</th>
+          <th>Importe</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <form class="mt-4" style="width: 30%">
+    <p>
+      <label>Subtotal</label>
+      <input
+        type="number"
+        name="subtotal"
+        class="form-control"
+        readonly="readonly"
+      />
+    </p>
+    <p>
+      <label>Impuesto (19%)</label>
+      <input
+        type="number"
+        name="impuestos"
+        class="form-control"
+        readonly="readonly"
+      />
+    </p>
+    <p>
+      <label>Total</label>
+      <input
+        type="number"
+        name="total"
+        class="form-control"
+        readonly="readonly"
+      />
+    </p>
+  </form>
+</div>
+
+<button class="btn btn-primary" id="btnSumit">Guardar</button>
+
+<div
+  class="modal fade"
+  id="ComprasModal"
+  tabindex="-1"
+  aria-hidden="true"
+></div>
+
+<!-- -------------------------  -->
+<!-- comienzo de script -->
+{% include 'include/comprasScript.html' %}
+<!-- termino de script  -->
+<!-- -------------------------  -->
+{% endblock %}

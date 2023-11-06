@@ -10,7 +10,7 @@ class SharedModelAdminBase(admin.ModelAdmin):
     allowed_tenant_types = ['type1', 'type2']  # Agrega los tipos permitidos
     return tenant_type in allowed_tenant_types
 
-# -------------------------CLIENTE--------------------------
+# -------------------------PROVEEDOR--------------------------
 
 
 @admin.register(Giro)
@@ -24,7 +24,7 @@ class RubroAdmin(SharedModelAdminBase):
 
 
 @admin.register(Proveedor)
-class ClienteAdmin(SharedModelAdminBase):
+class ProveedorAdmin(SharedModelAdminBase):
   list_display = (
       'id_proveedor',
       'run_proveedor',

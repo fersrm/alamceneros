@@ -1,8 +1,6 @@
 from django import forms
 from .models import Proveedor, Giro, Rubro
 
-# --------------------Tabla Usuario ----------
-
 
 class BaseProveedorForm(forms.ModelForm):
 

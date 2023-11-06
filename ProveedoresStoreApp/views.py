@@ -18,7 +18,7 @@ from django.urls import reverse_lazy
 from utils.helpers import buscar_campos
 # Create your views here.
 
-# ---------------CRUD Proveedores------------
+# ---------------CRUD PROVEEDORES------------
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')

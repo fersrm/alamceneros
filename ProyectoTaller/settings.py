@@ -55,6 +55,7 @@ COMMON_APPS = DEFAULT_DJANGO_APPS + [
     'VentasStoreApp',
     'SistemaStoreApp',
     'ProveedoresStoreApp',
+    'ComprasStoreApp',
 ]
 
 

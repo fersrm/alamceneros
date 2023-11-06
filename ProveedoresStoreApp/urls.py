@@ -2,7 +2,7 @@ from django.urls import path
 from ProveedoresStoreApp import views
 
 urlpatterns = [
-    # ------------CRUD USUARIOS--------------------
+    # ------------CRUD PROVEEDOR--------------------
     path('', views.ProveedorListView.as_view(), name='Proveedores'),
     path(
         'agregar/',
