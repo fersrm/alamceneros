@@ -93,6 +93,37 @@ td button {
   grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
 }
 
+/* COMPRAS */
+.formCompras {
+  flex: 1;
+  min-width: 200px;
+}
+
+.tablaCompra .conTabla {
+  width: 70%;
+}
+.tablaCompra table {
+  min-width: 500px !important;
+}
+.tablaCompra form {
+  width: 30%;
+}
+
+@media screen and (max-width: 1000px) {
+  .tablaCompra {
+    flex-direction: column;
+  }
+  .tablaCompra .conTabla {
+    width: 100%;
+  }
+  .tablaCompra form {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    margin-top: 0 !important;
+  }
+}
+
 @media screen and (max-width: 640px) {
   .nombre-user {
     display: none;

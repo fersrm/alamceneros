@@ -1,0 +1,152 @@
+// CARGAR TABLA CON DATOS DEL LOCALSTORAGE, CALCULA LOS VALORES Y SE GUARDAN DATOS DEL FORMULARIO
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Recuperar la lista de datos de productos del localStorage
+  const productList = JSON.parse(localStorage.getItem("productoDataList"));
+
+  if (productList) {
+    const productListTabla = productList.filter(
+      (producto) => producto.cantidad > 0
+    );
+    // Obtener la referencia a la tabla donde se mostrarán los productos
+    const tableBody = document.querySelector("table tbody");
+
+    // Recorrer la lista de productos y crear una fila en la tabla para cada uno
+    productListTabla.forEach(function (product) {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+            <td>${product.codigo}</td>
+            <td>${product.descripcion}</td>
+            <td>${product.cantidad}</td>
+            <td>${product.precioBruto}</td>
+            <td>${product.importe}</td>
+          `;
+
+      tableBody.appendChild(row);
+    });
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  ///////////// CALCULA SUBTOTAL Y TOTAL DE LO QUE TIENE LA TABLA ////
+  ////////////////////////////////////////////////////////////////////
+
+  const tipoImpuestoSelect = document.querySelector("#tipo_impuesto");
+
+  // Función para actualizar los cálculos
+  function updateCalculations() {
+    const tipoImpuestoValue = tipoImpuestoSelect.value;
+
+    if (productList && productList.length > 0) {
+      const productListTabla = productList.filter(
+        (producto) => producto.cantidad > 0
+      );
+
+      let subtotal = 0;
+
+      productListTabla.forEach(function (product) {
+        const precioBruto = parseFloat(product.precioBruto);
+        const cantidad = parseInt(product.cantidad);
+
+        // Total por prodcuto
+        const totalProducto = precioBruto * cantidad;
+
+        // Suma de los productos
+        subtotal += totalProducto;
+      });
+
+      // Calcula el impuesto (19% tax)
+      let impuestos = 0;
+      if (tipoImpuestoValue === "1") {
+        impuestos = subtotal * 0.19;
+        impuestos = Math.round(impuestos);
+      }
+
+      // Calcula el Total
+      const total = subtotal + impuestos;
+
+      // Actualiza los valores
+      document.querySelector("[name='subtotal']").value = subtotal.toFixed(2);
+      document.querySelector("[name='impuestos']").value = impuestos.toFixed(2);
+      document.querySelector("[name='total']").value = total.toFixed(2);
+    }
+  }
+
+  // Agregar un evento "change" al selector tipo_impuesto para actualizar los cálculos
+  tipoImpuestoSelect.addEventListener("change", updateCalculations);
+
+  // Llamar a la función inicialmente para calcular los valores con el valor inicial del selector
+  updateCalculations();
+
+  //////////////////////////////////////////////////////
+  /// GUARDAR DATOS DEL FORMULARIO EN LOCALSTORAGE ////
+  ////////////////////////////////////////////////////
+
+  function saveToLocalStorage(fieldName) {
+    const field = document.getElementById(fieldName);
+    if (field) {
+      let storedData = localStorage.getItem("storedData");
+      if (!storedData) {
+        storedData = {};
+      } else {
+        storedData = JSON.parse(storedData);
+      }
+
+      storedData[fieldName] = field.value;
+      localStorage.setItem("storedData", JSON.stringify(storedData));
+    }
+  }
+
+  // Función para cargar valores desde el arreglo en localStorage y establecerlos en los campos
+  function loadFromLocalStorage(fieldName) {
+    const field = document.getElementById(fieldName);
+    if (field) {
+      const storedData = JSON.parse(localStorage.getItem("storedData"));
+      if (storedData && storedData[fieldName]) {
+        field.value = storedData[fieldName];
+      }
+    }
+  }
+
+  // Agregar un evento "input" a cada campo de entrada para guardar los cambios en el arreglo en localStorage
+  const inputFields = [
+    "num_documento",
+    "descuento",
+    "fecha",
+    "tipo_documento",
+    "tipo_impuesto",
+    "proveedor",
+  ];
+
+  inputFields.forEach(function (fieldName) {
+    const field = document.getElementById(fieldName);
+    if (field) {
+      field.addEventListener("input", function () {
+        saveToLocalStorage(fieldName);
+      });
+      // Cargar valores desde el arreglo en localStorage al cargar la página
+      loadFromLocalStorage(fieldName);
+    }
+  });
+
+  ///////////////////////////////////////
+  //// GUARDAR DATOS DEL FORMULARIO  ///
+  //////////////////////////////////////
+
+  const mainButton = document.getElementById("btnSumit");
+
+  mainButton.addEventListener("click", function (event) {
+    const dataListProduc = localStorage.getItem("productoDataList");
+    const dataStore = localStorage.getItem("storedData");
+
+    if (dataListProduc !== null && dataStore !== null) {
+      document.getElementById("formDatosCompra").submit();
+    } else {
+      Swal.fire({
+        text: "Debe cargar los Productos",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+  });
+});
