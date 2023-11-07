@@ -14,55 +14,42 @@ from utils.helpers import buscar_fecha_rango, buscar_venta, buscar_fecha
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
 class InformesListView(ListView):
-  model = Ventas
-  template_name = 'Informes.html'
+    model = Ventas
+    template_name = 'Informes.html'
 
-  def get_queryset(self):
-    fecha1 = self.request.GET.get('buscarFechaRango1')
-    fecha2 = self.request.GET.get('buscarFechaRango2')
-    periodo = self.request.GET.get('periodo', 'mensual')
+    def get_queryset(self):
+        fecha1 = self.request.GET.get('buscarFechaRango1')
+        fecha2 = self.request.GET.get('buscarFechaRango2')
+        periodo = self.request.GET.get('periodo', 'mensual')
 
-    return buscar_fecha_rango(
-        self.model, fecha1, fecha2, periodo)
-
-  # -----------------------PAGOS----------
+        return buscar_fecha_rango(
+            self.model, fecha1, fecha2, periodo)
 
 
-# ------------------INFORMES-PDF------------------
-
-# -----------------------BOLETAS-------------------
-
+# --------------INFORME PDF BOLETAS ---------------------
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
 class BoletaListView(ListView):
-  model = Boletas
-  template_name = 'informeBoleta.html'
-  paginate_by = 10
+    model = Boletas
+    template_name = 'informeBoleta.html'
 
-  def get_queryset(self):
-    busqueda = self.request.GET.get('buscar')
-    busquedaF = self.request.GET.get('buscarFecha')
-    campos_busqueda = [
-        'id_boleta',
-        'total_boleta']
-    if busquedaF:
-      queryset = buscar_fecha(self.model, busquedaF)
-    else:
-      queryset = buscar_venta(self.model, campos_busqueda, busqueda)
-    queryset = queryset.order_by('-id_boleta')
-    return queryset
-
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    paginator = Paginator(context['object_list'], self.paginate_by)
-    page = self.request.GET.get('page')
-    context['object_list'] = paginator.get_page(page)
-    return context
+    def get_queryset(self):
+        busqueda = self.request.GET.get('buscar')
+        busquedaF = self.request.GET.get('buscarFecha')
+        campos_busqueda = [
+            'id_boleta',
+            'total_boleta']
+        if busquedaF:
+            queryset = buscar_fecha(self.model, busquedaF)
+        else:
+            queryset = buscar_venta(self.model, campos_busqueda, busqueda)
+        queryset = queryset.order_by('-id_boleta')
+        return queryset
 
 
 # -----------------------PAGOS--------------------
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
 class PagosListView(ListView):
-  model = Ventas
-  template_name = 'pagos.html'
+    model = Ventas
+    template_name = 'pagos.html'

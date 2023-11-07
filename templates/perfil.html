@@ -1,0 +1,65 @@
+{% extends "base.html" %}{% load static %} {% block head %}
+<h1 class="h2">Editar Perfil</h1>
+<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true"></div>
+{% endblock %} {% block content %}
+
+<div class="d-grid gap-4 align-items-start contenedorCard-setting">
+  <div class="card cardUser">
+    <img
+      src="{% static 'img/profile.webp' %}"
+      class="card-img-top m-auto mt-3 rounded-circle"
+      alt="icono-empresa"
+    />
+    <div class="card-body">
+      <h5 class="card-title">Datos del Usuario:</h5>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">{{ request.user.cargo_FK }}</li>
+      <li class="list-group-item">
+        {{ request.user.first_name }} {{ request.user.last_name }}
+      </li>
+      <li class="list-group-item">{{ request.user.username }}</li>
+    </ul>
+    <div class="card-footer">
+      <form method="post">
+        <div class="mb-3">{% csrf_token %} {{ form_contacto.as_p }}</div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          name="submit_form_contacto"
+        >
+          Guardar Datos del Usuario
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card cardUserClave mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Cambiar Contraseña:</h5>
+    </div>
+    <div class="card-footer">
+      <form method="post">
+        <div class="mb-3">
+          {% csrf_token %} {{ form_pass.non_field_errors }}
+          <p>
+            <span>{{ form_pass.new_password1.label_tag }}</span>
+            <span>{{ form_pass.new_password1 }}</span>
+            <span>{{ form_pass.new_password1.errors }}</span>
+          </p>
+
+          <p>
+            <span>{{ form_pass.new_password2.label_tag }}</span>
+            <span>{{ form_pass.new_password2 }}</span>
+            <span>{{ form_pass.new_password2.errors }}</span>
+          </p>
+        </div>
+        <button type="submit" class="btn btn-primary" name="submit_form_pass">
+          Guardar Contraseña
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

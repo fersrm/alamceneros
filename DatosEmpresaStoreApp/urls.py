@@ -3,5 +3,5 @@ from DatosEmpresaStoreApp import views
 
 
 urlpatterns = [
-    path('', views.editar_registros, name='Setting'),
+    path('', views.editar_datos_empresa, name='Setting'),
 ]

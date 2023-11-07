@@ -10,10 +10,10 @@
 {% endblock %} {% block content %}
 <div class="overflow-x-auto">
   {% if object_list %}
-  <table class="table table-striped table-hover mt-4">
+  <table class="table table-striped table-hover mt-4" id="tabla-boletas">
     <thead>
       <tr>
-        <th>ID</th>
+        <!-- <th>ID</th> -->
         <th>Total</th>
         <th>Vendedor</th>
         <th>Fecha de emisión</th>
@@ -22,7 +22,7 @@
     <tbody>
       {% for boleta in object_list %}
       <tr>
-        <td>{{ boleta.id_boleta }}</td>
+        <!-- <td>{{ boleta.id_boleta }}</td> -->
         <td>{{ boleta.total_boleta }}</td>
         <td>{{ boleta.venta_FK.usuario_FK }}</td>
         <td>{{ boleta.venta_FK.fecha_emision.date }}</td>
@@ -30,15 +30,30 @@
       {% endfor %}
     </tbody>
   </table>
-  {% include 'include/paginador.html' %}
-  <form method="post" class="generadorPDF">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary" name="informeBoletas_pdf">
-      Generar PDF
-    </button>
-  </form>
-  {% else %}
-  <strong>NO HAY REGISTROS</strong>
-  {% endif %}
 </div>
-{% endblock %}
+
+{% include 'include/paginador.html' %}
+
+<button class="btn btn-primary" id="generate-pdf-button">Generar PDF</button>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const btnPdf = document.getElementById("generate-pdf-button");
+
+    btnPdf.addEventListener("click", (e) => {
+      const tabla = document.getElementById("tabla-boletas");
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      let startY = 5;
+
+      doc.autoTable({ html: tabla, startY });
+
+      doc.output("dataurlnewwindow");
+    });
+  });
+</script>
+
+{% else %}
+<strong>NO HAY REGISTROS</strong>
+{% endif %} {% endblock %}

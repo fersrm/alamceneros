@@ -12,7 +12,6 @@
     />
     <div class="card-body">
       <h5 class="card-title">Datos de la Empresa:</h5>
-      <p class="card-text">Some quick example text</p>
     </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item">{{empresa.nombre_empresa}}</li>
@@ -23,63 +22,48 @@
     </ul>
     <div class="card-footer">
       <form method="POST">
-        {% csrf_token %} {{ form_uno.as_p }}
-        <button type="submit" class="btn btn-primary" name="submit_form_uno">
+        {% csrf_token %}
+
+        <div class="d-flex gap-2">
+          <p class="w-50">
+            <span>{{ form_empresa.telefono.label_tag }}</span>
+            <span>{{ form_empresa.telefono }}</span>
+          </p>
+          <p class="w-50">
+            <span>{{ form_empresa.minimo_boleta.label_tag }}</span>
+            <span>{{ form_empresa.minimo_boleta }}</span>
+          </p>
+        </div>
+
+        <p>
+          <span>{{ form_empresa.email.label_tag }}</span>
+          <span>{{ form_empresa.email }}</span>
+        </p>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          name="submit_form_empresa"
+        >
           Guardar Datos del Local
         </button>
       </form>
     </div>
   </div>
 
-  <div class="card cardUser">
-    <img
-      src="{% static 'img/profile.webp' %}"
-      class="card-img-top m-auto mt-3 rounded-circle"
-      alt="icono-empresa"
-    />
+  <div class="card cardCategoria mb-4">
     <div class="card-body">
-      <h5 class="card-title">Datos del Usuario:</h5>
-      <p class="card-text">Some quick example text</p>
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">{{ request.user.cargo_FK }}</li>
-      <li class="list-group-item">
-        {{ request.user.first_name }} {{ request.user.last_name }}
-      </li>
-      <li class="list-group-item">{{ request.user.username }}</li>
-    </ul>
-    <div class="card-footer">
-      <form method="post">
-        <div class="mb-3">{% csrf_token %} {{ form_dos.as_p }}</div>
-        <button type="submit" class="btn btn-primary" name="submit_form_dos">
-          Guardar Datos del Usuario
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <div class="card cardUserClave">
-    <div class="card-body">
-      <h5 class="card-title">Cambiar contraseña:</h5>
+      <h5 class="card-title">Agregar Categoria:</h5>
     </div>
     <div class="card-footer">
-      <form method="post">
-        <div class="mb-3">
-          {% csrf_token %} {{ form_pass.non_field_errors }}
-          <p>
-            <span>{{ form_pass.new_password1.label_tag }}</span>
-            <span>{{ form_pass.new_password1 }}</span>
-            <span>{{ form_pass.new_password1.errors }}</span>
-          </p>
-
-          <p>
-            <span>{{ form_pass.new_password2.label_tag }}</span>
-            <span>{{ form_pass.new_password2 }}</span>
-            <span>{{ form_pass.new_password2.errors }}</span>
-          </p>
-        </div>
-        <button type="submit" class="btn btn-primary" name="submit_form_pass">
-          Guardar Contraseña
+      <form method="POST">
+        {% csrf_token %} {{ form_categoria.as_p }}
+        <button
+          type="submit"
+          class="btn btn-primary"
+          name="submit_form_categoria"
+        >
+          Guardar Categoria
         </button>
       </form>
     </div>

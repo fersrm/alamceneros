@@ -56,6 +56,7 @@ COMMON_APPS = DEFAULT_DJANGO_APPS + [
     'SistemaStoreApp',
     'ProveedoresStoreApp',
     'ComprasStoreApp',
+    'PerfilStoreApp',
 ]
 
 
@@ -80,8 +81,8 @@ TENANT_TYPES = {
 
 INSTALLED_APPS = []
 for schema in TENANT_TYPES:
-  INSTALLED_APPS += [app for app in TENANT_TYPES[schema]
-                     ["APPS"] if app not in INSTALLED_APPS]
+    INSTALLED_APPS += [app for app in TENANT_TYPES[schema]
+                       ["APPS"] if app not in INSTALLED_APPS]
 
 MIDDLEWARE = [
     'django_tenants.middleware.main.TenantMainMiddleware',
