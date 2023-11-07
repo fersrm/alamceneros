@@ -92,6 +92,7 @@
       </tr>
     </thead>
     <tbody>
+    {% if top_mas_vendidos %}
       {% for producto in top_mas_vendidos %}
       <tr>
         <td>{{ producto.producto_FK__codigo_producto }}</td>
@@ -102,6 +103,11 @@
         <td>{{ producto.total_vendido }}</td>
       </tr>
       {% endfor %}
+    {% else %}
+    <tr>
+      <td colspan="6">NO HAY REGISTROS</td>
+    </tr>
+    {% endif %}
     </tbody>
   </table>
 </div>
@@ -120,6 +126,7 @@
       </tr>
     </thead>
     <tbody>
+    {% if top_menos_vendidos %}
       {% for producto in top_menos_vendidos %}
       <tr>
         <td>
@@ -160,6 +167,11 @@
         <td>{{ producto.total_vendido|default:"0" }}</td>
       </tr>
       {% endfor %}
+    {% else %}
+    <tr>
+      <td colspan="6">NO HAY REGISTROS</td>
+    </tr>
+    {% endif %}
     </tbody>
   </table>
 </div>

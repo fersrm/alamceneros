@@ -149,4 +149,17 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   });
+
+  //////////////////////////////
+  //// LIMPIAR LOCALSTORAGE  //
+  ////////////////////////////
+
+  const limpiarButton = document.getElementById("btnLimpiar");
+
+  limpiarButton.addEventListener("click", function () {
+    localStorage.removeItem("productoDataList");
+    localStorage.removeItem("storedData");
+
+    location.reload();
+  });
 });

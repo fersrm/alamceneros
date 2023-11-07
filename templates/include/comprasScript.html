@@ -60,5 +60,11 @@
 
     abrir_modal_compras('{% url 'añadir_compra' producto.id_producto %}');
 
+
+    // LIMPIA URL DE BUSQUEDA AL CERRAR EL MODAL
+    $('#addProducModal').on('hidden.bs.modal', function () {
+      history.replaceState({}, document.title, window.location.pathname);
+    });
+
   });
 </script>

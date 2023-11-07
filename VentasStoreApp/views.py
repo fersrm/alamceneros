@@ -46,9 +46,11 @@ class BoletaListView(ListView):
         'id_boleta',
         'total_boleta']
     if busquedaF:
-      return buscar_fecha(self.model, busquedaF)
-    return buscar_venta(
-        self.model, campos_busqueda, busqueda)
+      queryset = buscar_fecha(self.model, busquedaF)
+    else:
+      queryset = buscar_venta(self.model, campos_busqueda, busqueda)
+    queryset = queryset.order_by('-id_boleta')
+    return queryset
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
