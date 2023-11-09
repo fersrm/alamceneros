@@ -44,9 +44,11 @@
         <td class="alignCenter">{{producto.categoria_FK}}</td>
 
         <td class="alignCenter">
-          {% if producto.tipo_medida == 1 %} Unidad {% else %} Granel {%endif%}
+          {% if producto.tipo_medida == 1 %} Unidad
+          <span> {% elif producto.tipo_medida == 2 %} Kilo </span>
+          {% else %} Litro {%endif%}
         </td>
-        <!-- Como un if si margen es mayor 0 realice el calculo -->
+        <!-- Como un if  si margen es mayor 0 realice el calculo -->
         <!-- lo va a buscar a datos de empresa seria un margen general -->
         <!-- agregar un tercer formulario en setting -->
         <td class="alignCenter">${{producto.precio_venta}}</td>
@@ -94,4 +96,9 @@
 <strong>NO HAY REGISTROS</strong>
 {% endif %}
 <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true"></div>
-{%endblock %}
+
+{%endblock %} {% block script %}
+
+<script defer src="{% static 'js/autoFocus.js' %}"></script>
+
+{% endblock %}

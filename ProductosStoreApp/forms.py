@@ -91,7 +91,8 @@ class ProductoEditarForm(BaseProductoForm):
 class ProductoAgregarForm(ProductoEditarForm):
     codigo_producto = forms.CharField(
         label='Codigo',
-        widget=forms.TextInput(attrs={'class': 'form-control'})
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'autofocus': True})
     )
 
     class Meta:

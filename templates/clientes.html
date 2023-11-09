@@ -73,4 +73,9 @@
   tabindex="-1"
   aria-hidden="true"
 ></div>
-{%endblock %}
+
+{%endblock %}{% block script %}
+
+<script defer src="{% static 'js/autoFocus.js' %}"></script>
+
+{% endblock %}

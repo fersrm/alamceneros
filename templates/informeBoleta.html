@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block head %}
+{% extends "base.html" %} {% load static %}{% block head %}
 
 <h1 class="h2">Informe de Boletas</h1>
 {% include 'include/buscador.html' %}
@@ -62,4 +62,8 @@
 
 {% else %}
 <strong>NO HAY REGISTROS</strong>
-{% endif %} {% endblock %}
+{% endif %} {% endblock %} {% block script %}
+
+<script defer src="{% static 'js/autoFocus.js' %}"></script>
+
+{% endblock %}

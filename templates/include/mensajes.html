@@ -11,7 +11,9 @@
           Swal.fire({
               titleText,
               text: "{{ message }}",
-              icon
+              icon,
+              showConfirmButton: false,
+              timer: 2000,
           })
       {% endfor %}
   {% endif %}

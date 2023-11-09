@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block head %}
+{% extends "base.html" %} {% load static %}{% block head %}
 <div class="d-flex">
   <h1 class="h2 me-4">Ventas</h1>
   {% include 'include/buscador.html' %}
@@ -61,7 +61,7 @@
   <button class="btn btn-primary" id="btnSumitVenta">Generar Venta</button>
 </div>
 
-<!---- TERMINAR DE REVISAR ----  -->
+<!---- TERMINAR DE REVISAR ------>
 <!-- comienzo de script -->
 {% if object_list %}
 <span> {% for producto in object_list %} </span>
@@ -70,7 +70,6 @@
     history.replaceState({}, document.title, window.location.pathname);
 
     agregarAlCarrito({{ producto.id_producto }},'{{ producto.codigo_producto }}','{{ producto.descripcion_producto }}',{{ producto.stock }},{{ producto.precio_venta }},{{ producto.tipo_medida }},{{ producto.tipo_impuesto }})
-
 
   });
 </script>
@@ -375,5 +374,9 @@
     });
   });
 </script>
+
+{% endblock %} {% block script %}
+
+<script defer src="{% static 'js/autoFocus.js' %}"></script>
 
 {% endblock %}

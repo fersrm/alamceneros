@@ -1,6 +1,7 @@
 tipoMedida = (
     (1, 'Unidad'),
-    (2, 'Granel'),
+    (2, 'Kilo'),
+    (3, 'Litro'),
 )
 
 
