@@ -1,6 +1,5 @@
 # from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.utils.decorators import method_decorator
 # Modelos y formularios
 from .models import Boletas, Ventas
@@ -9,6 +8,7 @@ from django.views.generic import ListView
 # imporat funciones
 from utils.helpers import buscar_fecha_rango, buscar_venta, buscar_fecha
 
+from ProductosStoreApp.models import Producto
 # -------------------INFORMES----------
 
 
@@ -52,4 +52,9 @@ class BoletaListView(ListView):
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
 class PagosListView(ListView):
     model = Ventas
-    template_name = 'pagos.html'
+    template_name = 'ventas.html'
+
+    def get_queryset(self):
+        busqueda = self.request.GET.get('buscar')
+        queryset = Producto.objects.filter(codigo_producto__exact=busqueda)
+        return queryset

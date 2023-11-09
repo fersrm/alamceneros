@@ -1,10 +1,26 @@
 // Función para agregar un producto al localStorage
-function agregarAlCarrito(productoId, nombre, stock, precio, medida, impuesto) {
+function agregarAlCarrito(
+  productoId,
+  codigo,
+  nombre,
+  stock,
+  precio,
+  medida,
+  impuesto
+) {
   // Comprobar si ya hay elementos en el carrito en el localStorage
   let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
   // Buscar el producto en el carrito por su ID
   let productoExistente = carrito.find((item) => item.id === productoId);
   if (productoExistente) {
+    if (productoExistente.medida === 2 || productoExistente.medida === 3) {
+      Swal.fire({
+        text: "No puedes agregar más de este producto al carrito, borrelo y vuelva a ingresarlo.",
+        icon: "warning",
+      });
+      return;
+    }
+
     // Si el producto ya está en el carrito, aumentar la cantidad
     if (productoExistente.cantidad < stock) {
       productoExistente.cantidad += 1;
@@ -21,6 +37,7 @@ function agregarAlCarrito(productoId, nombre, stock, precio, medida, impuesto) {
     if (1 <= stock) {
       carrito.push({
         id: productoId,
+        codigo,
         nombre,
         cantidad: 1,
         stock,

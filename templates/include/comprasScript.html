@@ -2,7 +2,7 @@
 <script>
   $(document).ready(function() {
     function abrir_modal_compras(url) {
-      $("#addProducModal").load(url, function () {
+      $("#ComprasModal").load(url, function () {
         $(this).modal("show");
         const formId = "myFormCompra"
         const productCantidadInput = document.querySelector(`#${formId} [name='stock_increment']`);
@@ -62,7 +62,7 @@
 
 
     // LIMPIA URL DE BUSQUEDA AL CERRAR EL MODAL
-    $('#addProducModal').on('hidden.bs.modal', function () {
+    $('#ComprasModal').on('hidden.bs.modal', function () {
       history.replaceState({}, document.title, window.location.pathname);
     });
 
