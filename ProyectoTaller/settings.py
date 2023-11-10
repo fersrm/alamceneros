@@ -15,53 +15,53 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^#zz0qzj+wo&5q+dq8pkqlwc&=dem32ef!)vz4kq$x5k@@epj_'
+SECRET_KEY = "django-insecure-^#zz0qzj+wo&5q+dq8pkqlwc&=dem32ef!)vz4kq$x5k@@epj_"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 DEFAULT_DJANGO_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
 ]
 
 
 # Compartidas
 PUBLIC_APPS = DEFAULT_DJANGO_APPS + [
-    'django_tenants',
-    'ClientSharedApp',
-    'UsuariosStoreApp',
+    "django_tenants",
+    "ClientSharedApp",
+    "UsuariosStoreApp",
 ]
 
 # Por defecto inquilinos
 COMMON_APPS = DEFAULT_DJANGO_APPS + [
-    'UsuariosStoreApp',
-    'ProductosStoreApp',
-    'DatosEmpresaStoreApp',
-    'VentasStoreApp',
-    'SistemaStoreApp',
-    'ProveedoresStoreApp',
-    'ComprasStoreApp',
-    'PerfilStoreApp',
+    "UsuariosStoreApp",
+    "ProductosStoreApp",
+    "DatosEmpresaStoreApp",
+    "VentasStoreApp",
+    "SistemaStoreApp",
+    "ProveedoresStoreApp",
+    "ComprasStoreApp",
+    "PerfilStoreApp",
 ]
 
 
 HAS_MULTI_TYPE_TENANTS = True
-MULTI_TYPE_DATABASE_FIELD = 'type'
+MULTI_TYPE_DATABASE_FIELD = "type"
 
 TENANT_TYPES = {
     "public": {  # this is the name of the public schema from get_public_schema_name
@@ -73,72 +73,74 @@ TENANT_TYPES = {
         "URLCONF": "ProyectoTaller.urls_type1",
     },
     "type2": {
-        "APPS": COMMON_APPS + ['ClientesStoreApp',],
+        "APPS": COMMON_APPS
+        + [
+            "ClientesStoreApp",
+        ],
         "URLCONF": "ProyectoTaller.urls_type2",
-    }
+    },
 }
 
 
 INSTALLED_APPS = []
 for schema in TENANT_TYPES:
-    INSTALLED_APPS += [app for app in TENANT_TYPES[schema]
-                       ["APPS"] if app not in INSTALLED_APPS]
+    INSTALLED_APPS += [
+        app for app in TENANT_TYPES[schema]["APPS"] if app not in INSTALLED_APPS
+    ]
 
 MIDDLEWARE = [
-    'django_tenants.middleware.main.TenantMainMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'utils.custom_middleware.RedirectMiddleware',
-    'ProductosStoreApp.middleware.ProductosStockMiddleware',
-    'ClientSharedApp.middleware.RedirectMiddleware',
-    'utils.custom_middleware.TenantAccessMiddleware',
+    "django_tenants.middleware.main.TenantMainMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "utils.custom_middleware.RedirectMiddleware",
+    "ProductosStoreApp.middleware.ProductosStockMiddleware",
+    "ClientSharedApp.middleware.RedirectMiddleware",
+    "utils.custom_middleware.TenantAccessMiddleware",
 ]
 
-ROOT_URLCONF = 'ProyectoTaller.urls'
+ROOT_URLCONF = "ProyectoTaller.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [TEMPLATES_DIR],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'ProyectoTaller.wsgi.application'
+WSGI_APPLICATION = "ProyectoTaller.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django_tenants.postgresql_backend',
-        'NAME': 'Proyecto',
-        'USER': 'Fernando',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': 5432,
-        'CHARSET': 'UTF8'
+    "default": {
+        "ENGINE": "django_tenants.postgresql_backend",
+        "NAME": "Proyecto",
+        "USER": "Fernando",
+        "PASSWORD": "123456",
+        "HOST": "localhost",
+        "PORT": 5432,
+        "CHARSET": "UTF8",
     }
 }
 
 
-DATABASE_ROUTERS = (
-    'django_tenants.routers.TenantSyncRouter',
-)
+DATABASE_ROUTERS = ("django_tenants.routers.TenantSyncRouter",)
 
 
 # Password validation
@@ -146,16 +148,16 @@ DATABASE_ROUTERS = (
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -164,10 +166,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 # LANGUAGE_CODE = 'en-us'
-LANGUAGE_CODE = 'es-us'
+LANGUAGE_CODE = "es-us"
 
 # TIME_ZONE = 'UTC'
-TIME_ZONE = 'America/Santiago'
+TIME_ZONE = "America/Santiago"
 
 USE_I18N = True
 
@@ -177,24 +179,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 # Cambia la ruta de STATIC_URL
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DEFAULT_FILE_STORAGE = "django_tenants.files.storage.TenantFileSystemStorage"
 
-TENANT_MODEL = 'ClientSharedApp.Client'
+TENANT_MODEL = "ClientSharedApp.Client"
 TENANT_DOMAIN_MODEL = "ClientSharedApp.Domain"
 
-AUTH_USER_MODEL = 'UsuariosStoreApp.Usuario'
+AUTH_USER_MODEL = "UsuariosStoreApp.Usuario"
 # AUTH_USER_MODEL = 'auth.User'
 
-LOGIN_URL = '/login/'
+LOGIN_URL = "/login/"

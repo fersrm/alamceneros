@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('ComprasStoreApp', '0001_initial'),
+        ("ComprasStoreApp", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='compras',
-            name='tipo_impuesto',
-            field=models.IntegerField(choices=[(1, 'Con Impuesto'), (2, 'Sin Impuesto')], default=1),
+            model_name="compras",
+            name="tipo_impuesto",
+            field=models.IntegerField(
+                choices=[(1, "Con Impuesto"), (2, "Sin Impuesto")], default=1
+            ),
         ),
     ]

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('DatosEmpresaStoreApp', '0001_initial'),
+        ("DatosEmpresaStoreApp", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='datosempresa',
-            name='minimo_boleta',
+            model_name="datosempresa",
+            name="minimo_boleta",
             field=models.IntegerField(default=100),
         ),
     ]

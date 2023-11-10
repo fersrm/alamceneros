@@ -6,52 +6,77 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('ProductosStoreApp', '0001_initial'),
+        ("ProductosStoreApp", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Boletas',
+            name="Boletas",
             fields=[
-                ('id_boleta', models.AutoField(primary_key=True, serialize=False)),
-                ('total_boleta', models.IntegerField()),
+                ("id_boleta", models.AutoField(primary_key=True, serialize=False)),
+                ("total_boleta", models.IntegerField()),
             ],
             options={
-                'db_table': 'boletas',
+                "db_table": "boletas",
             },
         ),
         migrations.CreateModel(
-            name='Ventas',
+            name="Ventas",
             fields=[
-                ('id_venta', models.AutoField(primary_key=True, serialize=False)),
-                ('fecha_emision', models.DateTimeField(auto_now_add=True)),
-                ('usuario_FK', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ("id_venta", models.AutoField(primary_key=True, serialize=False)),
+                ("fecha_emision", models.DateTimeField(auto_now_add=True)),
+                (
+                    "usuario_FK",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'db_table': 'ventas',
+                "db_table": "ventas",
             },
         ),
         migrations.CreateModel(
-            name='DetalleBoletas',
+            name="DetalleBoletas",
             fields=[
-                ('id_detalle_boleta', models.AutoField(primary_key=True, serialize=False)),
-                ('cantidad', models.IntegerField()),
-                ('total', models.IntegerField()),
-                ('boleta_FK', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='VentasStoreApp.boletas')),
-                ('producto_FK', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='ProductosStoreApp.producto')),
+                (
+                    "id_detalle_boleta",
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
+                ("cantidad", models.IntegerField()),
+                ("total", models.IntegerField()),
+                (
+                    "boleta_FK",
+                    models.ForeignKey(
+                        default=1,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="VentasStoreApp.boletas",
+                    ),
+                ),
+                (
+                    "producto_FK",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="ProductosStoreApp.producto",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'detalleboleta',
+                "db_table": "detalleboleta",
             },
         ),
         migrations.AddField(
-            model_name='boletas',
-            name='venta_FK',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='VentasStoreApp.ventas'),
+            model_name="boletas",
+            name="venta_FK",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="VentasStoreApp.ventas",
+            ),
         ),
     ]

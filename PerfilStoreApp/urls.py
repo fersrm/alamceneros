@@ -3,5 +3,5 @@ from PerfilStoreApp import views
 
 
 urlpatterns = [
-    path('', views.editar_perfil, name='Perfil'),
+    path("", views.editar_perfil, name="Perfil"),
 ]

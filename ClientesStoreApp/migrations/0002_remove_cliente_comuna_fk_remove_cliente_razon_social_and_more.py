@@ -4,33 +4,32 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('ClientesStoreApp', '0001_initial'),
+        ("ClientesStoreApp", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='cliente',
-            name='comuna_FK',
+            model_name="cliente",
+            name="comuna_FK",
         ),
         migrations.RemoveField(
-            model_name='cliente',
-            name='razon_social',
+            model_name="cliente",
+            name="razon_social",
         ),
         migrations.RemoveField(
-            model_name='cliente',
-            name='tipo_giro',
+            model_name="cliente",
+            name="tipo_giro",
         ),
         migrations.AddField(
-            model_name='cliente',
-            name='telefono_cliente',
-            field=models.CharField(default='1234567', max_length=45),
+            model_name="cliente",
+            name="telefono_cliente",
+            field=models.CharField(default="1234567", max_length=45),
         ),
         migrations.DeleteModel(
-            name='Comuna',
+            name="Comuna",
         ),
         migrations.DeleteModel(
-            name='Region',
+            name="Region",
         ),
     ]

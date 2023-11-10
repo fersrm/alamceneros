@@ -4,27 +4,28 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='DatosEmpresa',
+            name="DatosEmpresa",
             fields=[
-                ('id_datos_empresa', models.AutoField(primary_key=True, serialize=False)),
-                ('nombre_empresa', models.CharField(max_length=45)),
-                ('rut_empresa', models.CharField(max_length=15)),
-                ('email', models.CharField(default='pepe@gmail.com', max_length=64)),
-                ('telefono', models.CharField(default='123456789', max_length=15)),
-                ('comuna', models.CharField(default='Chillan', max_length=45)),
-                ('direccion_empresa', models.CharField(max_length=45)),
-                ('IVA', models.IntegerField()),
+                (
+                    "id_datos_empresa",
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
+                ("nombre_empresa", models.CharField(max_length=45)),
+                ("rut_empresa", models.CharField(max_length=15)),
+                ("email", models.CharField(default="pepe@gmail.com", max_length=64)),
+                ("telefono", models.CharField(default="123456789", max_length=15)),
+                ("comuna", models.CharField(default="Chillan", max_length=45)),
+                ("direccion_empresa", models.CharField(max_length=45)),
+                ("IVA", models.IntegerField()),
             ],
             options={
-                'db_table': 'datosempresa',
+                "db_table": "datosempresa",
             },
         ),
     ]

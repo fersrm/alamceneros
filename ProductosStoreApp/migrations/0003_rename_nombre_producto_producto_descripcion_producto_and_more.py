@@ -5,47 +5,50 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('ProductosStoreApp', '0002_initial'),
+        ("ProductosStoreApp", "0002_initial"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='producto',
-            old_name='nombre_producto',
-            new_name='descripcion_producto',
+            model_name="producto",
+            old_name="nombre_producto",
+            new_name="descripcion_producto",
         ),
         migrations.RenameField(
-            model_name='producto',
-            old_name='precio_producto',
-            new_name='precio_bruto_producto',
+            model_name="producto",
+            old_name="precio_producto",
+            new_name="precio_bruto_producto",
         ),
         migrations.RemoveField(
-            model_name='producto',
-            name='marca_FK',
+            model_name="producto",
+            name="marca_FK",
         ),
         migrations.AddField(
-            model_name='producto',
-            name='precio_venta',
+            model_name="producto",
+            name="precio_venta",
             field=models.IntegerField(default=10),
         ),
         migrations.AddField(
-            model_name='producto',
-            name='tipo_impuesto',
-            field=models.IntegerField(choices=[(1, 'Execto'), (2, 'IVA')], default=1),
+            model_name="producto",
+            name="tipo_impuesto",
+            field=models.IntegerField(choices=[(1, "Execto"), (2, "IVA")], default=1),
         ),
         migrations.AddField(
-            model_name='producto',
-            name='tipo_medida',
-            field=models.IntegerField(choices=[(1, 'Unidad'), (2, 'Kilo'), (3, 'Litro')], default=1),
+            model_name="producto",
+            name="tipo_medida",
+            field=models.IntegerField(
+                choices=[(1, "Unidad"), (2, "Kilo"), (3, "Litro")], default=1
+            ),
         ),
         migrations.AlterField(
-            model_name='producto',
-            name='imagen',
-            field=models.ImageField(null=True, upload_to=ProductosStoreApp.models.dynamic_upload_path),
+            model_name="producto",
+            name="imagen",
+            field=models.ImageField(
+                null=True, upload_to=ProductosStoreApp.models.dynamic_upload_path
+            ),
         ),
         migrations.DeleteModel(
-            name='Marca',
+            name="Marca",
         ),
     ]

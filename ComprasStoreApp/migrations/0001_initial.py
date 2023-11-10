@@ -5,27 +5,42 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('ProveedoresStoreApp', '0001_initial'),
+        ("ProveedoresStoreApp", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Compras',
+            name="Compras",
             fields=[
-                ('id_compras', models.AutoField(primary_key=True, serialize=False)),
-                ('num_documento', models.CharField(max_length=15, unique=True)),
-                ('fecha', models.DateField()),
-                ('descuento', models.IntegerField()),
-                ('tipo_documento', models.IntegerField(choices=[(1, 'Factura'), (2, 'Boleta')], default=1)),
-                ('tipo_impuesto', models.IntegerField(choices=[(1, 'Con Impto'), (2, 'Sin Impto')], default=1)),
-                ('proveedor_FK', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='ProveedoresStoreApp.proveedor')),
+                ("id_compras", models.AutoField(primary_key=True, serialize=False)),
+                ("num_documento", models.CharField(max_length=15, unique=True)),
+                ("fecha", models.DateField()),
+                ("descuento", models.IntegerField()),
+                (
+                    "tipo_documento",
+                    models.IntegerField(
+                        choices=[(1, "Factura"), (2, "Boleta")], default=1
+                    ),
+                ),
+                (
+                    "tipo_impuesto",
+                    models.IntegerField(
+                        choices=[(1, "Con Impto"), (2, "Sin Impto")], default=1
+                    ),
+                ),
+                (
+                    "proveedor_FK",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="ProveedoresStoreApp.proveedor",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'compras',
+                "db_table": "compras",
             },
         ),
     ]

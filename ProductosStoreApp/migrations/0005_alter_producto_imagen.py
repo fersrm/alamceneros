@@ -5,15 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('ProductosStoreApp', '0004_alter_producto_tipo_impuesto_and_more'),
+        ("ProductosStoreApp", "0004_alter_producto_tipo_impuesto_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='producto',
-            name='imagen',
-            field=models.ImageField(blank=True, default=None, null=True, upload_to=ProductosStoreApp.models.dynamic_upload_path),
+            model_name="producto",
+            name="imagen",
+            field=models.ImageField(
+                blank=True,
+                default=None,
+                null=True,
+                upload_to=ProductosStoreApp.models.dynamic_upload_path,
+            ),
         ),
     ]

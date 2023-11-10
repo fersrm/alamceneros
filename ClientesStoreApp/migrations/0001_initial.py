@@ -5,49 +5,64 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Region',
+            name="Region",
             fields=[
-                ('id_regiones', models.AutoField(primary_key=True, serialize=False)),
-                ('nombre_region', models.CharField(max_length=45, unique=True)),
+                ("id_regiones", models.AutoField(primary_key=True, serialize=False)),
+                ("nombre_region", models.CharField(max_length=45, unique=True)),
             ],
             options={
-                'db_table': 'region',
+                "db_table": "region",
             },
         ),
         migrations.CreateModel(
-            name='Comuna',
+            name="Comuna",
             fields=[
-                ('id_comuna', models.AutoField(primary_key=True, serialize=False)),
-                ('nombre_comuna', models.CharField(max_length=45, unique=True)),
-                ('region_FK', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='ClientesStoreApp.region')),
+                ("id_comuna", models.AutoField(primary_key=True, serialize=False)),
+                ("nombre_comuna", models.CharField(max_length=45, unique=True)),
+                (
+                    "region_FK",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="ClientesStoreApp.region",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'comuna',
+                "db_table": "comuna",
             },
         ),
         migrations.CreateModel(
-            name='Cliente',
+            name="Cliente",
             fields=[
-                ('id_cliente', models.AutoField(primary_key=True, serialize=False)),
-                ('run_cliente', models.CharField(max_length=15, unique=True)),
-                ('nombre_cliente', models.CharField(max_length=45)),
-                ('apellido_cliente', models.CharField(max_length=45)),
-                ('correo_cliente', models.CharField(max_length=64, unique=True)),
-                ('razon_social', models.CharField(max_length=45)),
-                ('direccion', models.CharField(max_length=45)),
-                ('tipo_giro', models.IntegerField(choices=[(1, 'Mayorista'), (2, 'Minorista')], default=2)),
-                ('comuna_FK', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='ClientesStoreApp.comuna')),
+                ("id_cliente", models.AutoField(primary_key=True, serialize=False)),
+                ("run_cliente", models.CharField(max_length=15, unique=True)),
+                ("nombre_cliente", models.CharField(max_length=45)),
+                ("apellido_cliente", models.CharField(max_length=45)),
+                ("correo_cliente", models.CharField(max_length=64, unique=True)),
+                ("razon_social", models.CharField(max_length=45)),
+                ("direccion", models.CharField(max_length=45)),
+                (
+                    "tipo_giro",
+                    models.IntegerField(
+                        choices=[(1, "Mayorista"), (2, "Minorista")], default=2
+                    ),
+                ),
+                (
+                    "comuna_FK",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="ClientesStoreApp.comuna",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'cliente',
+                "db_table": "cliente",
             },
         ),
     ]

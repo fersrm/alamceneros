@@ -6,76 +6,70 @@ from .models import Usuario, Cargo
 
 
 class BaseUsuarioForm(forms.ModelForm):
+    first_name = forms.CharField(
+        label="Nombre", widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    last_name = forms.CharField(
+        label="Apellido", widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    username = forms.CharField(
+        label="Nombre de Usuario",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+    telefono_user = forms.CharField(
+        label="Telefono", widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    email = forms.CharField(
+        label="Email", widget=forms.EmailInput(attrs={"class": "form-control"})
+    )
+    cargo_FK = forms.ModelChoiceField(
+        label="Cargo",
+        queryset=Cargo.objects.exclude(pk=1),
+        widget=forms.Select(attrs={"class": "form-select"}),
+    )
 
-  first_name = forms.CharField(
-      label='Nombre',
-      widget=forms.TextInput(attrs={'class': 'form-control'})
-  )
-  last_name = forms.CharField(
-      label='Apellido',
-      widget=forms.TextInput(attrs={'class': 'form-control'})
-  )
-  username = forms.CharField(
-      label='Nombre de Usuario',
-      widget=forms.TextInput(attrs={'class': 'form-control'})
-  )
-  telefono_user = forms.CharField(
-      label='Telefono',
-      widget=forms.TextInput(attrs={'class': 'form-control'})
-  )
-  email = forms.CharField(
-      label='Email',
-      widget=forms.EmailInput(attrs={'class': 'form-control'})
-  )
-  cargo_FK = forms.ModelChoiceField(
-      label='Cargo',
-      queryset=Cargo.objects.exclude(pk=1),
-      widget=forms.Select(attrs={'class': 'form-select'})
-  )
+    class Meta:
+        model = Usuario
+        fields = [
+            "first_name",
+            "last_name",
+            "username",
+            "telefono_user",
+            "email",
+            "cargo_FK",
+        ]
 
-  class Meta:
-    model = Usuario
-    fields = [
-        'first_name',
-        'last_name',
-        'username',
-        'telefono_user',
-        'email',
-        'cargo_FK'
-    ]
+    def clean(self):
+        cleaned_data = super().clean()
+        nombre_usuario = cleaned_data.get("username")
 
-  def clean(self):
-    cleaned_data = super().clean()
-    nombre_usuario = cleaned_data.get('username')
+        if nombre_usuario:
+            cleaned_data["username"] = nombre_usuario.upper()
 
-    if nombre_usuario:
-      cleaned_data['username'] = nombre_usuario.upper()
+        cargo_fk = cleaned_data.get("cargo_FK")
 
-    cargo_fk = cleaned_data.get('cargo_FK')
+        # Verifica si el cargo seleccionado tiene pk = 1 Administrador
+        if cargo_fk and cargo_fk.pk == 1:
+            raise forms.ValidationError("El cargo seleccionado no es válido")
 
-    # Verifica si el cargo seleccionado tiene pk = 1 Administrador
-    if cargo_fk and cargo_fk.pk == 1:
-      raise forms.ValidationError("El cargo seleccionado no es válido")
-
-    return cleaned_data
+        return cleaned_data
 
 
 class UsuarioEditarForm(BaseUsuarioForm):
-
-  class Meta(BaseUsuarioForm.Meta):
-    fields = BaseUsuarioForm.Meta.fields
+    class Meta(BaseUsuarioForm.Meta):
+        fields = BaseUsuarioForm.Meta.fields
 
 
 class UsuarioAgregarForm(UserCreationForm, BaseUsuarioForm):
-  password1 = forms.CharField(
-      label='Nueva Contraseña',
-      widget=forms.PasswordInput(attrs={'class': 'form-control'})
-  )
+    password1 = forms.CharField(
+        label="Nueva Contraseña",
+        widget=forms.PasswordInput(attrs={"class": "form-control"}),
+    )
 
-  password2 = forms.CharField(
-      label='Confirmar Nueva Contraseña',
-      widget=forms.PasswordInput(attrs={'class': 'form-control'})
-  )
+    password2 = forms.CharField(
+        label="Confirmar Nueva Contraseña",
+        widget=forms.PasswordInput(attrs={"class": "form-control"}),
+    )
 
-  class Meta(BaseUsuarioForm.Meta):
-    fields = BaseUsuarioForm.Meta.fields + ['password1', 'password2']
+    class Meta(BaseUsuarioForm.Meta):
+        fields = BaseUsuarioForm.Meta.fields + ["password1", "password2"]

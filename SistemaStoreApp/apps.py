@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class SistemastoreappConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'SistemaStoreApp'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "SistemaStoreApp"

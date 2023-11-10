@@ -61,16 +61,20 @@
   <button class="btn btn-primary" id="btnSumitVenta">Generar Venta</button>
 </div>
 
-<!---- TERMINAR DE REVISAR ------>
+<!-- TERMINAR DE REVISAR ---->
 <!-- comienzo de script -->
-{% if object_list %}
-<span> {% for producto in object_list %} </span>
+{% if object_list %} {% for producto in object_list %}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    history.replaceState({}, document.title, window.location.pathname);
-
-    agregarAlCarrito({{ producto.id_producto }},'{{ producto.codigo_producto }}','{{ producto.descripcion_producto }}',{{ producto.stock }},{{ producto.precio_venta }},{{ producto.tipo_medida }},{{ producto.tipo_impuesto }})
-
+    agregarAlCarrito(
+      {{ producto.id_producto }},
+      '{{ producto.codigo_producto }}',
+      '{{ producto.descripcion_producto }}',
+      {{ producto.stock }},
+      {{ producto.precio_venta }},
+      {{ producto.tipo_medida }},
+      {{ producto.tipo_impuesto }}
+    );
   });
 </script>
 {% endfor %} {% endif %}
@@ -195,6 +199,10 @@
         }
       } else {
         btnContainer.classList.add("none");
+
+        let filaVacio = `<tr><td colspan="6">NO HAY PRODUCTOS INGRESADOS</td></tr>`;
+
+        tableBody.innerHTML = filaVacio;
       }
     }
 

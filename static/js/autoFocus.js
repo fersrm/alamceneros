@@ -6,4 +6,5 @@ function auto_focus() {
   buscar.focus();
 }
 
+history.replaceState({}, document.title, window.location.pathname);
 auto_focus();

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('ClientSharedApp', '0001_initial'),
+        ("ClientSharedApp", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='client',
-            name='on_trial',
+            model_name="client",
+            name="on_trial",
             field=models.BooleanField(default=False),
         ),
     ]

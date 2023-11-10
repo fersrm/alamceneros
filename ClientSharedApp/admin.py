@@ -6,15 +6,15 @@ from ClientSharedApp.models import Client, Domain
 
 
 class PublicTenantAdminMixin(TenantAdminMixin):
-  def has_module_permission(self, request):
-    return request.tenant.schema_name == get_public_schema_name()
+    def has_module_permission(self, request):
+        return request.tenant.schema_name == get_public_schema_name()
 
 
 @admin.register(Client)
 class ClientAdmin(PublicTenantAdminMixin, admin.ModelAdmin):
-  list_display = ('name', 'paid_until')
+    list_display = ("name", "paid_until")
 
 
 @admin.register(Domain)
 class DomainAdmin(PublicTenantAdminMixin, admin.ModelAdmin):
-  pass
+    pass
