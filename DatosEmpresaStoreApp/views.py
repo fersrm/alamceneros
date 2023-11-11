@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 
 # Modelos y formularios
 from .forms import DatosEmpresaEditarContactoForm
@@ -14,7 +14,7 @@ from ProductosStoreApp.forms import CategoriaAgregarForm
 
 @login_required(login_url="/login/")
 def editar_datos_empresa(request):
-    empresa = DatosEmpresa.objects.get(pk=1)
+    empresa = get_object_or_404(DatosEmpresa, pk=1)
     form_empresa = DatosEmpresaEditarContactoForm(instance=empresa)
     form_categoria = CategoriaAgregarForm
 
@@ -25,7 +25,8 @@ def editar_datos_empresa(request):
             )
             if form_empresa.is_valid():
                 form_empresa.save()
-                messages.success(request, "Datos del local actualizados Correctamente")
+                messages.success(
+                    request, "Datos del local actualizados Correctamente")
                 return redirect("Setting")
 
         elif "submit_form_categoria" in request.POST:
