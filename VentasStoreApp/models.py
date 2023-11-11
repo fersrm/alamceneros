@@ -11,7 +11,6 @@ class Ventas(models.Model):
     id_venta = models.AutoField(primary_key=True)
     fecha_emision = models.DateTimeField(auto_now_add=True)
     usuario_FK = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    # usuario_FK = models.IntegerField()
 
     class Meta:
         db_table = "ventas"
@@ -34,7 +33,6 @@ class DetalleBoletas(models.Model):
     cantidad = models.IntegerField()
     total = models.IntegerField()
     producto_FK = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    # producto_FK = models.IntegerField()
     boleta_FK = models.ForeignKey(Boletas, on_delete=models.CASCADE, default=1)
 
     class Meta:
