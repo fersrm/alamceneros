@@ -49,8 +49,9 @@ def total_dia(model, count_field, sum_field):
     return {count_field: count, sum_field: total if total is not None else 0}
 
 
-def total_ventas(boleta, periodo="semana"):
+def total_ventas(boleta, compras, periodo="semana"):
     ventas_totales = {}
+    compras_totales = []
     # Obtener la fecha actual
     now = timezone.localtime(timezone.now())
     # Crear un arreglo de fechas
@@ -72,12 +73,18 @@ def total_ventas(boleta, periodo="semana"):
             end_time = timezone.make_aware(
                 timezone.datetime(date.year, date.month, date.day, 23, 59, 59, 999999)
             )
-            query = Q(venta_FK__fecha_emision__range=(start_time, end_time))
+            query_ventas = Q(venta_FK__fecha_emision__range=(start_time, end_time))
+
+            query_compras = Q(fecha__range=(start_time, end_time))
+
         elif periodo == "semana":
             # Calcular el primer día (hace 7 días) y el último día (hoy)
             first_day = date - timedelta(weeks=1)
             last_day = date
-            query = Q(venta_FK__fecha_emision__range=(first_day, last_day))
+            query_ventas = Q(venta_FK__fecha_emision__range=(first_day, last_day))
+
+            query_compras = Q(fecha__range=(first_day, last_day))
+
         elif periodo == "mes":
             # Calcular el primer día y el último día del mes
             first_day = date.replace(day=1)
@@ -89,15 +96,22 @@ def total_ventas(boleta, periodo="semana"):
                 last_day = first_day.replace(
                     month=first_day.month + 1, day=1
                 ) - timedelta(days=1)
-            query = Q(venta_FK__fecha_emision__range=(first_day, last_day))
 
-        objects_boletas = boleta.objects.filter(query).distinct()
+            query_ventas = Q(venta_FK__fecha_emision__range=(first_day, last_day))
+
+            query_compras = Q(fecha__range=(first_day, last_day))
+
+        objects_boletas = boleta.objects.filter(query_ventas).distinct()
         total_boletas = (
             objects_boletas.aggregate(total=Sum("total_boleta"))["total"] or 0
         )
         ventas_totales[date.strftime("%Y-%m-%d")] = total_boletas
 
-    return ventas_totales
+        objects_compras = compras.objects.filter(query_compras).distinct()
+        total_compras = objects_compras.aggregate(total=Sum("total"))["total"] or 0
+        compras_totales.append(total_compras)
+
+    return ventas_totales, compras_totales
 
 
 def top_productos(model_productos, model_detalle, campos_producto):

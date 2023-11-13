@@ -9,7 +9,7 @@ class Compras(models.Model):
     id_compras = models.AutoField(primary_key=True)
     num_documento = models.CharField(max_length=15, unique=True)
     fecha = models.DateField()
-    descuento = models.IntegerField()
+    total = models.IntegerField()
     tipo_documento = models.IntegerField(choices=tipoDoc, default=1)
     tipo_impuesto = models.IntegerField(choices=tipoImpuesto, default=1)
     proveedor_FK = models.ForeignKey(Proveedor, on_delete=models.CASCADE)

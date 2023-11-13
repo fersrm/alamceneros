@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.utils import timezone
 from VentasStoreApp.models import Boletas, DetalleBoletas
+from ComprasStoreApp.models import Compras
 from ProductosStoreApp.models import Producto
 
 # Para trabajar con clases
@@ -27,8 +28,9 @@ class HomeView(TemplateView):
         periodo = self.request.GET.get("periodo", "dia")
         if periodo not in ["dia", "semana", "mes"]:
             periodo = "dia"
-        ventas_diarias = total_ventas(Boletas, periodo)
+        ventas_diarias, compras_totales = total_ventas(Boletas, Compras, periodo)
         context["ventas_diarias"] = ventas_diarias
+        context["compras_totales"] = compras_totales
         context["mi_fecha"] = timezone.localtime(timezone.now()).date()
 
         # Boletas ---------------------------------

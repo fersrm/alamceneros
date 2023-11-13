@@ -14,9 +14,9 @@ class BaseComprasForm(forms.ModelForm):
         label="Fecha",
         widget=forms.DateInput(attrs={"class": "form-control", "id": "fecha"}),
     )
-    descuento = forms.CharField(
-        label="Descuento",
-        widget=forms.NumberInput(attrs={"class": "form-control", "id": "descuento"}),
+    total = forms.CharField(
+        label="Total",
+        widget=forms.NumberInput(attrs={"class": "form-control", "id": "total"}),
     )
     tipo_documento = forms.ChoiceField(
         label="Tipo de Documento",
@@ -39,7 +39,7 @@ class BaseComprasForm(forms.ModelForm):
         fields = [
             "num_documento",
             "fecha",
-            "descuento",
+            "total",
             "tipo_documento",
             "tipo_impuesto",
             "proveedor_FK",
@@ -59,6 +59,6 @@ class ComprasAgregarForm(BaseComprasForm):
     class Meta(BaseComprasForm.Meta):
         fields = BaseComprasForm.Meta.fields
 
-    def __init__(self, *args, **kwargs):
-        super(ComprasAgregarForm, self).__init__(*args, **kwargs)
-        self.fields["descuento"].initial = 0
+    # def __init__(self, *args, **kwargs):
+    #     super(ComprasAgregarForm, self).__init__(*args, **kwargs)
+    #     self.fields["total"].initial = 0

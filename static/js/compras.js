@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Agregar un evento "input" a cada campo de entrada para guardar los cambios en el arreglo en localStorage
   const inputFields = [
     "num_documento",
-    "descuento",
+    "total",
     "fecha",
     "tipo_documento",
     "tipo_impuesto",

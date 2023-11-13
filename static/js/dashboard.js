@@ -8,6 +8,9 @@
   const fechas = Object.keys(ventas_diarias);
   const valoresVentas = Object.values(ventas_diarias);
 
+  //////////////////////////////////////////
+  const valoresGastos = gastos_totales;
+
   // Configura el gráfico
   const myChart = new Chart(ctx, {
     type: "line",
@@ -15,13 +18,22 @@
       labels: fechas, // Usa las fechas como etiquetas en el eje x
       datasets: [
         {
-          data: valoresVentas, // Usa los valores de ventas como datos en el eje y
+          label: 'Ventas',
+          data: valoresVentas, // Usa los valores de ventas en eje y
           lineTension: 0,
-          backgroundColor: "transparent",
+          backgroundColor: "rgba(0, 123, 255, 0.5)",
           borderColor: "#007bff",
           borderWidth: 4,
           pointBackgroundColor: "#007bff",
         },
+        {
+          label: 'Gastos',
+          data: valoresGastos,
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
+          borderColor: "#ff6384",
+          borderWidth: 4,
+          pointBackgroundColor: "#ff6384",
+        }
       ],
     },
     options: {
@@ -32,7 +44,7 @@
       },
       plugins: {
         legend: {
-          display: false,
+          display: 'top',
         },
         tooltip: {
           boxPadding: 3,
