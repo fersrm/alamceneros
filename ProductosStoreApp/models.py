@@ -37,7 +37,7 @@ class Producto(models.Model):
     imagen = models.ImageField(
         upload_to=dynamic_upload_path, null=True, blank=True, default=None
     )
-    stock = models.DecimalField(max_digits=10, decimal_places=1, default=10.0)
+    stock = models.DecimalField(max_digits=10, decimal_places=3, default=10.000)
     fecha = models.DateField(auto_now_add=True)
     tipo_medida = models.IntegerField(choices=tipoMedida, default=1)
     tipo_impuesto = models.IntegerField(choices=tipoImpuesto, default=1)

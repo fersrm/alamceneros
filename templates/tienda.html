@@ -48,7 +48,15 @@
         <!-- agregar un tercer formulario en setting -->
         <td class="alignCenter">${{producto.precio_venta}}</td>
         <!-- Replicar if en todos los apartados de  precio venta -->
-        <td class="alignCenter">{{producto.stock}}</td>
+        <td class="alignCenter">
+
+          {% if producto.tipo_medida == 1 %} 
+            {{ producto.stock|floatformat:0 }}
+          {% else %}
+            {{ producto.stock|floatformat:2 }}
+          {%endif%}
+            
+        </td>
         <td class="alignCenter">
           {% if producto.tipo_medida == 1 %} Unidad
           <span> {% elif producto.tipo_medida == 2 %} Kilo </span>
