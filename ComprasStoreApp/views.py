@@ -47,7 +47,7 @@ class AgregarCompraView(CreateView, ListView):
         queryset = Producto.objects.filter(codigo_producto__exact=busqueda)
 
         if not queryset and busqueda:
-            messages.error(self.request, f"No Existe {busqueda}")
+            messages.error(self.request, f"No existe {busqueda}")
         return queryset
 
 

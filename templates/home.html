@@ -15,7 +15,7 @@
 
 {% block head %}
 
-<h1 class="h2">Dashboard</h1>
+<h1 class="h2">Panel de Inicio</h1>
 <div class="btn-toolbar mb-2 mb-md-0">
   <span>{% load tz %} </span>
   <span>{{ mi_fecha }}</span>
@@ -25,9 +25,9 @@
 
 <div class="d-grid grid-card gap-2">
   <div class="card border-secondary mb-3">
-    <div class="card-header">Varios</div>
+    <div class="card-header">Boletas</div>
     <div class="card-body text-secondary">
-      <h5 class="card-title">Secondary card title</h5>
+      <h5 class="card-title">Reporte Mensual</h5>
       <p class="d-flex justify-content-between">
         $000
         <span>
@@ -37,13 +37,13 @@
           000
         </span>
       </p>
-      <a class="btn btn-primary" href="#">Ver informe</a>
+      <a class="btn btn-primary" href="{% url 'Informes' %}">Ver informe</a>
     </div>
   </div>
   <div class="card border-secondary mb-3">
     <div class="card-header">Boletas</div>
     <div class="card-body text-secondary">
-      <h5 class="card-title">Secondary card title</h5>
+      <h5 class="card-title">Reporte Diario</h5>
       <p class="d-flex justify-content-between">
         ${{ total_boleta|default:"0" }}
         <span>
@@ -57,7 +57,7 @@
     </div>
   </div>
   <div class="card border-secondary mb-3">
-    <div class="card-header">Grafico</div>
+    <div class="card-header">Gráfico</div>
     <div class="card-body text-secondary">
       <form method="GET">
         <div class="form-group">
@@ -78,17 +78,17 @@
 
 <canvas class="my-4 w-100" id="myChart" width="900" height="280"></canvas>
 
-<h2>Top Productos mas vendidos</h2>
+<h2>Top productos más vendidos</h2>
 <div class="table-responsive small mt-3">
   <table class="table table-striped table-sm">
     <thead>
       <tr>
-        <th>Codigo</th>
+        <th>Código</th>
         <th>Nombre de producto</th>
         <th>Categoria</th>
         <th>Stock</th>
         <th>Precio</th>
-        <th>Cantidad Vendida</th>
+        <th>Cantidad vendida</th>
       </tr>
     </thead>
     <tbody>
@@ -112,7 +112,7 @@
   </table>
 </div>
 
-<h2 class="mt-4">Top Productos menos vendidos</h2>
+<h2 class="mt-4">Top productos menos vendidos</h2>
 <div class="table-responsive small mt-3">
   <table class="table table-striped table-sm">
     <thead>

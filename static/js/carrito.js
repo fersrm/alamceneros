@@ -6,16 +6,27 @@ function agregarAlCarrito(
   stock,
   precio,
   medida,
-  impuesto
+  impuesto,
+  cantidad = 1
 ) {
   // Comprobar si ya hay elementos en el carrito en el localStorage
   let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
   // Buscar el producto en el carrito por su ID
   let productoExistente = carrito.find((item) => item.id === productoId);
+
+  // Reemplazar la coma por un punto y convertir a un número decimal
+  stock = parseFloat(stock.replace(",", "."));
+
+  // pasa Kilos a gramos y litros a mililitros
+  if (medida === 2 || medida === 3) {
+    stock = stock * 1000;
+    cantidad = parseInt(cantidad);
+  }
+
   if (productoExistente) {
     if (productoExistente.medida === 2 || productoExistente.medida === 3) {
       Swal.fire({
-        text: "No puedes agregar más de este producto al carrito, borrelo y vuelva a ingresarlo.",
+        text: "No puedes agregar más de este producto al carrito, borre el producto y vuelva a ingresarlo.",
         icon: "warning",
       });
       return;
@@ -39,11 +50,11 @@ function agregarAlCarrito(
         id: productoId,
         codigo,
         nombre,
-        cantidad: 1,
         stock,
         precio,
         medida,
         impuesto,
+        cantidad,
       });
     } else {
       Swal.fire({
@@ -62,7 +73,14 @@ function agregarAlCarrito(
     text: "Producto agregado al carrito",
     icon: "success",
     showConfirmButton: false,
-    timer: 1000, // Duración en milisegundos (1 segundo)
+    timer: 1000,
+    willClose: () => {
+      const currentUrl = window.location.href;
+
+      if (currentUrl.includes("ventas") && medida !== 1) {
+        location.reload(); // Recarga la página
+      }
+    },
   });
 }
 
@@ -108,14 +126,34 @@ function mostrarCarritoEnModal() {
       nombreProducto.textContent = producto.nombre;
 
       let cantidad = document.createElement("td");
-      cantidad.textContent = producto.cantidad;
+
+      if (producto.medida === 1) {
+        cantidad.textContent = producto.cantidad;
+      } else if (producto.medida === 2) {
+        cantidad.textContent = `${producto.cantidad} gr`;
+      } else {
+        cantidad.textContent = `${producto.cantidad} ml`;
+      }
 
       let precioUnitario = document.createElement("td");
       precioUnitario.textContent = producto.precio;
 
       let subtotal = document.createElement("td");
-      // Calcular el subtotal para este producto
-      let subtotalProducto = producto.cantidad * producto.precio;
+
+      let subtotalProducto = 0;
+
+      if (producto.medida === 1) {
+        subtotalProducto = producto.cantidad * producto.precio;
+      } else {
+        // Calcular el subtotal para este producto en kilo o litro
+        let cantidadEnKilos = producto.cantidad / 1000;
+
+        let costoTotal = cantidadEnKilos * producto.precio;
+
+        costoTotal = Math.round(costoTotal);
+
+        subtotalProducto = costoTotal;
+      }
       subtotal.textContent = subtotalProducto;
 
       // Actualizar el precio total del carrito
@@ -250,3 +288,49 @@ function vaciarCarrito() {
 $("#carritoModal").on("show.bs.modal", function (e) {
   mostrarCarritoEnModal();
 });
+
+// datos Prodcuto variable Global
+var productoSeleccionado = null;
+
+// Función para almacenar datos del producto
+function datosProducto(
+  id,
+  codigo,
+  descripcion,
+  stock,
+  precio,
+  medida,
+  impuesto
+) {
+  productoSeleccionado = {
+    id: id,
+    codigo: codigo,
+    descripcion: descripcion,
+    stock: stock,
+    precio: precio,
+    medida: medida,
+    impuesto: impuesto,
+  };
+}
+
+// Función para cerrar el modal y llamar a agregarAlCarrito con la cantidad
+function closeCantidadModal() {
+  const cantidad = document.getElementById("IntCantidad").value;
+  agregarAlCarrito(
+    productoSeleccionado.id,
+    productoSeleccionado.codigo,
+    productoSeleccionado.descripcion,
+    productoSeleccionado.stock,
+    productoSeleccionado.precio,
+    productoSeleccionado.medida,
+    productoSeleccionado.impuesto,
+    cantidad
+  );
+  // Restablecer la variable global después de usarla
+  productoSeleccionado = null;
+
+  const closeModal = document.getElementById("closeModalCantidad");
+  const cantidadIpunt = document.getElementById("IntCantidad");
+  cantidadIpunt.value = "";
+  closeModal.click();
+}

@@ -5,6 +5,7 @@ function abrir_modal_add(url) {
   $("#addModal").load(url, function () {
     $(this).modal("show");
     inicializarModal("myFormAdd");
+    cargarDatos();
   });
 }
 
@@ -98,4 +99,45 @@ function inicializarModal(formId) {
 
   // Calcular el margen al inicializar el formulario
   calcularYActualizarMargen();
+}
+
+//--------------Carga Datos de Productos-------------
+
+function cargarDatos() {
+  const codigoProductoInput = document.getElementById("id_codigo_producto");
+  const form = document.getElementById("myFormAdd");
+
+  codigoProductoInput.addEventListener("change", function () {
+    const codigoProducto = codigoProductoInput.value;
+
+    // Realiza una solicitud para cargar el archivo JSON
+    fetch("/static/js/productos.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const productoEncontrado = data.find(
+          (producto) => producto.codigo_producto === codigoProducto
+        );
+
+        if (productoEncontrado) {
+          form.descripcion_producto.value =
+            productoEncontrado.descripcion_producto;
+          form.categoria_FK.value = productoEncontrado.categoria_FK;
+          form.precio_bruto_producto.value =
+            productoEncontrado.precio_bruto_producto;
+          form.precio_venta.value = productoEncontrado.precio_venta;
+          form.margen_ganancia.value = (
+            ((productoEncontrado.precio_venta -
+              productoEncontrado.precio_bruto_producto) /
+              productoEncontrado.precio_bruto_producto) *
+            100
+          ).toFixed(2);
+          form.stock.value = productoEncontrado.stock;
+          form.tipo_medida.value = productoEncontrado.tipo_medida;
+          form.tipo_impuesto.value = productoEncontrado.tipo_impuesto;
+        }
+      })
+      .catch((error) =>
+        console.error("Error al cargar el archivo JSON:", error)
+      );
+  });
 }

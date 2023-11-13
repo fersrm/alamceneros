@@ -18,10 +18,10 @@ class BaseClienteForm(forms.ModelForm):
         label="Email", widget=forms.EmailInput(attrs={"class": "form-control"})
     )
     telefono_cliente = forms.CharField(
-        label="Telefono", widget=forms.TextInput(attrs={"class": "form-control"})
+        label="Teléfono", widget=forms.TextInput(attrs={"class": "form-control"})
     )
     direccion = forms.CharField(
-        label="Direccion", widget=forms.TextInput(attrs={"class": "form-control"})
+        label="Dirección", widget=forms.TextInput(attrs={"class": "form-control"})
     )
 
     class Meta:

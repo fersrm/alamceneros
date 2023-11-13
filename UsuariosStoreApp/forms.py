@@ -17,7 +17,7 @@ class BaseUsuarioForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"class": "form-control"}),
     )
     telefono_user = forms.CharField(
-        label="Telefono", widget=forms.TextInput(attrs={"class": "form-control"})
+        label="Teléfono", widget=forms.TextInput(attrs={"class": "form-control"})
     )
     email = forms.CharField(
         label="Email", widget=forms.EmailInput(attrs={"class": "form-control"})

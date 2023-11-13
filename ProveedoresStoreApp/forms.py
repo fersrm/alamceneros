@@ -10,16 +10,16 @@ class BaseProveedorForm(forms.ModelForm):
         label="Nombre Empresa", widget=forms.TextInput(attrs={"class": "form-control"})
     )
     razon_social = forms.CharField(
-        label="Razaon social", widget=forms.TextInput(attrs={"class": "form-control"})
+        label="Razón social", widget=forms.TextInput(attrs={"class": "form-control"})
     )
     correo_proveedor = forms.CharField(
         label="Email", widget=forms.EmailInput(attrs={"class": "form-control"})
     )
     telefono_proveedor = forms.CharField(
-        label="Telefono", widget=forms.TextInput(attrs={"class": "form-control"})
+        label="Teléfono", widget=forms.TextInput(attrs={"class": "form-control"})
     )
     direccion = forms.CharField(
-        label="Direccion", widget=forms.TextInput(attrs={"class": "form-control"})
+        label="Dirección", widget=forms.TextInput(attrs={"class": "form-control"})
     )
     contacto = forms.CharField(
         label="Contacto", widget=forms.TextInput(attrs={"class": "form-control"})
@@ -32,7 +32,7 @@ class BaseProveedorForm(forms.ModelForm):
     )
 
     rubro_FK = forms.ModelChoiceField(
-        label="Categoria",
+        label="Categoría",
         queryset=Rubro.objects.all(),
         widget=forms.Select(attrs={"class": "form-select"}),
     )

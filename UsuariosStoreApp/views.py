@@ -43,7 +43,7 @@ class UsuarioListView(ListView):
         queryset = queryset.order_by("-id")
 
         if not queryset and busqueda:
-            messages.error(self.request, f"No Existe {busqueda}")
+            messages.error(self.request, f"No existe {busqueda}")
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -95,7 +95,7 @@ class EditarUsuarioView(UpdateView):
 
         form.clean()
         form.save()
-        messages.success(self.request, "Usuario Editado correctamente")
+        messages.success(self.request, "Usuario editado correctamente")
         return super().form_valid(form)
 
     def form_invalid(self, form):

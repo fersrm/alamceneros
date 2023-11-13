@@ -12,7 +12,7 @@ function confirmAndDeleteEntity(entityType, id, nombre) {
     icon: "question",
     showCancelButton: true,
     cancelButtonText: "No, Cancelar",
-    confirmButtonText: "Si, Eliminar",
+    confirmButtonText: "Sí, Eliminar",
     confirmButtonColor: "#dc3545",
   }).then(function (result) {
     if (result.isConfirmed) {

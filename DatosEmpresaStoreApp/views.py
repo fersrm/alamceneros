@@ -25,8 +25,7 @@ def editar_datos_empresa(request):
             )
             if form_empresa.is_valid():
                 form_empresa.save()
-                messages.success(
-                    request, "Datos del local actualizados Correctamente")
+                messages.success(request, "Datos del local actualizados correctamente")
                 return redirect("Setting")
 
         elif "submit_form_categoria" in request.POST:
@@ -34,7 +33,7 @@ def editar_datos_empresa(request):
 
             if form_categoria.is_valid():
                 form_categoria.save()
-                messages.success(request, "Categoria Añadida Corestamente")
+                messages.success(request, "Categoría añadida correctamente")
                 return redirect("Setting")
 
     return render(

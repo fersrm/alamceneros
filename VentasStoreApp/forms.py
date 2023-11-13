@@ -6,7 +6,11 @@ from .models import Ventas
 
 class VentasForm(forms.ModelForm):
     carrito = forms.CharField(
-        label="Carrito", widget=forms.TextInput(attrs={"class": "visually-hidden", "id": "carrito-input"}), required=False,
+        label="Carrito",
+        widget=forms.TextInput(
+            attrs={"class": "visually-hidden", "id": "carrito-input"}
+        ),
+        required=False,
     )
 
     class Meta:

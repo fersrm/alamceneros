@@ -39,7 +39,7 @@ class BaseProductoForm(forms.ModelForm):
 
 class ProductoEditarForm(BaseProductoForm):
     descripcion_producto = forms.CharField(
-        label="Descripcion", widget=forms.TextInput(attrs={"class": "form-control"})
+        label="Descripción", widget=forms.TextInput(attrs={"class": "form-control"})
     )
 
     imagen = forms.ImageField(
@@ -64,7 +64,7 @@ class ProductoEditarForm(BaseProductoForm):
         widget=forms.Select(attrs={"class": "form-select"}),
     )
     categoria_FK = forms.ModelChoiceField(
-        label="Categoria",
+        label="Categoría",
         queryset=Categoria.objects.all(),
         widget=forms.Select(attrs={"class": "form-select"}),
     )
@@ -83,8 +83,10 @@ class ProductoEditarForm(BaseProductoForm):
 
 class ProductoAgregarForm(ProductoEditarForm):
     codigo_producto = forms.CharField(
-        label="Codigo",
-        widget=forms.TextInput(attrs={"class": "form-control", "autofocus": True}),
+        label="Código",
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "id": "id_codigo_producto"}
+        ),
     )
 
     class Meta:
@@ -141,7 +143,7 @@ class PlusProductoForm(BaseProductoForm):
 
 class CategoriaAgregarForm(forms.ModelForm):
     nombre_categoria = forms.CharField(
-        label="Nueva Categoria", widget=forms.TextInput(attrs={"class": "form-control"})
+        label="Nueva Categoría", widget=forms.TextInput(attrs={"class": "form-control"})
     )
 
     class Meta:

@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from decimal import Decimal
 
 # Modelos y formularios
 from .models import Boletas, Ventas, DetalleBoletas
@@ -70,10 +71,9 @@ class PagosListView(CreateView, ListView):
         venta.save()
 
         # Obtener Carrito ------------------------------
-        carrito = form.cleaned_data['carrito']
+        carrito = form.cleaned_data["carrito"]
 
         carrito = carrito_json(carrito)
-        print(carrito)
         # --------------------------------------------
 
         total_boleta = calcular_total_ventas(carrito)
@@ -83,26 +83,34 @@ class PagosListView(CreateView, ListView):
         boleta.save()
 
         for item in carrito:
-            producto = get_object_or_404(Producto, id_producto=item['id'])
-            cantidad = item['cantidad']
-            precio = item['precio']
+            producto = get_object_or_404(Producto, id_producto=item["id"])
+            cantidad = item["cantidad"]
+            precio = item["precio"]
+            medida = item["medida"]
 
-            total = cantidad * precio
+            if medida == 1:
+                total = cantidad * precio
+            else:
+                cantidad_kilos = cantidad / 1000
+                costo_total = cantidad_kilos * precio
+                costo_total = round(costo_total)
+                total = costo_total
 
             detalle_boleta = DetalleBoletas(
-                cantidad=cantidad,
-                total=total,
-                producto_FK=producto,
-                boleta_FK=boleta
+                cantidad=cantidad, total=total, producto_FK=producto, boleta_FK=boleta
             )
             detalle_boleta.save()
 
-            producto.stock -= cantidad
+            if medida == 1:
+                producto.stock -= Decimal(cantidad)
+            else:
+                cantidad = Decimal(cantidad) / Decimal(1000)
+                producto.stock -= cantidad
+
             producto.save()
 
-        success_message = "Venta Generada con Existo"
-        messages.success(self.request, success_message,
-                         extra_tags="success-venta")
+        success_message = "Venta Generada con Éxito"
+        messages.success(self.request, success_message, extra_tags="success-venta")
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -119,14 +127,21 @@ class PagosListView(CreateView, ListView):
         busqueda = self.request.GET.get("buscar")
         queryset = Producto.objects.filter(codigo_producto__exact=busqueda)
         if not queryset and busqueda:
-            messages.error(self.request, f"No Existe {busqueda}")
+            messages.error(self.request, f"No existe {busqueda}")
         return queryset
 
 
 def calcular_total_ventas(carrito):
     total = 0
     for item in carrito:
-        total += item['cantidad'] * item['precio']
+        if item["medida"] == 1:
+            total += item["cantidad"] * item["precio"]
+        else:
+            cantidad_kilos = item["cantidad"] / 1000
+            costo_total = cantidad_kilos * item["precio"]
+            costo_total = round(costo_total)
+            total = costo_total
+
     return total
 
 
@@ -134,14 +149,12 @@ def carrito_json(carrito_str):
     import json
 
     try:
-
         carrito_list = json.loads(carrito_str)
 
         if isinstance(carrito_list, list):
             print(carrito_list)
             return carrito_list
         else:
-
             return []
     except json.JSONDecodeError:
         return []

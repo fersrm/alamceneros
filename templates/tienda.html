@@ -18,12 +18,12 @@
     <thead>
       <tr>
         <th>Imagen</th>
-        <th>Codigo</th>
-        <th>Descripcion</th>
-        <th>Categoria</th>
-        <th>Medida</th>
+        <th>Código</th>
+        <th>Descripción</th>
+        <th>Categoría</th>
         <th>Precio</th>
         <th>Stock</th>
+        <th>Medida</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -43,17 +43,17 @@
         <td class="alignCenter">{{producto.descripcion_producto}}</td>
         <td class="alignCenter">{{producto.categoria_FK}}</td>
 
-        <td class="alignCenter">
-          {% if producto.tipo_medida == 1 %} Unidad
-          <span> {% elif producto.tipo_medida == 2 %} Kilo </span>
-          {% else %} Litro {%endif%}
-        </td>
         <!-- Como un if  si margen es mayor 0 realice el calculo -->
         <!-- lo va a buscar a datos de empresa seria un margen general -->
         <!-- agregar un tercer formulario en setting -->
         <td class="alignCenter">${{producto.precio_venta}}</td>
         <!-- Replicar if en todos los apartados de  precio venta -->
         <td class="alignCenter">{{producto.stock}}</td>
+        <td class="alignCenter">
+          {% if producto.tipo_medida == 1 %} Unidad
+          <span> {% elif producto.tipo_medida == 2 %} Kilo </span>
+          {% else %} Litro {%endif%}
+        </td>
         <td class="alignCenterBtn">
           <div class="d-flex gap-2">
             <button
@@ -69,12 +69,29 @@
               <i class="bi bi-trash3"></i>
             </button>
 
+            {% if producto.tipo_medida == 1 %}
+
             <button
               class="btn btn-outline-warning d-flex"
-              onclick="agregarAlCarrito({{ producto.id_producto }},'{{ producto.codigo_producto }}','{{ producto.descripcion_producto }}',{{ producto.stock }},{{ producto.precio_venta }},{{ producto.tipo_medida }},{{ producto.tipo_impuesto }})"
+              onclick="agregarAlCarrito({{ producto.id_producto }},'{{ producto.codigo_producto }}','{{ producto.descripcion_producto }}','{{ producto.stock }}',{{ producto.precio_venta }},{{ producto.tipo_medida }},{{ producto.tipo_impuesto }})"
             >
               <i class="bi bi-cart-plus"></i>
             </button>
+
+            {% else %}
+
+            <button
+              type="button"
+              class="btn btn-outline-warning d-flex"
+              data-bs-toggle="modal"
+              data-bs-target="#cantidadModal"
+              onclick="datosProducto({{ producto.id_producto }},'{{ producto.codigo_producto }}','{{ producto.descripcion_producto }}','{{ producto.stock }}',{{ producto.precio_venta }},{{ producto.tipo_medida }},{{ producto.tipo_impuesto }})"
+            >
+              <i class="bi bi-cart-plus"></i>
+            </button>
+
+            {%endif%}
+
             <button
               class="btn btn-outline-light d-flex"
               onclick="abrir_modal_plus('{% url 'añadir_producto' producto.id_producto %}')"
@@ -96,6 +113,10 @@
 <strong>NO HAY REGISTROS</strong>
 {% endif %}
 <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true"></div>
+
+<!-- Modal -->
+{% include 'include/modalCantidad.html' %}
+<!-- -- - -->
 
 {%endblock %} {% block script %}
 

@@ -89,7 +89,7 @@ class EditarCLientesView(UpdateView):
     def form_valid(self, form):
         form.clean()
         form.save()
-        messages.success(self.request, "Cliente Editado correctamente")
+        messages.success(self.request, "Cliente editado correctamente")
         return super().form_valid(form)
 
     def form_invalid(self, form):

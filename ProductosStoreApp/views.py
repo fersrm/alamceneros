@@ -92,7 +92,7 @@ class EditarProductoView(UpdateView):
     def form_valid(self, form):
         form.clean()
         form.save()
-        messages.success(self.request, "Producto Editado correctamente")
+        messages.success(self.request, "Producto editado correctamente")
         return super().form_valid(form)
 
     def form_invalid(self, form):

@@ -19,8 +19,7 @@ class Cargo(models.Model):
 
 class Usuario(AbstractUser):
     telefono_user = models.CharField(max_length=15, default="123456789")
-    cargo_FK = models.ForeignKey(
-        Cargo, on_delete=models.CASCADE, null=True, blank=True)
+    cargo_FK = models.ForeignKey(Cargo, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         db_table = "usuario"
@@ -28,8 +27,10 @@ class Usuario(AbstractUser):
 
 @receiver(post_migrate)
 def create_default_roles(sender, **kwargs):
-    if sender.name == 'UsuariosStoreApp':
+    if sender.name == "UsuariosStoreApp":
         Cargo.objects.get_or_create(
-            id_cargo=1, defaults={'cargo_usuario': 'Administrador'})
+            id_cargo=1, defaults={"cargo_usuario": "Administrador"}
+        )
         Cargo.objects.get_or_create(
-            id_cargo=2, defaults={'cargo_usuario': 'Jefe de Ventas'})
+            id_cargo=2, defaults={"cargo_usuario": "Jefe de Ventas"}
+        )

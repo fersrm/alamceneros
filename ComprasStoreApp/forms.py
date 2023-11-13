@@ -7,7 +7,7 @@ from .choices import tipoImpuesto, tipoDoc
 
 class BaseComprasForm(forms.ModelForm):
     num_documento = forms.CharField(
-        label="Numero de Documento",
+        label="Número de Documento",
         widget=forms.TextInput(attrs={"class": "form-control", "id": "num_documento"}),
     )
     fecha = forms.DateField(
