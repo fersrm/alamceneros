@@ -4,12 +4,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // Recuperar la lista de datos de productos del localStorage
   const productList = JSON.parse(localStorage.getItem("productoDataList"));
 
+  // Obtener la referencia a la tabla donde se mostrarán los productos
+  const tableBody = document.querySelector("table tbody");
+
   if (productList) {
     const productListTabla = productList.filter(
       (producto) => producto.cantidad > 0
     );
-    // Obtener la referencia a la tabla donde se mostrarán los productos
-    const tableBody = document.querySelector("table tbody");
 
     // Recorrer la lista de productos y crear una fila en la tabla para cada uno
     productListTabla.forEach(function (product) {
@@ -24,7 +25,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       tableBody.appendChild(row);
     });
-  }
+  }else {
+     
+    let filaVacio = `<tr><td colspan="5">NO HAY PRODUCTOS INGRESADOS</td></tr>`;
+    tableBody.innerHTML = filaVacio;
+  };
 
   ////////////////////////////////////////////////////////////////////
   ///////////// CALCULA SUBTOTAL Y TOTAL DE LO QUE TIENE LA TABLA ////
@@ -136,18 +141,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
   mainButton.addEventListener("click", function (event) {
     const dataListProduc = localStorage.getItem("productoDataList");
-    const dataStore = localStorage.getItem("storedData");
+    //const dataStore = localStorage.getItem("storedData");
 
-    if (dataListProduc !== null && dataStore !== null) {
-      document.getElementById("formDatosCompra").submit();
-    } else {
+    if (dataListProduc === null) {
       Swal.fire({
-        text: "Debe cargar los Productos",
+        title: "¿Estás seguro de cargar la compra?",
+        text: "Su lista de productos esta vacia",
         icon: "warning",
-        showConfirmButton: false,
-        timer: 2000,
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Enviar"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById("formDatosCompra").submit();
+        }
       });
+     
     }
+
   });
 
   //////////////////////////////

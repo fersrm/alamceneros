@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Contenedor de botones
         let containerBtn = document.createElement("div");
-        containerBtn.classList.add("d-flex", "gap-2", "btn-carrito");
+        containerBtn.classList.add("d-flex", "gap-2");
 
         // Botón para eliminar producto
         let botonEliminar = document.createElement("button");

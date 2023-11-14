@@ -31,7 +31,8 @@
               <td>
                 <img
                   class="img-fluid mx-auto d-block"
-                  src="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'img/producto.jpg' %}{% endif %}"
+                  src="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'img/producto.png' %}{% endif %}"
+                  style="max-height: 75px"
                   alt="{{producto.nombre_producto}}"
                 />
               </td>
@@ -46,7 +47,7 @@
               </td>
 
               <td class="alignCenter">${{producto.precio_venta}}</td>
-              <td class="alignCenter">{{producto.stock}}</td>
+              <td class="alignCenter">{{ producto.stock|floatformat:0 }}</td>
 
               <td class="alignCenterBtn">
                 <div class="d-flex gap-2">

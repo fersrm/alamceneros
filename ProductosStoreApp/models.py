@@ -1,11 +1,13 @@
 from django.db import models
 from .choices import tipoMedida, tipoImpuesto
+from django.db import connection
+from django_tenants.utils import get_public_schema_name
+from UsuariosStoreApp.models import Usuario
 
 # son para borrar imagen al actualizar
 import os
 from django.dispatch import receiver
-from django.db.models.signals import pre_save
-from UsuariosStoreApp.models import Usuario
+from django.db.models.signals import pre_save, post_migrate
 
 # Create your models here.
 
@@ -65,3 +67,22 @@ class Producto(models.Model):
 @receiver(pre_save, sender=Producto)
 def borrar_imagen_anterior(sender, instance, **kwargs):
     instance.borrar_imagen_anterior()
+
+
+@receiver(post_migrate)
+def create_default_categorias(sender, **kwargs):
+    tenant = connection.tenant
+    if tenant and tenant.schema_name != get_public_schema_name():
+        if sender.name == "ProductosStoreApp":
+            Categoria.objects.get_or_create(
+                id_categoria=1, defaults={"nombre_categoria": "VIVERES"}
+            )
+            Categoria.objects.get_or_create(
+                id_categoria=2, defaults={"nombre_categoria": "BEBIDAS"}
+            )
+            Categoria.objects.get_or_create(
+                id_categoria=3, defaults={"nombre_categoria": "CONDIMENTOS"}
+            )
+            Categoria.objects.get_or_create(
+                id_categoria=4, defaults={"nombre_categoria": "VEGETALES"}
+            )
