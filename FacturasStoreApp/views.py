@@ -138,7 +138,6 @@ def carrito_json(carrito_str):
         carrito_list = json.loads(carrito_str)
 
         if isinstance(carrito_list, list):
-            print(carrito_list)
             return carrito_list
         else:
             return []
