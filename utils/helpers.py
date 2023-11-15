@@ -114,9 +114,9 @@ def total_ventas(boleta, compras, periodo="semana", factura=None):
 
             total_venta = total_boletas + total_factura
 
-            ventas_totales[date.strftime("%Y-%m-%d")] = total_venta
+            ventas_totales[date.strftime("%d-%m-%Y")] = total_venta
         else:
-            ventas_totales[date.strftime("%Y-%m-%d")] = total_boletas
+            ventas_totales[date.strftime("%d-%m-%Y")] = total_boletas
 
         objects_compras = compras.objects.filter(query_compras).distinct()
         total_compras = objects_compras.aggregate(total=Sum("total"))["total"] or 0
@@ -286,10 +286,10 @@ def buscar_fecha_rango(boleta, fecha1, fecha2, factura=None):
             total_venta = total_boletas + total_factura
 
             if total_venta != 0:
-                ventas_totales[date.strftime("%Y-%m-%d")] = total_venta
+                ventas_totales[date.strftime("%d-%m-%Y")] = total_venta
 
         else:
             if total_boletas != 0:
-                ventas_totales[date.strftime("%Y-%m-%d")] = total_boletas
+                ventas_totales[date.strftime("%d-%m-%Y")] = total_boletas
 
     return ventas_totales

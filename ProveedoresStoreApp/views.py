@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.utils.decorators import method_decorator
+from utils.custom_middleware import cargo_check
 from django.contrib import messages
 from django.shortcuts import redirect
 
@@ -24,6 +25,7 @@ from utils.helpers import buscar_campos
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class ProveedorListView(ListView):
     model = Proveedor
     template_name = "proveedor.html"
@@ -51,6 +53,7 @@ class ProveedorListView(ListView):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class AgregarProveedorView(CreateView):
     model = Proveedor
     form_class = ProveedorAgregarForm
@@ -76,6 +79,7 @@ class AgregarProveedorView(CreateView):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class EditarProveedorView(UpdateView):
     model = Proveedor
     form_class = ProveedorEditarForm
@@ -102,6 +106,7 @@ class EditarProveedorView(UpdateView):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class EliminarProveedorView(DeleteView):
     model = Proveedor
     success_url = reverse_lazy("Proveedores")

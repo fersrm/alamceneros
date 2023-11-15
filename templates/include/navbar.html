@@ -22,6 +22,7 @@
       class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto min-vh-100"
     >
       <ul class="nav flex-column">
+
         <li class="nav-item">
           <a
             class="nav-link d-flex align-items-center gap-2 {% if request.path == '/' %}active{% endif %}"
@@ -32,6 +33,7 @@
             Inicio
           </a>
         </li>
+
         <li class="nav-item">
           <a
             class="nav-link d-flex align-items-center gap-2 {% if request.path == '/tienda/' %}active{% endif %}"
@@ -41,6 +43,8 @@
             Productos
           </a>
         </li>
+
+        {% if request.user.cargo_FK.id_cargo != 3 %}
         <li class="nav-item">
           <a
             class="nav-link d-flex align-items-center gap-2 {% if request.path == '/usuarios/' %}active{% endif %}"
@@ -50,6 +54,9 @@
             Usuarios
           </a>
         </li>
+        {% endif %}
+
+        {% if request.user.cargo_FK.id_cargo != 3 %}
         <li class="nav-item">
           <a
             class="nav-link d-flex align-items-center gap-2 {% if request.path == '/proveedores/' %}active{% endif %}"
@@ -69,6 +76,9 @@
             Proveedores
           </a>
         </li>
+        {% endif %}
+
+        {% if request.user.cargo_FK.id_cargo != 3 %}
         <li class="nav-item">
           <a
             class="nav-link d-flex align-items-center gap-2 {% if request.path == '/compras/' %}active{% endif %}"
@@ -88,6 +98,8 @@
             Compras
           </a>
         </li>
+        {% endif %}
+
         {% if 'ClientesStoreApp' in request.enabled_apps %}
         <li class="nav-item">
           <a
@@ -112,6 +124,7 @@
           </a>
         </li>
         {% endif %}
+
         <li class="nav-item">
           <a
             class="nav-link d-flex align-items-center gap-2 {% if request.path == '/ventas/' %}active{% endif %}"
@@ -123,6 +136,7 @@
             Boletas
           </a>
         </li>
+
         {% if 'FacturasStoreApp' in request.enabled_apps %}
         <li class="nav-item">
           <a
@@ -137,6 +151,7 @@
           </a>
         </li>
         {% endif %}
+
       </ul>
 
       <h6
@@ -144,6 +159,8 @@
       >
         <span>Reportes</span>
       </h6>
+
+      {% if request.user.cargo_FK.id_cargo != 3 %}
       <ul class="nav flex-column mb-auto">
         <li class="nav-item">
           <a
@@ -157,8 +174,11 @@
           </a>
         </li>
       </ul>
+      {% endif %}
+
       <hr class="my-3" />
       <ul class="nav flex-column mb-auto">
+
         <li class="nav-item">
           <a
             class="nav-link d-flex align-items-center gap-2 {% if request.path == '/perfil/' %}active{% endif %}"
@@ -181,6 +201,8 @@
             Perfil
           </a>
         </li>
+
+        {% if request.user.cargo_FK.id_cargo != 3 %}
         <li class="nav-item">
           <a
             class="nav-link d-flex align-items-center gap-2 {% if request.path == '/setting/' %}active{% endif %}"
@@ -192,6 +214,8 @@
             Configuraciones
           </a>
         </li>
+        {% endif %}
+
         <li class="nav-item">
           <a
             class="nav-link d-flex align-items-center gap-2"
@@ -201,6 +225,7 @@
             Cerrar Sesión
           </a>
         </li>
+
       </ul>
     </div>
   </div>

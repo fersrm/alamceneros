@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.utils.decorators import method_decorator
+from utils.custom_middleware import cargo_check
 from django.contrib import messages
 from django.shortcuts import redirect
 
@@ -24,6 +25,7 @@ from utils.helpers import buscar_campos
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class UsuarioListView(ListView):
     model = Usuario
     template_name = "usuarios.html"
@@ -58,6 +60,7 @@ class UsuarioListView(ListView):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class AgregarUsuarioView(CreateView):
     model = Usuario
     form_class = UsuarioAgregarForm
@@ -83,6 +86,7 @@ class AgregarUsuarioView(CreateView):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class EditarUsuarioView(UpdateView):
     model = Usuario
     form_class = UsuarioEditarForm
@@ -113,6 +117,7 @@ class EditarUsuarioView(UpdateView):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class EliminarUsuarioView(DeleteView):
     model = Usuario
     success_url = reverse_lazy("Usuarios")
@@ -126,6 +131,3 @@ class EliminarUsuarioView(DeleteView):
         messages.success(self.request, "Usuario eliminado correctamente")
         self.object.delete()
         return redirect(self.get_success_url())
-
-
-#

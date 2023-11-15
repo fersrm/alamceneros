@@ -2,6 +2,7 @@
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from utils.custom_middleware import cargo_check
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from decimal import Decimal
@@ -149,6 +150,7 @@ def carrito_json(carrito_str):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class BoletaListView(ListView):
     model = Facturas
     template_name = "informeFactura.html"

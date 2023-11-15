@@ -35,3 +35,14 @@ class TenantAccessMiddleware:
         request.enabled_apps = enabled_apps
         response = self.get_response(request)
         return response
+
+
+def cargo_check(function):
+    def wrap(request, *args, **kwargs):
+        if request.tenant.schema_name != get_public_schema_name():
+            if request.user.is_authenticated and request.user.cargo_FK.id_cargo == 3:
+                return redirect("Home")
+
+        return function(request, *args, **kwargs)
+
+    return wrap

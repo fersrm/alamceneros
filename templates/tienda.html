@@ -4,6 +4,9 @@
 
 <h1 class="h2">Productos</h1>
 {% include 'include/buscador.html' %}
+
+{% if request.user.cargo_FK.id_cargo != 3 %}
+
 <div class="btn-toolbar mb-2 mb-md-0">
   <button
     type="button"
@@ -13,6 +16,8 @@
     Agregar
   </button>
 </div>
+
+{% endif %}
 
 {% endblock %} 
 
@@ -66,10 +71,13 @@
         <td class="alignCenter">
           {% if producto.tipo_medida == 1 %} Unidad
           {% elif producto.tipo_medida == 2 %} Kilo 
-          {% else %} Litro {%endif%}
+          {% else %} Litro {% endif %}
         </td>
         <td class="alignCenterBtn">
           <div class="d-flex gap-2">
+
+            {% if request.user.cargo_FK.id_cargo != 3 %}
+
             <button
               class="btn btn-outline-success d-flex"
               onclick="abrir_modal_edit('{% url 'editar_producto' producto.id_producto %}')"
@@ -82,6 +90,8 @@
             >
               <i class="bi bi-trash3"></i>
             </button>
+           
+            {% endif %}
 
             {% if producto.tipo_medida == 1 %}
 
@@ -106,12 +116,17 @@
 
             {%endif%}
 
+            {% if request.user.cargo_FK.id_cargo != 3 %}
+
             <button
               class="btn btn-outline-light d-flex"
               onclick="abrir_modal_plus('{% url 'añadir_producto' producto.id_producto %}')"
             >
               <i class="bi bi-plus-square"></i>
             </button>
+            
+            {% endif %}
+
           </div>
         </td>
       </tr>

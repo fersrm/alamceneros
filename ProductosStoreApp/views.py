@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.utils.decorators import method_decorator
+from utils.custom_middleware import cargo_check
 from django.contrib import messages
 from django.shortcuts import redirect, render
 
@@ -54,6 +55,7 @@ class ProductoListView(ListView):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class AgregarProductoView(CreateView):
     model = Producto
     form_class = ProductoAgregarForm
@@ -84,6 +86,7 @@ class AgregarProductoView(CreateView):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class EditarProductoView(UpdateView):
     model = Producto
     form_class = ProductoEditarForm
@@ -110,6 +113,7 @@ class EditarProductoView(UpdateView):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class EliminarProductoView(DeleteView):
     model = Producto
     success_url = reverse_lazy("Tienda")
@@ -125,6 +129,7 @@ class EliminarProductoView(DeleteView):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class PlusProductoView(UpdateView):
     model = Producto
     form_class = PlusProductoForm

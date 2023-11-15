@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
+from utils.custom_middleware import cargo_check
 
 # Modelos y formularios
 from .forms import DatosEmpresaEditarContactoForm
@@ -13,6 +14,7 @@ from ProductosStoreApp.forms import CategoriaAgregarForm
 
 
 @login_required(login_url="/login/")
+@cargo_check
 def editar_datos_empresa(request):
     empresa = get_object_or_404(DatosEmpresa, pk=1)
     form_empresa = DatosEmpresaEditarContactoForm(instance=empresa)

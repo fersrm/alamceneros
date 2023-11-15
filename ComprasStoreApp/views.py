@@ -2,6 +2,7 @@
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from utils.custom_middleware import cargo_check
 from django.contrib import messages
 
 # Modelos y formularios
@@ -21,6 +22,7 @@ from django.urls import reverse_lazy
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class AgregarCompraView(CreateView, ListView):
     model = Compras
     form_class = ComprasAgregarForm
@@ -52,6 +54,7 @@ class AgregarCompraView(CreateView, ListView):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class CompraProductoView(UpdateView):
     model = Producto
     form_class = PlusProductoForm

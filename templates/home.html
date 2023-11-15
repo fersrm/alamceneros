@@ -28,9 +28,12 @@
 
 {% block content %}
 
+{% if request.user.cargo_FK.id_cargo != 3 %}
+
 <div class="d-grid grid-card gap-2">
 
-{% if 'FacturasStoreApp' in request.enabled_apps %}
+  {% if 'FacturasStoreApp' in request.enabled_apps %}
+
   <div class="card border-secondary mb-3">
     <div class="card-header">Facturas</div>
     <div class="card-body text-secondary">
@@ -47,7 +50,8 @@
       <a class="btn btn-primary" href="{% url 'Informe_facturas' %}">Ver informe</a>
     </div>
   </div>
-{% endif %}
+
+  {% endif %}
 
 
   <div class="card border-secondary mb-3">
@@ -87,6 +91,8 @@
 </div>
 
 <canvas class="my-4 w-100" id="myChart" width="900" height="280"></canvas>
+
+{% endif %}
 
 <h2>Top productos más vendidos</h2>
 <div class="table-responsive small mt-3">

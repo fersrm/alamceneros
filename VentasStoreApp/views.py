@@ -2,6 +2,7 @@
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from utils.custom_middleware import cargo_check
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from decimal import Decimal
@@ -24,6 +25,7 @@ from FacturasStoreApp.models import Facturas
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class InformesListView(ListView):
     model = Boletas
     template_name = "Informes.html"
@@ -47,6 +49,7 @@ class InformesListView(ListView):
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(cargo_check, name="dispatch")
 class BoletaListView(ListView):
     model = Boletas
     template_name = "informeBoleta.html"
