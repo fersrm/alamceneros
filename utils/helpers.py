@@ -1,6 +1,6 @@
 from django.utils import timezone
 from django.db.models import Q, Sum
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 
 def buscar_campos(model, campos, busqueda):
@@ -215,10 +215,6 @@ def top_productos(
     return top_mas_vendidos, top_menos_vendidos
 
 
-def buscar_fecha_rango(modal, fecha1, fecha2, periodo):
-    pass
-
-
 def agrupar_busqueda(data):
     from collections import defaultdict
 
@@ -243,3 +239,57 @@ def agrupar_busqueda(data):
 
     result = list(combined_data.values())
     return result
+
+
+def buscar_fecha_rango(boleta, fecha1, fecha2, factura=None):
+    ventas_totales = {}
+
+    if fecha1 and fecha2:
+        fecha_inicio = datetime.strptime(fecha1, "%Y-%m-%d")
+        fecha_fin = datetime.strptime(fecha2, "%Y-%m-%d")
+    else:
+        fecha_inicio = timezone.localtime(timezone.now())
+        fecha_fin = timezone.localtime(timezone.now())
+
+    # Verifica que fecha1 sea menor o igual a fecha2
+    if fecha_inicio > fecha_fin:
+        fecha_inicio = timezone.localtime(timezone.now())
+        fecha_fin = timezone.localtime(timezone.now())
+
+    date_range = [
+        fecha_fin - timedelta(days=i)
+        for i in range((fecha_fin - fecha_inicio).days + 1)
+    ]
+
+    # Calcular el total de ventas para cada día en el rango
+    for date in date_range:
+        # Filtrar Boletas por el rango de fecha del día
+        start_time = timezone.make_aware(
+            timezone.datetime(date.year, date.month, date.day, 0, 0, 0)
+        )
+        end_time = timezone.make_aware(
+            timezone.datetime(date.year, date.month, date.day, 23, 59, 59, 999999)
+        )
+        query_ventas = Q(venta_FK__fecha_emision__range=(start_time, end_time))
+
+        objects_boletas = boleta.objects.filter(query_ventas).distinct()
+        total_boletas = (
+            objects_boletas.aggregate(total=Sum("total_boleta"))["total"] or 0
+        )
+
+        if factura:
+            objects_facturas = factura.objects.filter(query_ventas).distinct()
+            total_factura = (
+                objects_facturas.aggregate(total=Sum("total_factura"))["total"] or 0
+            )
+
+            total_venta = total_boletas + total_factura
+
+            if total_venta != 0:
+                ventas_totales[date.strftime("%Y-%m-%d")] = total_venta
+
+        else:
+            if total_boletas != 0:
+                ventas_totales[date.strftime("%Y-%m-%d")] = total_boletas
+
+    return ventas_totales

@@ -18,7 +18,7 @@
   {% if object_list %}
   <table
     class="table table-striped table-hover mt-4"
-    id="tabla-boletas"
+    id="tabla-facturas"
     style="min-width: 30rem"
   >
     <thead>
@@ -47,7 +47,7 @@
     const btnPdf = document.getElementById("generate-pdf-button");
 
     btnPdf.addEventListener("click", (e) => {
-      const tabla = document.getElementById("tabla-boletas");
+      const tabla = document.getElementById("tabla-facturas");
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 

@@ -18,21 +18,29 @@ from django.urls import reverse_lazy
 from utils.helpers import buscar_fecha_rango, buscar_venta, buscar_fecha
 
 from ProductosStoreApp.models import Producto
+from FacturasStoreApp.models import Facturas
 
 # -------------------INFORMES----------
 
 
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
 class InformesListView(ListView):
-    model = Ventas
+    model = Boletas
     template_name = "Informes.html"
 
     def get_queryset(self):
-        fecha1 = self.request.GET.get("buscarFechaRango1")
-        fecha2 = self.request.GET.get("buscarFechaRango2")
-        periodo = self.request.GET.get("periodo", "mensual")
+        fecha1 = self.request.GET.get("buscarFecha1")
+        fecha2 = self.request.GET.get("buscarFecha2")
 
-        return buscar_fecha_rango(self.model, fecha1, fecha2, periodo)
+        # Validar por Typo de esquema
+        tenant_type = self.request.tenant.type
+        allowed_tenant_types = ["type2"]
+
+        if tenant_type in allowed_tenant_types:
+            queryset = buscar_fecha_rango(self.model, fecha1, fecha2, Facturas)
+        else:
+            queryset = buscar_fecha_rango(self.model, fecha1, fecha2)
+        return queryset
 
 
 # --------------INFORME PDF BOLETAS ---------------------

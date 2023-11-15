@@ -3,27 +3,68 @@
 {% block head %}
 
 <h1 class="h2">Informes</h1>
-<form method="GET" class="d-flex gap-2 align-items-center">
-  <div class="form-group">
-    <select class="form-control" name="periodoInforme">
-      <option value="diario" {% if request.GET.periodo == 'diario' %}selected{% endif %}>Diario</option>
-      <option value="semanal" {% if request.GET.periodo == 'semanal' %}selected{% endif %}>Semanal</option>
-      <option value="mesual" {% if request.GET.periodo == 'mesual' %}selected{% endif %}>Mensual</option>
-    </select>
-  </div>
-  <button type="submit" class="btn btn-primary">
-    Mostrar
-  </button>
-</form>
+
 <div class="btn-toolbar mb-2 mb-md-0">
   <span>{% include 'include/buscadorRangoFecha.html' %}</span>
 </div>
 
 {% endblock %} 
 
-{% block content %}
+{% block content %} 
 
-<!-- que sea por rango y pueda escojer si los ve por mes o por semana o diarios -->
-<div></div>
+{% if object_list %}
+
+<div class="overflow-auto" style="max-height: 70vh">
+  <table 
+    class="table table-striped table-sm mt-3" 
+    id="tabla-informe-ventas"
+    style="min-width: 20rem;"
+  >
+    <thead>    
+      <tr>
+        <th scope="col">Fecha</th>
+        <th scope="col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for fecha, total in object_list.items %}
+      <tr>
+        <td>{{ fecha }}</td>
+        <td>{{ total }}</td>
+      </tr>
+  {% endfor %}
+    </tbody>
+  </table>  
+</div>
+
+<button class="btn btn-primary mt-3" id="generate-pdf-button">Generar PDF</button>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const btnPdf = document.getElementById("generate-pdf-button");
+
+    btnPdf.addEventListener("click", (e) => {
+      const tabla = document.getElementById("tabla-informe-ventas");
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const tableTitle = "Informe de Ventas";
+
+      doc.text(tableTitle, 75, 20);
+
+      let startY = 30;
+      doc.autoTable({ html: tabla, startY });
+
+      doc.output("dataurlnewwindow");
+    });
+  });
+</script>
+
+{% else %}
+
+<strong>NO HAY REGISTROS</strong>
+
+{% endif %}
+
 
 {% endblock %}
