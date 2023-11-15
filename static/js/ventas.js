@@ -12,9 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       // Obtener la referencia a la tabla donde se mostrarán los productos
 
-      // Inicializar el precio total del carrito
-      let precioTotal = 0;
-
       // Recorre los productos en el carrito y agrega filas actualizadas a la tabla
       productCarritoTabla.forEach((producto) => {
         let fila = document.createElement("tr");

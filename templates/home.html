@@ -1,6 +1,7 @@
 {% extends "base.html" %} {% load static %}
 
 {% block script %}
+
 <script defer>
   const ventas_diarias = {{ ventas_diarias|safe }};
   const gastos_totales = {{ compras_totales|safe }};
@@ -12,6 +13,7 @@
   crossorigin="anonymous">
 </script>
 <script defer src="{% static 'js/dashboard.js' %}"></script>
+
 {% endblock %}
 
 {% block head %}
@@ -22,25 +24,32 @@
   <span>{{ mi_fecha }}</span>
 </div>
 
-{% endblock %} {% block content %}
+{% endblock %} 
+
+{% block content %}
 
 <div class="d-grid grid-card gap-2">
+
+{% if 'FacturasStoreApp' in request.enabled_apps %}
   <div class="card border-secondary mb-3">
-    <div class="card-header">Boletas</div>
+    <div class="card-header">Facturas</div>
     <div class="card-body text-secondary">
-      <h5 class="card-title">Reporte Mensual</h5>
+      <h5 class="card-title">Reporte Diario</h5>
       <p class="d-flex justify-content-between">
-        $000
+        ${{ total_factura|default:"0" }}
         <span>
           <svg class="bi">
             <use xlink:href="#file-earmark-text" />
           </svg>
-          000
+          {{ cantidad_factura }}
         </span>
       </p>
-      <a class="btn btn-primary" href="{% url 'Informes' %}">Ver informe</a>
+      <a class="btn btn-primary" href="{% url 'Informe_facturas' %}">Ver informe</a>
     </div>
   </div>
+{% endif %}
+
+
   <div class="card border-secondary mb-3">
     <div class="card-header">Boletas</div>
     <div class="card-body text-secondary">

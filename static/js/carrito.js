@@ -77,7 +77,7 @@ function agregarAlCarrito(
     willClose: () => {
       const currentUrl = window.location.href;
 
-      if (currentUrl.includes("ventas") && medida !== 1) {
+      if ((currentUrl.includes("ventas") || currentUrl.includes("facturas") )  && medida !== 1) {
         location.reload(); // Recarga la página
       }
     },

@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% load static %} {% block head %}
+{% extends "base.html" %} {% load static %} 
+
+{% block head %}
 
 <h1 class="h2">Productos</h1>
 {% include 'include/buscador.html' %}
@@ -12,7 +14,11 @@
   </button>
 </div>
 
-{% endblock %} {% block content %} {% if object_list %}
+{% endblock %} 
+
+{% block content %} 
+
+{% if object_list %}
 <div class="overflow-x-auto">
   <table class="table table-striped table-hover mt-4">
     <thead>
@@ -59,7 +65,7 @@
         </td>
         <td class="alignCenter">
           {% if producto.tipo_medida == 1 %} Unidad
-          <span> {% elif producto.tipo_medida == 2 %} Kilo </span>
+          {% elif producto.tipo_medida == 2 %} Kilo 
           {% else %} Litro {%endif%}
         </td>
         <td class="alignCenterBtn">
@@ -117,16 +123,22 @@
 {% include 'include/paginador.html' %}
 
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true"></div>
+
 {% else %}
+
 <strong>NO HAY REGISTROS</strong>
+
 {% endif %}
+
 <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true"></div>
 
 <!-- Modal -->
 {% include 'include/modalCantidad.html' %}
 <!-- -- - -->
 
-{%endblock %} {% block script %}
+{%endblock %} 
+
+{% block script %}
 
 <script defer src="{% static 'js/autoFocus.js' %}"></script>
 

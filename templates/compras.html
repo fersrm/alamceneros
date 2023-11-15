@@ -1,7 +1,12 @@
-{% extends "base.html" %} {% load static %} {% block head %}
+{% extends "base.html" %} {% load static %} 
+
+{% block head %}
+
 <h1 class="h2">Compras</h1>
 
-{% endblock %} {% block content %}
+{% endblock %} 
+
+{% block content %}
 
 <form
   action="{% url 'Compras' %}"
@@ -113,13 +118,19 @@
   aria-hidden="true"
 ></div>
 
-{% endblock %} {% block script %}
+{% endblock %} 
+
+{% block script %}
 
 <!---- TERMINAR DE REVISAR ----  -->
 <!-- comienzo de script -->
 {% if object_list %}
-<span> {% for producto in object_list %} </span>
-{% include 'include/comprasScript.html' %} {% endfor %} {% endif %}
+  {% for producto in object_list %}
+
+{% include 'include/comprasScript.html' %} 
+
+  {% endfor %} 
+{% endif %}
 
 <script defer src="{% static 'js/compras.js' %}"></script>
 

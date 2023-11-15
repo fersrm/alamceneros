@@ -4,6 +4,7 @@ from django.utils import timezone
 from VentasStoreApp.models import Boletas, DetalleBoletas
 from ComprasStoreApp.models import Compras
 from ProductosStoreApp.models import Producto
+from FacturasStoreApp.models import Facturas, DetalleFacturas
 
 # Para trabajar con clases
 from django.contrib.auth.views import LogoutView
@@ -28,15 +29,24 @@ class HomeView(TemplateView):
         periodo = self.request.GET.get("periodo", "dia")
         if periodo not in ["dia", "semana", "mes"]:
             periodo = "dia"
-        ventas_diarias, compras_totales = total_ventas(Boletas, Compras, periodo)
+
+        # Validar por Typo de esquema
+        tenant_type = self.request.tenant.type
+        allowed_tenant_types = ["type2"]
+
+        if tenant_type in allowed_tenant_types:
+            ventas_diarias, compras_totales = total_ventas(
+                Boletas, Compras, periodo, Facturas
+            )
+        else:
+            ventas_diarias, compras_totales = total_ventas(Boletas, Compras, periodo)
+
         context["ventas_diarias"] = ventas_diarias
         context["compras_totales"] = compras_totales
         context["mi_fecha"] = timezone.localtime(timezone.now()).date()
 
         # Boletas ---------------------------------
-        boletas_data = total_dia(
-            Boletas, "cantidad_boletas", "total_boleta"
-        )  # total_boleta es el nombre del campo en la BBDD
+        boletas_data = total_dia(Boletas, "cantidad_boletas", "total_boleta")
         context.update(boletas_data)
         # Top Productos Ventas ---------------------
         campos_producto = (
@@ -46,9 +56,17 @@ class HomeView(TemplateView):
             "stock",
             "precio_venta",
         )
-        top_mas_vendidos, top_menos_vendidos = top_productos(
-            Producto, DetalleBoletas, campos_producto
-        )
+        if tenant_type in allowed_tenant_types:
+            top_mas_vendidos, top_menos_vendidos = top_productos(
+                Producto, DetalleBoletas, campos_producto, DetalleFacturas
+            )
+            # Facturas ---------------------------------
+            factura_data = total_dia(Facturas, "cantidad_factura", "total_factura")
+            context.update(factura_data)
+        else:
+            top_mas_vendidos, top_menos_vendidos = top_productos(
+                Producto, DetalleBoletas, campos_producto
+            )
         context["top_mas_vendidos"] = top_mas_vendidos
         context["top_menos_vendidos"] = top_menos_vendidos
         return context

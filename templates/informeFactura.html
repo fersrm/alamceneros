@@ -2,14 +2,15 @@
 
 {% block head %}
 
-<h1 class="h2">Informe de Boletas</h1>
+<h1 class="h2">Informe de Facturas</h1>
+
 {% include 'include/buscador.html' %}
 
 <div class="btn-toolbar mb-2 mb-md-0">
   {% include 'include/buscadorFecha.html' %}
 </div>
 
-{% endblock %} 
+{% endblock %}
 
 {% block content %}
 
@@ -28,11 +29,11 @@
       </tr>
     </thead>
     <tbody>
-      {% for boleta in object_list %}
+      {% for factura in object_list %}
       <tr>
-        <td>{{ boleta.total_boleta }}</td>
-        <td>{{ boleta.venta_FK.usuario_FK }}</td>
-        <td>{{ boleta.venta_FK.fecha_emision.date }}</td>
+        <td>{{ factura.total_factura }}</td>
+        <td>{{ factura.venta_FK.usuario_FK }}</td>
+        <td>{{ factura.venta_FK.fecha_emision.date }}</td>
       </tr>
       {% endfor %}
     </tbody>
@@ -50,7 +51,7 @@
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 
-      const tableTitle = "Informe de Boletas";
+      const tableTitle = "Informe de Facturas";
 
       doc.text(tableTitle, 75, 20);
 

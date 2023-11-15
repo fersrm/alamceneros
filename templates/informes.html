@@ -1,4 +1,7 @@
-{% extends "base.html" %} {% block head %}
+{% extends "base.html" %} 
+
+{% block head %}
+
 <h1 class="h2">Informes</h1>
 <form method="GET" class="d-flex gap-2 align-items-center">
   <div class="form-group">
@@ -15,7 +18,12 @@
 <div class="btn-toolbar mb-2 mb-md-0">
   <span>{% include 'include/buscadorRangoFecha.html' %}</span>
 </div>
-{% endblock %} {% block content %}
+
+{% endblock %} 
+
+{% block content %}
+
 <!-- que sea por rango y pueda escojer si los ve por mes o por semana o diarios -->
 <div></div>
+
 {% endblock %}

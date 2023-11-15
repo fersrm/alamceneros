@@ -1,10 +1,14 @@
-{% extends "base.html" %} {% load static %}{% block head %}
+{% extends "base.html" %} {% load static %}
+
+{% block head %}
 <div class="d-flex">
   <h1 class="h2 me-4">Ventas</h1>
   {% include 'include/buscador.html' %}
 </div>
 
-{% endblock %} {% block content %}
+{% endblock %} 
+
+{% block content %}
 
 <div class="d-flex gap-4 tablaCompra"> 
   <div class="overflow-auto conTabla">
@@ -65,9 +69,7 @@
     enctype="multipart/form-data"
     id="formDatosVenta"
   >
-    {% csrf_token %}
-
-    <span>{{ form.carrito }}</span>
+    {% csrf_token %}{{ form.carrito }}
 
     <button type="button" class="btn btn-primary" id="btnSumitVenta">
       Generar Venta
@@ -82,8 +84,10 @@
 <!-- TERMINAR DE REVISAR ---->
 
 <!-- comienzo de script -->
-{% if object_list %} {% for producto in object_list %}
-<span>{% if producto.tipo_medida == 1 %}</span>
+{% if object_list %} 
+  {% for producto in object_list %}
+    {% if producto.tipo_medida == 1 %}
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     agregarAlCarrito(
@@ -124,20 +128,24 @@
   });
 </script>
 
-{%endif%} {% endfor %} {% endif %}
+    {%endif%} 
+  {% endfor %} 
+{% endif %}
 
-<script>
-  {% for message in messages %}
-      {% if "success-venta" in message.tags %}
-        localStorage.removeItem("carrito");
-      {% endif %}
-  {% endfor %}
-</script>
+{% for message in messages %}
+  {% if "success-venta" in message.tags %}
 
-{% endblock %} {% block script %}
+<script defer src="{% static 'js/boleta.js' %}"></script>
+
+  {% endif %}
+{% endfor %}
+
+{% endblock %} 
+
+{% block script %}
 
 <script defer src="{% static 'js/ventas.js' %}"></script>
-<script defer src="{% static 'js/boleta.js' %}"></script>
+<script defer src="{% static 'js/submitVentas.js' %}"></script>
 <script defer src="{% static 'js/autoFocus.js' %}"></script>
 
 {% endblock %}

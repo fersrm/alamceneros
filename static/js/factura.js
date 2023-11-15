@@ -1,6 +1,3 @@
-/////////////////////////////////////
-///// GENERAR VENTA ////////////////
-////////////////////////////////////
 document.addEventListener("DOMContentLoaded", function () {
 
   function crearTablaBoleta() {
@@ -91,22 +88,66 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  const tabla = crearTablaBoleta();
+  function crearTablaDatosCliente() {
+    let clienteDatos = JSON.parse(localStorage.getItem("cliente")) || [];
+
+    if (clienteDatos.length !== 0) {
+      let tablaCliente = document.createElement("table");
+
+      let encabezados =
+        "<thead><tr><th>RUN</th><th>Nombre</th><th>Correo</th><th>Telefono</th></tr></thead>";
+      tablaCliente.innerHTML = encabezados;
+
+      // Crear cuerpo de tabla
+      let tableBodyCliente = document.createElement("tbody");
+      
+      let filaCLiente = document.createElement("tr");
+  
+      let run = document.createElement("td");
+      run.textContent =  clienteDatos.run;
+  
+      let nombreCliente = document.createElement("td");
+      nombreCliente.textContent = clienteDatos.nombreCompleto;
+  
+      let correoCliente = document.createElement("td");
+      correoCliente.textContent =  clienteDatos.correo;
+  
+      let telefonoCliente = document.createElement("td");
+      telefonoCliente.textContent =  clienteDatos.telefono;
+  
+  
+      filaCLiente.appendChild(run);
+      filaCLiente.appendChild(nombreCliente);
+      filaCLiente.appendChild(correoCliente);
+      filaCLiente.appendChild(telefonoCliente);
+  
+      tableBodyCliente.appendChild(filaCLiente);
+
+      tablaCliente.appendChild(tableBodyCliente);
+
+      return tablaCliente;
+    }
+  }
+
+  const tabla1 = crearTablaBoleta();
+  const tabla2 = crearTablaDatosCliente();
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  const tableTitle = "Boleta";
+  const tableTitle = "Factura";
 
   doc.text(tableTitle, 95, 20);
 
-  let startY = 30;
-  doc.autoTable({ html: tabla, startY });
+  let startY1 = 30;
+  doc.autoTable({ html: tabla2, startY: startY1 });
+
+  let startY2 = doc.autoTable.previous.finalY + 10;
+  doc.autoTable({ html: tabla1, startY: startY2 + 10 });
 
   doc.output("dataurlnewwindow");
 
   // Elimina el carrito de  local Storage
   localStorage.removeItem("carrito");
   location.reload();
-  
 });

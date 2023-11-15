@@ -73,10 +73,7 @@ TENANT_TYPES = {
         "URLCONF": "ProyectoTaller.urls_type1",
     },
     "type2": {
-        "APPS": COMMON_APPS
-        + [
-            "ClientesStoreApp",
-        ],
+        "APPS": COMMON_APPS + ["ClientesStoreApp", "FacturasStoreApp"],
         "URLCONF": "ProyectoTaller.urls_type2",
     },
 }

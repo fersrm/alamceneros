@@ -49,7 +49,7 @@ def total_dia(model, count_field, sum_field):
     return {count_field: count, sum_field: total if total is not None else 0}
 
 
-def total_ventas(boleta, compras, periodo="semana"):
+def total_ventas(boleta, compras, periodo="semana", factura=None):
     ventas_totales = {}
     compras_totales = []
     # Obtener la fecha actual
@@ -105,7 +105,18 @@ def total_ventas(boleta, compras, periodo="semana"):
         total_boletas = (
             objects_boletas.aggregate(total=Sum("total_boleta"))["total"] or 0
         )
-        ventas_totales[date.strftime("%Y-%m-%d")] = total_boletas
+
+        if factura:
+            objects_facturas = factura.objects.filter(query_ventas).distinct()
+            total_factura = (
+                objects_facturas.aggregate(total=Sum("total_factura"))["total"] or 0
+            )
+
+            total_venta = total_boletas + total_factura
+
+            ventas_totales[date.strftime("%Y-%m-%d")] = total_venta
+        else:
+            ventas_totales[date.strftime("%Y-%m-%d")] = total_boletas
 
         objects_compras = compras.objects.filter(query_compras).distinct()
         total_compras = objects_compras.aggregate(total=Sum("total"))["total"] or 0
@@ -114,7 +125,9 @@ def total_ventas(boleta, compras, periodo="semana"):
     return ventas_totales, compras_totales
 
 
-def top_productos(model_productos, model_detalle, campos_producto):
+def top_productos(
+    model_productos, model_detalle, campos_producto, model_detalle_factura=None
+):
     # Calcular la fecha de hace 30 días desde la fecha actual
     fecha_hace_30_dias = timezone.localtime(timezone.now()) - timedelta(days=30)
 
@@ -135,22 +148,98 @@ def top_productos(model_productos, model_detalle, campos_producto):
     productos_boletas = productos_boletas.annotate(total_vendido=Sum("cantidad"))
 
     # Unir los resultados de ambas consultas utilizando un left join y ordenar
-    top_mas_vendidos = productos_boletas.order_by("-total_vendido")[:10]
+    top_mas_vendidos_boleta = productos_boletas.order_by("-total_vendido")[:10]
 
     top_menos_vendidos_boleta = productos_boletas.order_by("total_vendido")[:10]
 
     # Convierte las consultas en listas
     productos_no_en_boletas_lista = list(productos_no_en_boletas)
-    top_menos_vendidos_lista = list(top_menos_vendidos_boleta)
+    top_menos_vendidos_boleta_lista = list(top_menos_vendidos_boleta)
+    top_mas_vendidos_boleta_lista = list(top_mas_vendidos_boleta)
 
-    # Combina las dos listas
-    productos_combinados = productos_no_en_boletas_lista + top_menos_vendidos_lista
+    # ------------------------------------------------
 
-    # Toma los primeros 10 elementos de la lista combinada
-    top_menos_vendidos = productos_combinados[:10]
+    if model_detalle_factura:
+        productos_no_en_ventas = model_productos.objects.filter(
+            detalleboletas__isnull=True, detallefacturas__isnull=True, tipo_medida=1
+        ).values(*campos_producto)
+
+        # Obtener los productos más vendidos de DetalleBoletas
+        productos_factura = model_detalle_factura.objects.filter(
+            factura_FK__venta_FK__fecha_emision__gte=fecha_hace_30_dias,
+            producto_FK__tipo_medida=1,
+        ).values(*campos_producto_con_prefijo)
+
+        productos_factura = productos_factura.annotate(total_vendido=Sum("cantidad"))
+
+        # Unir los resultados de ambas consultas utilizando un left join y ordenar
+        top_mas_vendidos_factura = productos_factura.order_by("-total_vendido")[:10]
+        top_menos_vendidos_factura = productos_factura.order_by("total_vendido")[:10]
+
+        productos_no_en_ventas_lista = list(productos_no_en_ventas)
+        top_menos_vendidos_factura_lista = list(top_menos_vendidos_factura)
+        top_mas_vendidos_factura_lista = list(top_mas_vendidos_factura)
+
+        # Combina las listas
+        productos_combinados_top_menos = sorted(
+            top_menos_vendidos_boleta_lista + top_menos_vendidos_factura_lista,
+            key=lambda x: x["total_vendido"],
+        )
+
+        productos_combinados_top_mas = sorted(
+            top_mas_vendidos_boleta_lista + top_mas_vendidos_factura_lista,
+            key=lambda x: x["total_vendido"],
+            reverse=True,
+        )
+
+        result_top_menos = agrupar_busqueda(productos_combinados_top_menos)
+
+        result_top_menos = productos_no_en_ventas_lista + result_top_menos
+
+        result_top_mas = agrupar_busqueda(productos_combinados_top_mas)
+
+        # Seleccionar los primeros 10 elementos de cada lista
+        top_menos_vendidos = result_top_menos[:10]
+        top_mas_vendidos = result_top_mas[:10]
+        # -----------------------------------------
+
+    else:
+        # -----------------------------------------------
+        productos_combinados_top_menos = (
+            productos_no_en_boletas_lista + top_menos_vendidos_boleta_lista
+        )
+        # Toma los primeros 10 elementos de la lista combinada
+        top_menos_vendidos = productos_combinados_top_menos[:10]
+        top_mas_vendidos = top_mas_vendidos_boleta
 
     return top_mas_vendidos, top_menos_vendidos
 
 
 def buscar_fecha_rango(modal, fecha1, fecha2, periodo):
     pass
+
+
+def agrupar_busqueda(data):
+    from collections import defaultdict
+
+    combined_data = defaultdict(lambda: {"total_vendido": 0})
+
+    for entry in data:
+        codigo_producto = entry["producto_FK__codigo_producto"]
+        combined_data[codigo_producto]["producto_FK__codigo_producto"] = codigo_producto
+        combined_data[codigo_producto]["producto_FK__descripcion_producto"] = entry[
+            "producto_FK__descripcion_producto"
+        ]
+        combined_data[codigo_producto][
+            "producto_FK__categoria_FK__nombre_categoria"
+        ] = entry["producto_FK__categoria_FK__nombre_categoria"]
+        combined_data[codigo_producto]["producto_FK__stock"] = entry[
+            "producto_FK__stock"
+        ]
+        combined_data[codigo_producto]["producto_FK__precio_venta"] = entry[
+            "producto_FK__precio_venta"
+        ]
+        combined_data[codigo_producto]["total_vendido"] += entry["total_vendido"]
+
+    result = list(combined_data.values())
+    return result
