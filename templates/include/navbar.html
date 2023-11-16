@@ -164,7 +164,7 @@
       <ul class="nav flex-column mb-auto">
         <li class="nav-item">
           <a
-            class="nav-link d-flex align-items-center gap-2"
+            class="nav-link d-flex align-items-center gap-2 {% if request.path == '/ventas/informes/' %}active{% endif %}"
             href="{% url 'Informes' %}"
           >
             <svg class="bi">
