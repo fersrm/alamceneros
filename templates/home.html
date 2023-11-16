@@ -114,7 +114,7 @@
         <td>{{ producto.producto_FK__codigo_producto }}</td>
         <td>{{ producto.producto_FK__descripcion_producto }}</td>
         <td>{{ producto.producto_FK__categoria_FK__nombre_categoria }}</td>
-        <td >{{ producto.producto_FK__stock }}</td>
+        <td >{{ producto.producto_FK__stock|floatformat:0 }}</td>
         <td>${{ producto.producto_FK__precio_venta}}</td>
         <td>{{ producto.total_vendido }}</td>
       </tr>
@@ -168,9 +168,9 @@
         </td>
         <td>
             {% if producto.stock %}
-              {{ producto.stock }}
+              {{ producto.stock|floatformat:0 }}
             {% else %}
-              {{ producto.producto_FK__stock }}
+              {{ producto.producto_FK__stock|floatformat:0 }}
             {% endif %}
         </td>
         <td>$

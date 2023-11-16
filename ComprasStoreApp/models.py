@@ -12,7 +12,7 @@ class Compras(models.Model):
     total = models.IntegerField()
     tipo_documento = models.IntegerField(choices=tipoDoc, default=1)
     tipo_impuesto = models.IntegerField(choices=tipoImpuesto, default=1)
-    proveedor_FK = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
+    proveedor_FK = models.ForeignKey(Proveedor, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         db_table = "compras"

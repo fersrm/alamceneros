@@ -181,30 +181,35 @@ def top_productos(
         top_mas_vendidos_factura_lista = list(top_mas_vendidos_factura)
 
         # Combina las listas
-        productos_combinados_top_menos = sorted(
-            top_menos_vendidos_boleta_lista + top_menos_vendidos_factura_lista,
-            key=lambda x: x["total_vendido"],
+        productos_combinados_top_menos = (
+            top_menos_vendidos_boleta_lista + top_menos_vendidos_factura_lista
         )
 
-        productos_combinados_top_mas = sorted(
-            top_mas_vendidos_boleta_lista + top_mas_vendidos_factura_lista,
+        productos_combinados_top_mas = (
+            top_mas_vendidos_boleta_lista + top_mas_vendidos_factura_lista
+        )
+
+        # Agrupa los productos
+        result_top_menos = agrupar_busqueda(productos_combinados_top_menos)
+
+        result_top_mas = agrupar_busqueda(productos_combinados_top_mas)
+
+        # Orndena las listas
+        result_top_menos = sorted(result_top_menos, key=lambda x: x["total_vendido"])
+
+        result_top_menos = productos_no_en_ventas_lista + result_top_menos
+
+        result_top_mas = sorted(
+            result_top_mas,
             key=lambda x: x["total_vendido"],
             reverse=True,
         )
 
-        result_top_menos = agrupar_busqueda(productos_combinados_top_menos)
-
-        result_top_menos = productos_no_en_ventas_lista + result_top_menos
-
-        result_top_mas = agrupar_busqueda(productos_combinados_top_mas)
-
         # Seleccionar los primeros 10 elementos de cada lista
         top_menos_vendidos = result_top_menos[:10]
         top_mas_vendidos = result_top_mas[:10]
-        # -----------------------------------------
 
     else:
-        # -----------------------------------------------
         productos_combinados_top_menos = (
             productos_no_en_boletas_lista + top_menos_vendidos_boleta_lista
         )

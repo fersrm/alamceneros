@@ -211,7 +211,7 @@ function mostrarCarritoEnModal() {
 
     // Crear fila para mostrar el precio total del carrito
     let filaTotal = document.createElement("tr");
-    filaTotal.innerHTML = `<td colspan="3"><strong>Total:</strong></td><td>${precioTotal}</td><td></td>`;
+    filaTotal.innerHTML = `<td colspan="3"><strong>Total:</strong></td><td><strong>$${precioTotal}</strong></td><td></td>`;
     cuerpoTabla.appendChild(filaTotal);
 
     // Limpiar el contenido previo y agregar la tabla al modal-body

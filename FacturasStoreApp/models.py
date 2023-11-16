@@ -12,7 +12,7 @@ from VentasStoreApp.models import Ventas
 class Facturas(models.Model):
     id_factura = models.AutoField(primary_key=True)
     total_factura = models.IntegerField()
-    cliente_fk = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    cliente_fk = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True)
     venta_FK = models.ForeignKey(Ventas, on_delete=models.CASCADE)
 
     class Meta:
@@ -26,8 +26,8 @@ class DetalleFacturas(models.Model):
     id_detalle_factura = models.AutoField(primary_key=True)
     cantidad = models.IntegerField()
     total = models.IntegerField()
-    producto_FK = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    factura_FK = models.ForeignKey(Facturas, on_delete=models.CASCADE)
+    producto_FK = models.ForeignKey(Producto, on_delete=models.SET_NULL, null=True)
+    factura_FK = models.ForeignKey(Facturas, on_delete=models.CASCADE, default=1)
 
     class Meta:
         db_table = "detallefactura"

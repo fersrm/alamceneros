@@ -32,7 +32,7 @@ class DetalleBoletas(models.Model):
     id_detalle_boleta = models.AutoField(primary_key=True)
     cantidad = models.IntegerField()
     total = models.IntegerField()
-    producto_FK = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    producto_FK = models.ForeignKey(Producto, on_delete=models.SET_NULL, null=True)
     boleta_FK = models.ForeignKey(Boletas, on_delete=models.CASCADE, default=1)
 
     class Meta:

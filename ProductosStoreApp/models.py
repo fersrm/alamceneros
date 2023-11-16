@@ -43,8 +43,8 @@ class Producto(models.Model):
     fecha = models.DateField(auto_now_add=True)
     tipo_medida = models.IntegerField(choices=tipoMedida, default=1)
     tipo_impuesto = models.IntegerField(choices=tipoImpuesto, default=1)
-    usuario_FK = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    categoria_FK = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    usuario_FK = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True)
+    categoria_FK = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         db_table = "producto"

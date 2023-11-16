@@ -34,8 +34,8 @@ class Proveedor(models.Model):
     telefono_proveedor = models.CharField(max_length=45)
     contacto = models.CharField(max_length=45)
     direccion = models.CharField(max_length=45)
-    giro_FK = models.ForeignKey(Giro, on_delete=models.CASCADE)
-    rubro_FK = models.ForeignKey(Rubro, on_delete=models.CASCADE)
+    giro_FK = models.ForeignKey(Giro, on_delete=models.SET_NULL, null=True)
+    rubro_FK = models.ForeignKey(Rubro, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         db_table = "proveedor"

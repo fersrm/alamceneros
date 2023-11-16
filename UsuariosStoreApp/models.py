@@ -19,7 +19,9 @@ class Cargo(models.Model):
 
 class Usuario(AbstractUser):
     telefono_user = models.CharField(max_length=15, default="123456789")
-    cargo_FK = models.ForeignKey(Cargo, on_delete=models.CASCADE, null=True, blank=True)
+    cargo_FK = models.ForeignKey(
+        Cargo, on_delete=models.SET_NULL, null=True, blank=True
+    )
 
     class Meta:
         db_table = "usuario"

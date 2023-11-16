@@ -110,6 +110,11 @@ td button {
   width: 30%;
 }
 
+.total{
+  outline: solid 2px #ffffff !important;
+  font-size: 1.2rem !important;
+}
+
 @media screen and (max-width: 1000px) {
   .tablaCompra {
     flex-direction: column;
