@@ -39,8 +39,6 @@ function agregarAlCarrito(
       Swal.fire({
         text: "No puedes agregar más de este producto al carrito, ha alcanzado el stock disponible.",
         icon: "warning",
-        showConfirmButton: false,
-        timer: 2000,
       });
       return; // Salir de la función sin agregar el producto
     }
@@ -249,8 +247,6 @@ function aumentarCantidad(idProducto) {
       Swal.fire({
         text: "No puedes agregar más de este producto al carrito, ha alcanzado el stock disponible.",
         icon: "warning",
-        showConfirmButton: false,
-        timer: 2000,
       });
     }
   }
