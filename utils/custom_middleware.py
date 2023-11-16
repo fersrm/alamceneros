@@ -39,7 +39,9 @@ class TenantAccessMiddleware:
 
 def cargo_check(function):
     def wrap(request, *args, **kwargs):
-        if request.tenant.schema_name != get_public_schema_name():
+        if request.tenant.schema_name != get_public_schema_name() and not (
+            request.user.is_superuser
+        ):
             if request.user.is_authenticated and request.user.cargo_FK.id_cargo == 3:
                 return redirect("Home")
 
