@@ -74,17 +74,21 @@ document.addEventListener("DOMContentLoaded", function () {
       let filaSubtotal = document.createElement("tr");
       let filaIVA = document.createElement("tr");
       let filaTotal = document.createElement("tr");
+      let filaDescuentoTotal = document.createElement("tr");
 
       let total = document.querySelector("[name='total']").value;
       let subtotal = document.querySelector("[name='subtotal']").value;
       let iva = document.querySelector("[name='impuestos']").value;
+      let descuento = document.querySelector("[name='descuento']").value;
 
       filaSubtotal.innerHTML = `<td colspan="3">&nbsp;</td><td><strong>Sub Total:</strong></td><td>${subtotal}</td>`;
       filaIVA.innerHTML = `<td colspan="3">&nbsp;</td><td><strong>IVA:</strong></td><td>${iva}</td>`;
+      filaDescuentoTotal.innerHTML = `<td colspan="3">&nbsp;</td><td><strong>Descuento:</strong></td><td>- ${descuento}</td>`;
       filaTotal.innerHTML = `<td colspan="3">&nbsp;</td><td><strong>Total:</strong></td><td>${total}</td>`;
 
       cuerpoTabla.appendChild(filaSubtotal);
       cuerpoTabla.appendChild(filaIVA);
+      cuerpoTabla.appendChild(filaDescuentoTotal);
       cuerpoTabla.appendChild(filaTotal);
 
       return tablaCarrito;

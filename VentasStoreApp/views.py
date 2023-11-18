@@ -10,6 +10,7 @@ from decimal import Decimal
 # Modelos y formularios
 from .models import Boletas, Ventas, DetalleBoletas
 from .forms import VentasForm
+from django.db.models import F, Case, When, Value, IntegerField
 
 # Para trabajar con clases
 from django.views.generic import ListView, CreateView
@@ -137,8 +138,28 @@ class VentasBoletaListView(CreateView, ListView):
     def get_queryset(self):
         busqueda = self.request.GET.get("buscar")
         queryset = Producto.objects.filter(codigo_producto__exact=busqueda)
-        if not queryset and busqueda:
+
+        if queryset and busqueda:
+            descuento_promocion = Case(
+                When(promociones__activo=True, then=F("promociones__descuento")),
+                default=Value(0),
+                output_field=IntegerField(),
+            )
+
+            queryset = queryset.annotate(descuento=descuento_promocion)
+
+            if queryset.count() == 1:
+                queryset = queryset.annotate(descuento=descuento_promocion)
+
+            elif queryset.count() > 1:
+                queryset = queryset.annotate(descuento=descuento_promocion).filter(
+                    descuento__gt=0
+                )
+
+        elif not queryset and busqueda:
             messages.error(self.request, f"No existe {busqueda}")
+
+        queryset = queryset.first()
         return queryset
 
 

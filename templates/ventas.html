@@ -1,10 +1,9 @@
 {% extends "base.html" %} {% load static %}
 
 {% block head %}
-<div class="d-flex">
-  <h1 class="h2 me-4">Ventas</h1>
-  {% include 'include/buscador.html' %}
-</div>
+
+<h1 class="h2 me-4">Ventas</h1>
+{% include 'include/buscador.html' %}
 
 {% endblock %} 
 
@@ -47,6 +46,16 @@
       />
     </p>
     <p>
+      <label>Descuento</label>
+      <input
+        type="number"
+        name="descuento"
+        class="form-control"
+        readonly="readonly"
+        style="color: red;"
+      />
+    </p>
+    <p>
       <label>
        <strong>Total</strong> 
       </label>
@@ -84,28 +93,28 @@
 </div>
 
 <!-- TERMINAR DE REVISAR ---->
-
+  
 <!-- comienzo de script -->
 {% if object_list %} 
-  {% for producto in object_list %}
-    {% if producto.tipo_medida == 1 %}
+  {% if object_list.tipo_medida == 1 %}
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     agregarAlCarrito(
-      {{ producto.id_producto }},
-      '{{ producto.codigo_producto }}',
-      '{{ producto.descripcion_producto }}',
-      '{{ producto.stock }}',
-      {{ producto.precio_venta }},
-      {{ producto.tipo_medida }},
-      {{ producto.tipo_impuesto }}
+      {{ object_list.id_producto }},
+      '{{ object_list.codigo_producto }}',
+      '{{ object_list.descripcion_producto }}',
+      '{{ object_list.stock }}',
+      {{ object_list.precio_venta }},
+      {{ object_list.tipo_medida }},
+      {{ object_list.tipo_impuesto }},
+      {{ object_list.descuento }}
     );
 
   });
 </script>
 
-{% else %}
+  {% else %}
 
 <button
   type="button"
@@ -123,15 +132,23 @@
   document.addEventListener("DOMContentLoaded", function () {
     const abrirModal = document.getElementById("abrirCantidadModal");
 
-    datosProducto({{ producto.id_producto }},'{{ producto.codigo_producto }}','{{ producto.descripcion_producto }}','{{ producto.stock }}',{{ producto.precio_venta }},{{ producto.tipo_medida }},{{ producto.tipo_impuesto }});
-
+    datosProducto(
+      {{ object_list.id_producto }},
+      '{{ object_list.codigo_producto }}',
+      '{{ object_list.descripcion_producto }}',
+      '{{ object_list.stock }}',
+      {{ object_list.precio_venta }},
+      {{ object_list.tipo_medida }},
+      {{ object_list.tipo_impuesto }},
+      {{ object_list.descuento }}
+    );
+    
     abrirModal.click();
 
   });
 </script>
 
-    {%endif%} 
-  {% endfor %} 
+  {% endif %}
 {% endif %}
 
 {% for message in messages %}

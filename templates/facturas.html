@@ -2,10 +2,8 @@
 
 {% block head %}
 
-<div class="d-flex">
-  <h1 class="h2 me-4">Facturas</h1>
-  {% include 'include/buscador.html' %}
-</div>
+<h1 class="h2 me-4">Facturas</h1>
+{% include 'include/buscador.html' %}
 
 {% endblock %} 
 
@@ -103,6 +101,16 @@
         readonly="readonly"
       />
     </p>
+     <p>
+      <label>Descuento</label>
+      <input
+        type="number"
+        name="descuento"
+        class="form-control"
+        readonly="readonly"
+        style="color: red;"
+      />
+    </p>
     <p>
       <label>
        <strong>Total</strong> 
@@ -117,7 +125,7 @@
   </form>
 </div>
 
-<div id="containerBtnVentas" class="mt-3 d-flex none">
+<div id="containerBtnVentas" class="mt-1 d-flex none">
   <button class="btn btn-danger me-3" id="btnLimpiarVenta">
     Eliminar Venta
   </button>
@@ -147,7 +155,6 @@
 
 <!-- TERMINAR DE REVISAR ---->
 {% if request.GET.buscar_cliente and object_list %}
-  {% for cliente in object_list %}
 
 <script>
 
@@ -209,27 +216,26 @@
 
 </script>
         
-  {% endfor %}
 {% elif request.GET.buscar and object_list %}
-  {% for producto in object_list %}
-    {% if producto.tipo_medida == 1 %}
+  {% if object_list.tipo_medida == 1 %}
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     agregarAlCarrito(
-      {{ producto.id_producto }},
-      '{{ producto.codigo_producto }}',
-      '{{ producto.descripcion_producto }}',
-      '{{ producto.stock }}',
-      {{ producto.precio_venta }},
-      {{ producto.tipo_medida }},
-      {{ producto.tipo_impuesto }}
+      {{ object_list.id_producto }},
+      '{{ object_list.codigo_producto }}',
+      '{{ object_list.descripcion_producto }}',
+      '{{ object_list.stock }}',
+      {{ object_list.precio_venta }},
+      {{ object_list.tipo_medida }},
+      {{ object_list.tipo_impuesto }},
+      {{ object_list.descuento }}
     );
 
   });
 </script>
 
-    {% else %}
+  {% else %}
 
 <button
   type="button"
@@ -247,15 +253,23 @@
   document.addEventListener("DOMContentLoaded", function () {
     const abrirModal = document.getElementById("abrirCantidadModal");
 
-    datosProducto({{ producto.id_producto }},'{{ producto.codigo_producto }}','{{ producto.descripcion_producto }}','{{ producto.stock }}',{{ producto.precio_venta }},{{ producto.tipo_medida }},{{ producto.tipo_impuesto }});
+    datosProducto(
+      {{ object_list.id_producto }},
+      '{{ object_list.codigo_producto }}',
+      '{{ object_list.descripcion_producto }}',
+      '{{ object_list.stock }}',
+      {{ object_list.precio_venta }},
+      {{ object_list.tipo_medida }},
+      {{ object_list.tipo_impuesto }},
+      {{ object_list.descuento }}
+    );
 
     abrirModal.click();
 
   });
 </script>
 
-    {% endif %}
-  {% endfor %}
+  {% endif %}
 {% endif %}
 
 {% for message in messages %}

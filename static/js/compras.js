@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Actualiza los valores
       document.querySelector("[name='subtotal']").value = subtotal.toFixed(2);
       document.querySelector("[name='impuestos']").value = impuestos.toFixed(2);
-      document.querySelector("[name='total']").value = total.toFixed(2);
+      document.querySelector("[name='totalCompras']").value = total.toFixed(2);
     }
   }
 

@@ -10,6 +10,7 @@ from decimal import Decimal
 # Modelos y formularios
 from .models import Facturas, Ventas, DetalleFacturas, Cliente
 from .forms import VentasFacturasForm
+from django.db.models import F, Case, When, Value, IntegerField
 
 # Para trabajar con clases
 from django.views.generic import ListView, CreateView
@@ -111,8 +112,27 @@ class VentasFacturasListView(CreateView, ListView):
             messages.error(self.request, f"No existe {busqueda_cliente}")
         else:
             if queryset:
+                descuento_promocion = Case(
+                    When(promociones__activo=True, then=F("promociones__descuento")),
+                    default=Value(0),
+                    output_field=IntegerField(),
+                )
+
+                queryset = queryset.annotate(descuento=descuento_promocion)
+
+                if queryset.count() == 1:
+                    queryset = queryset.annotate(descuento=descuento_promocion)
+
+                elif queryset.count() > 1:
+                    queryset = queryset.annotate(descuento=descuento_promocion).filter(
+                        descuento__gt=0
+                    )
+
+                queryset = queryset.first()
                 return queryset
+
             elif queryset_cliente:
+                queryset_cliente = queryset_cliente.first()
                 return queryset_cliente
 
         return []

@@ -50,6 +50,8 @@ class AgregarCompraView(CreateView, ListView):
 
         if not queryset and busqueda:
             messages.error(self.request, f"No existe {busqueda}")
+
+        queryset = queryset.first()
         return queryset
 
 

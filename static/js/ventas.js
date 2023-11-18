@@ -146,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let total = 0;
     let totalImpuesto = 0;
     let subtotal = 0;
+    let descuentoTotal = 0;
 
     if (productCarrito && productCarrito.length > 0) {
       const productCarritoTabla = productCarrito.filter(
@@ -157,6 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const cantidad = parseInt(product.cantidad);
         const impuesto = parseInt(product.impuesto);
         const medida = parseInt(product.medida);
+        const descuento = parseInt(product.descuento);
 
         // Total por producto
         let totalProducto = 0;
@@ -175,6 +177,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // Suma de los productos
         total += totalProducto;
 
+        
+        let montoDescuento = (descuento / 100) * totalProducto;
+    
+        descuentoTotal += montoDescuento;
+
         if (impuesto === 1) {
           const totalImpuestoProducto = totalProducto * 0.19;
           totalImpuesto += totalImpuestoProducto;
@@ -185,12 +192,14 @@ document.addEventListener("DOMContentLoaded", function () {
       subtotal = total - totalImpuesto;
     }
 
+    total = total - descuentoTotal;
+
     // Actualiza los valores
 
     document.querySelector("[name='subtotal']").value = subtotal.toFixed(2);
-    document.querySelector("[name='impuestos']").value =
-      totalImpuesto.toFixed(2);
+    document.querySelector("[name='impuestos']").value = totalImpuesto.toFixed(2);
     document.querySelector("[name='total']").value = total.toFixed(2);
+    document.querySelector("[name='descuento']").value = descuentoTotal.toFixed(2)
   }
 
   updateCalculoCarrito();

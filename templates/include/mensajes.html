@@ -1,20 +1,26 @@
+{% if messages %}
+  {% for message in messages %}
 <script>
-  {% if messages %}
-      {% for message in messages %}
-          var icon = "success";
-          var titleText = "Felicidades"
+  var icon = "success";
+  var titleText = "Felicidades";
+  var confirbtn = false;
+  var tiempo = 2000;
 
-          if ("{{ message.tags }}".includes("error")) {
-            icon = 'error'
-            titleText = "Error"
-          }
-          Swal.fire({
-              titleText,
-              text: "{{ message }}",
-              icon,
-              showConfirmButton: false,
-              timer: 2000,
-          })
-      {% endfor %}
-  {% endif %}
+  if ("{{ message.tags }}".includes("error")) {
+
+    icon = 'error';
+    titleText = "Error";
+    confirbtn = true;
+    tiempo = 10000
+
+  }
+  Swal.fire({
+      titleText,
+      text: "{{ message }}",
+      icon,
+      showConfirmButton: confirbtn,
+      timer: tiempo,
+  })
 </script>
+    {% endfor %}
+{% endif %}

@@ -7,7 +7,8 @@ function agregarAlCarrito(
   precio,
   medida,
   impuesto,
-  cantidad = 1
+  descuento,
+  cantidad = 1,
 ) {
   // Comprobar si ya hay elementos en el carrito en el localStorage
   let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -53,6 +54,7 @@ function agregarAlCarrito(
         medida,
         impuesto,
         cantidad,
+        descuento,
       });
     } else {
       Swal.fire({
@@ -296,16 +298,18 @@ function datosProducto(
   stock,
   precio,
   medida,
-  impuesto
+  impuesto,
+  descuento,
 ) {
   productoSeleccionado = {
-    id: id,
-    codigo: codigo,
-    descripcion: descripcion,
-    stock: stock,
-    precio: precio,
-    medida: medida,
-    impuesto: impuesto,
+    id,
+    codigo,
+    descripcion,
+    stock,
+    precio,
+    medida,
+    impuesto,
+    descuento,
   };
 }
 
@@ -320,6 +324,7 @@ function closeCantidadModal() {
     productoSeleccionado.precio,
     productoSeleccionado.medida,
     productoSeleccionado.impuesto,
+    productoSeleccionado.descuento,
     cantidad
   );
   // Restablecer la variable global después de usarla

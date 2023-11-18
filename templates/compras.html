@@ -100,8 +100,8 @@
       <label>Total</label>
       <input
         type="number"
-        name="total"
-        class="form-control"
+        name="totalCompras"
+        class="form-control total"
         readonly="readonly"
       />
     </p>
@@ -125,24 +125,22 @@
 <!---- TERMINAR DE REVISAR ----  -->
 <!-- comienzo de script -->
 {% if object_list %}
-  {% for producto in object_list %}
 
 {% include 'include/comprasScript.html' %} 
 
-  {% endfor %} 
 {% endif %}
 
 <script defer src="{% static 'js/compras.js' %}"></script>
 
 <!-- LIMPIA LOCALSTORAGE -->
+{% for message in messages %}
+    {% if "success-alert" in message.tags %}
 <script>
-  {% for message in messages %}
-      {% if "success-alert" in message.tags %}
-        localStorage.removeItem("productoDataList");
-        localStorage.removeItem("storedData");
-      {% endif %}
-  {% endfor %}
+  localStorage.removeItem("productoDataList");
+  localStorage.removeItem("storedData");
 </script>
+      {% endif %}
+{% endfor %}
 
 
 <script defer src="{% static 'js/autoFocus.js' %}"></script>
