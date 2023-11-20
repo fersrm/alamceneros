@@ -2,8 +2,8 @@
 <a
   class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white"
   href="{% url 'Home' %}"
-  >CodeTech</a
->
+  >{{ request.datos_empresa.nombre_empresa|default:"CodeTech" }}
+</a>
 <div class="d-flex justify-content-between" style="width: calc(100% - 195px)">
   <div class="profile-content ms-4 d-flex gap-2">
 
@@ -34,7 +34,7 @@
 
     <button
       class="btn btn-outline-info d-flex notificacion"
-      onclick="tabla_poco_stock('{% url 'tabla_stock'  %}')"
+      onclick="tabla_poco_stock('{% url 'tabla_stock' %}')"
     >
       <svg  
         width="16" 

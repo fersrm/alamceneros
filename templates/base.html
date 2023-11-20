@@ -95,5 +95,11 @@
     </div>
     <!-- mensajes de error -->
     {% include 'include/mensajes.html' %}
+
+    <!-- IVA -->
+    <script>
+      let IVAEMPRESA = {% if request.datos_empresa.IVA %} {{ request.datos_empresa.IVA }} / 100 {% else %} 0.19 {% endif %};
+    </script>
+
   </body>
 </html>

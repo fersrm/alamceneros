@@ -99,6 +99,7 @@ MIDDLEWARE = [
     "ProductosStoreApp.middleware.ProductosStockMiddleware",
     "ClientSharedApp.middleware.RedirectMiddleware",
     "utils.custom_middleware.TenantAccessMiddleware",
+    "DatosEmpresaStoreApp.middleware.DatosEmpresaMiddleware",
 ]
 
 ROOT_URLCONF = "ProyectoTaller.urls"
@@ -128,8 +129,8 @@ WSGI_APPLICATION = "ProyectoTaller.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django_tenants.postgresql_backend",
-        "NAME": "Proyecto",
-        "USER": "Fernando",
+        "NAME": "postgres",
+        "USER": "postgres",
         "PASSWORD": "123456",
         "HOST": "localhost",
         "PORT": 5432,

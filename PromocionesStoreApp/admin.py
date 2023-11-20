@@ -13,4 +13,4 @@ class SharedModelAdminBase(admin.ModelAdmin):
 
 @admin.register(Promociones)
 class PromocionesAdmin(SharedModelAdminBase):
-    list_display = ("id_promocion", "descuento", "producto_FK")
+    list_display = ("id_promocion", "descuento", "producto_FK", "activo")

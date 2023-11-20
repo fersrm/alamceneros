@@ -183,7 +183,12 @@ document.addEventListener("DOMContentLoaded", function () {
         descuentoTotal += montoDescuento;
 
         if (impuesto === 1) {
-          const totalImpuestoProducto = totalProducto * 0.19;
+          let IVA = 0.19
+          if (typeof IVAEMPRESA === 'number' && IVAEMPRESA > 0) { 
+            //console.log(typeof IVAEMPRESA, IVAEMPRESA)
+            IVA = IVAEMPRESA
+          }
+          const totalImpuestoProducto = totalProducto * IVA;
           totalImpuesto += totalImpuestoProducto;
           totalImpuesto = Math.round(totalImpuesto);
         }

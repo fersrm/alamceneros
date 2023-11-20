@@ -58,9 +58,24 @@
             <span>{{ form.margen_ganancia.label_tag }}</span>
             <span>{{ form.margen_ganancia }}</span>
           </p>
+
           <p class="w-50">
+
             <span>{{ form.stock.label_tag }}</span>
-            <span>{{ form.stock }}</span>
+            
+            {% if form.tipo_medida.value == 1 %}
+
+            <span>
+              <input type="number" name="stock" value="{{ form.stock.value|floatformat:0 }}" class="form-control" step="any" required="" id="id_stock">
+            </span>
+
+            {% else %}
+            <span>
+                  {{ form.stock }}
+            </span>
+
+            {% endif %}
+
           </p>
         </div>
 

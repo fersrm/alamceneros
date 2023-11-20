@@ -38,7 +38,7 @@ class AgregarCompraView(CreateView, ListView):
         messages.error(self.request, "Error en el formulario")
         for field, errors in form.errors.items():
             for error in errors:
-                messages.error(self.request, f"{field}: {error}")
+                messages.error(self.request, f"{error}")
         return HttpResponseRedirect("/compras/")
 
     def get_success_url(self):
@@ -76,7 +76,7 @@ class CompraProductoView(UpdateView):
         messages.error(self.request, "Error en el formulario")
         for field, errors in form.errors.items():
             for error in errors:
-                messages.error(self.request, f"{field}: {error}")
+                messages.error(self.request, f"{error}")
         return HttpResponseRedirect("/compras/")
 
     def get_success_url(self):
