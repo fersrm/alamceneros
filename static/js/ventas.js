@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         let montoDescuento = (descuento / 100) * totalProducto;
     
-        descuentoTotal += montoDescuento;
+        descuentoTotal += Math.round(montoDescuento);
 
         if (impuesto === 1) {
           let IVA = 0.19

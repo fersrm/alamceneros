@@ -124,9 +124,12 @@ class VentasFacturasListView(CreateView, ListView):
                     queryset = queryset.annotate(descuento=descuento_promocion)
 
                 elif queryset.count() > 1:
-                    queryset = queryset.annotate(descuento=descuento_promocion).filter(
-                        descuento__gt=0
-                    )
+                    filtra_queryset = queryset.annotate(
+                        descuento=descuento_promocion
+                    ).filter(descuento__gt=0)
+
+                    if filtra_queryset:
+                        queryset = filtra_queryset
 
                 queryset = queryset.first()
                 return queryset
@@ -139,16 +142,25 @@ class VentasFacturasListView(CreateView, ListView):
 
 
 def calcular_total_ventas(carrito):
+    descuento_total = 0
     total = 0
     for item in carrito:
+        descuento = item["descuento"]
+        total_producto = 0
         if item["medida"] == 1:
-            total += item["cantidad"] * item["precio"]
+            total_producto += item["cantidad"] * item["precio"]
         else:
             cantidad_kilos = item["cantidad"] / 1000
             costo_total = cantidad_kilos * item["precio"]
             costo_total = round(costo_total)
-            total = costo_total
+            total_producto += costo_total
 
+        total += total_producto
+
+        monto_descuento = (descuento / 100) * total_producto
+        descuento_total = round(monto_descuento)
+
+    total = total - descuento_total
     return total
 
 

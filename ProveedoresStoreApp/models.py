@@ -30,7 +30,7 @@ class Proveedor(models.Model):
     run_proveedor = models.CharField(max_length=15, unique=True)
     nombre_proveedor = models.CharField(max_length=45)
     razon_social = models.CharField(max_length=45)
-    correo_proveedor = models.CharField(max_length=64, unique=True)
+    correo_proveedor = models.EmailField(max_length=64, unique=True)
     telefono_proveedor = models.CharField(max_length=45)
     contacto = models.CharField(max_length=45)
     direccion = models.CharField(max_length=45)

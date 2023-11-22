@@ -12,7 +12,7 @@ class BaseProveedorForm(forms.ModelForm):
     razon_social = forms.CharField(
         label="Razón social", widget=forms.TextInput(attrs={"class": "form-control"})
     )
-    correo_proveedor = forms.CharField(
+    correo_proveedor = forms.EmailField(
         label="Email", widget=forms.EmailInput(attrs={"class": "form-control"})
     )
     telefono_proveedor = forms.CharField(

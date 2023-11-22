@@ -66,7 +66,7 @@ class PromocionesForm(forms.ModelForm):
 
             if fecha_inicio >= fecha_termino:
                 raise forms.ValidationError(
-                    "la fecha de inicio debe ser mayor a la fecha de termino"
+                    "la fecha de inicio debe ser menor a la fecha de termino"
                 )
 
             # --------------------------------------------------------------------

@@ -9,7 +9,7 @@ class UsuarioEditarContactoForm(forms.ModelForm):
     telefono_user = forms.CharField(
         label="Teléfono", widget=forms.TextInput(attrs={"class": "form-control"})
     )
-    email = forms.CharField(
+    email = forms.EmailField(
         label="Email", widget=forms.EmailInput(attrs={"class": "form-control"})
     )
 

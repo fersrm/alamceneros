@@ -2,7 +2,7 @@
 
 {% block head %}
 
-<h1 class="h2 me-4">Facturas</h1>
+<h1 class="h2 me-4">Venta Factura</h1>
 {% include 'include/buscador.html' %}
 
 {% endblock %} 
@@ -58,7 +58,16 @@
       </tr>
     </thead>
     <tbody id="datos_cliente">
+      {% if request.GET.buscar_cliente and object_list %}
+      <tr>
+        <td>{{ cliente.run_cliente }}</td>
+        <td>{{ cliente.nombre_cliente }} {{ cliente.apellido_cliente }}</td>
+        <td>{{ cliente.correo_cliente }}</td>
+        <td>{{ cliente.telefono_cliente }}</td>
+      </tr>
+      {% else %}
       <tr><td colspan="4">INGRESE AL CLIENTE</td></tr>
+      {% endif %}
     </tbody>
   </table>
 </div>
@@ -157,63 +166,9 @@
 {% if request.GET.buscar_cliente and object_list %}
 
 <script>
-
+  // para el input hidden cliente_Fk
   const clienteID = document.getElementById("id_cliente");
   clienteID.value =  {{ cliente.id_cliente }};
-
-  const tableBodyCliente = document.getElementById("datos_cliente");
-
-  if (clienteID.value){
-
-    localStorage.removeItem("cliente");
-
-    const clienteInfo = {
-      run: '{{ cliente.run_cliente }}',
-      nombreCompleto: '{{ cliente.nombre_cliente }} {{ cliente.apellido_cliente }}',
-      correo: '{{ cliente.correo_cliente }}',
-      telefono: '{{ cliente.telefono_cliente }}'
-    };
-
-    // Convertir el objeto a una cadena JSON
-    const clienteInfoJSON = JSON.stringify(clienteInfo);
-
-    // Guardar en el localStorage
-    localStorage.setItem('cliente', clienteInfoJSON);
-
-    // Crea la tabla 
-    tableBodyCliente.innerHTML = "";
-
-    // Recuperar la información del cliente desde localStorage
-    const clienteDatosLocal = localStorage.getItem('cliente');
-    
-    if (clienteDatosLocal){
-      const clienteDatos = JSON.parse(clienteInfoJSON);
-      
-      let filaCLiente = document.createElement("tr");
-  
-      let run = document.createElement("td");
-      run.textContent =  clienteDatos.run;
-  
-      let nombreCliente = document.createElement("td");
-      nombreCliente.textContent = clienteDatos.nombreCompleto;
-  
-      let correoCliente = document.createElement("td");
-      correoCliente.textContent =  clienteDatos.correo;
-  
-      let telefonoCliente = document.createElement("td");
-      telefonoCliente.textContent =  clienteDatos.telefono;
-  
-  
-      filaCLiente.appendChild(run);
-      filaCLiente.appendChild(nombreCliente);
-      filaCLiente.appendChild(correoCliente);
-      filaCLiente.appendChild(telefonoCliente);
-  
-      tableBodyCliente.appendChild(filaCLiente);
-    }
-
-  }
-
 </script>
         
 {% elif request.GET.buscar and object_list %}
@@ -247,7 +202,7 @@
   <i class="bi bi-cart-plus"></i>
 </button>
 
-{% include 'include/modalCantidad.html' %}
+{% include 'modal/modalCantidad.html' %}
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {

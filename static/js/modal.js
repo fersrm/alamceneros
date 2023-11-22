@@ -131,7 +131,7 @@ function cargarDatos() {
               productoEncontrado.precio_bruto_producto) *
             100
           ).toFixed(2);
-          form.stock.value = productoEncontrado.stock;
+          //form.stock.value = productoEncontrado.stock;
           form.tipo_medida.value = productoEncontrado.tipo_medida;
           form.tipo_impuesto.value = productoEncontrado.tipo_impuesto;
         }

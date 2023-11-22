@@ -7,7 +7,7 @@ function agregarAlCarrito(
   precio,
   medida,
   impuesto,
-  descuento,
+  descuento = 0,
   cantidad = 1,
 ) {
   // Comprobar si ya hay elementos en el carrito en el localStorage
@@ -287,6 +287,40 @@ $("#carritoModal").on("show.bs.modal", function (e) {
   mostrarCarritoEnModal();
 });
 
+// tipo de medida
+function tipoMedida(medida) {
+  const medidaSelect = document.getElementById("mediaSelect");
+  let tipoMedida = parseInt(medida);
+
+  //console.log(tipoMedida);
+
+  if (tipoMedida === 3) {
+    medidaSelect.options.length = 0;
+
+    let option1 = document.createElement("option");
+    option1.value = "1";
+    option1.text = "mm";
+    medidaSelect.add(option1);
+
+    let option2 = document.createElement("option");
+    option2.value = "2";
+    option2.text = "Lt";
+    medidaSelect.add(option2);
+  } else {
+    medidaSelect.options.length = 0;
+
+    let optionGr = document.createElement("option");
+    optionGr.value = "1";
+    optionGr.text = "Gr";
+    medidaSelect.add(optionGr);
+
+    let optionKg = document.createElement("option");
+    optionKg.value = "2";
+    optionKg.text = "Kg";
+    medidaSelect.add(optionKg);
+  }
+}
+
 // datos Prodcuto variable Global
 var productoSeleccionado = null;
 
@@ -301,6 +335,7 @@ function datosProducto(
   impuesto,
   descuento,
 ) {
+
   productoSeleccionado = {
     id,
     codigo,
@@ -311,11 +346,22 @@ function datosProducto(
     impuesto,
     descuento,
   };
+
+  tipoMedida(medida);
 }
 
 // Función para cerrar el modal y llamar a agregarAlCarrito con la cantidad
 function closeCantidadModal() {
-  const cantidad = document.getElementById("IntCantidad").value;
+  let cantidad = document.getElementById("IntCantidad").value;
+  let selectCantidad = document.getElementById("mediaSelect").value;
+  
+  selectCantidad = parseInt(selectCantidad)
+
+  if (selectCantidad === 2) {
+    cantidad = cantidad * 1000
+
+  }
+
   agregarAlCarrito(
     productoSeleccionado.id,
     productoSeleccionado.codigo,

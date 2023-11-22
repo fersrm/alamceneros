@@ -10,6 +10,15 @@ class Cargo(models.Model):
     id_cargo = models.AutoField(primary_key=True)
     cargo_usuario = models.CharField(max_length=45, unique=True)
 
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            last_instance = Cargo.objects.order_by("-id_cargo").first()
+
+            if last_instance.id_cargo:
+                self.id_cargo = last_instance.id_cargo + 1
+
+        super(Cargo, self).save(*args, **kwargs)
+
     class Meta:
         db_table = "cargo"
 
@@ -36,3 +45,4 @@ def create_default_roles(sender, **kwargs):
         Cargo.objects.get_or_create(
             id_cargo=2, defaults={"cargo_usuario": "Jefe de Ventas"}
         )
+        Cargo.objects.get_or_create(id_cargo=3, defaults={"cargo_usuario": "Vendedor"})

@@ -57,21 +57,41 @@
     </div>
   </div>
 
-  <div class="card cardCategoria mb-4">
-    <div class="card-body">
-      <h5 class="card-title">Agregar Categoría:</h5>
+  <div>
+    <div class="card cardCategoria mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Agregar Categoría:</h5>
+      </div>
+      <div class="card-footer">
+        <form method="POST">
+          {% csrf_token %} {{ form_categoria.as_p }}
+          <button
+            type="submit"
+            class="btn btn-primary"
+            name="submit_form_categoria"
+          >
+            Guardar Categoría
+          </button>
+        </form>
+      </div>
     </div>
-    <div class="card-footer">
-      <form method="POST">
-        {% csrf_token %} {{ form_categoria.as_p }}
-        <button
-          type="submit"
-          class="btn btn-primary"
-          name="submit_form_categoria"
-        >
-          Guardar Categoría
-        </button>
-      </form>
+  
+    <div class="card cardCategoria mb-4">
+      <div class="card-body">
+        <h5 class="card-title">IVA y Margen Global:</h5>
+      </div>
+      <div class="card-footer">
+        <form method="POST">
+          {% csrf_token %} {{ form_impuesto.as_p }}
+          <button
+            type="submit"
+            class="btn btn-primary"
+            name="submit_form_impuesto"
+          >
+            Guardar Cambios
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </div>

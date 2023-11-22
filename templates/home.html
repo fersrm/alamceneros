@@ -76,7 +76,7 @@
       <form method="GET">
         <div class="form-group">
           <label for="periodo">Selecciona el periodo:</label>
-          <select class="form-control" name="periodo">
+          <select class="form-select"  name="periodo">
             <option value="dia" {% if request.GET.periodo == 'dia' %}selected{% endif %}>Diario</option>
             <option value="semana" {% if request.GET.periodo == 'semana' %}selected{% endif %}>Semanal</option>
             <option value="mes" {% if request.GET.periodo == 'mes' %}selected{% endif %}>Mensual</option>

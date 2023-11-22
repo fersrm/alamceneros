@@ -67,6 +67,10 @@ class AgregarProductoView(CreateView):
         # Asignar el usuario logeado al campo usuario_FK antes de guardar
         producto = form.save(commit=False)
         producto.usuario_FK = usuario_logeado
+        producto.margen_ganancia = (
+            producto.margen_ganancia - self.request.datos_empresa.margen_global
+        )
+
         producto.save()
         messages.success(self.request, "Producto agregado correctamente")
         return super().form_valid(form)
@@ -94,7 +98,12 @@ class EditarProductoView(UpdateView):
 
     def form_valid(self, form):
         form.clean()
-        form.save()
+        producto = form.save(commit=False)
+        producto.margen_ganancia = (
+            producto.margen_ganancia - self.request.datos_empresa.margen_global
+        )
+
+        producto.save()
         messages.success(self.request, "Producto editado correctamente")
         return super().form_valid(form)
 

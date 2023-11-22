@@ -10,7 +10,7 @@ from ProductosStoreApp.models import Producto
 class Ventas(models.Model):
     id_venta = models.AutoField(primary_key=True)
     fecha_emision = models.DateTimeField(auto_now_add=True)
-    usuario_FK = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    usuario_FK = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         db_table = "ventas"

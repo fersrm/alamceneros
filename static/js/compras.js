@@ -158,6 +158,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
      
+    } else {
+      document.getElementById("formDatosCompra").submit();
     }
 
   });

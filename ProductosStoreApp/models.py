@@ -23,6 +23,15 @@ class Categoria(models.Model):
     id_categoria = models.AutoField(primary_key=True)
     nombre_categoria = models.CharField(max_length=45, unique=True)
 
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            last_instance = Categoria.objects.order_by("-id_categoria").first()
+
+            if last_instance.id_categoria:
+                self.id_categoria = last_instance.id_categoria + 1
+
+        super(Categoria, self).save(*args, **kwargs)
+
     class Meta:
         db_table = "categoria"
 
@@ -36,6 +45,7 @@ class Producto(models.Model):
     descripcion_producto = models.CharField(max_length=45)
     precio_bruto_producto = models.IntegerField()
     precio_venta = models.IntegerField(default=10)
+    margen_ganancia = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     imagen = models.ImageField(
         upload_to=dynamic_upload_path, null=True, blank=True, default=None
     )

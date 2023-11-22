@@ -14,7 +14,7 @@ class BaseClienteForm(forms.ModelForm):
     apellido_cliente = forms.CharField(
         label="Apellido", widget=forms.TextInput(attrs={"class": "form-control"})
     )
-    correo_cliente = forms.CharField(
+    correo_cliente = forms.EmailField(
         label="Email", widget=forms.EmailInput(attrs={"class": "form-control"})
     )
     telefono_cliente = forms.CharField(

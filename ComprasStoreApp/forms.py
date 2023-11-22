@@ -14,7 +14,7 @@ class BaseComprasForm(forms.ModelForm):
         label="Fecha",
         widget=forms.DateInput(attrs={"class": "form-control", "id": "fecha"}),
     )
-    total = forms.CharField(
+    total = forms.IntegerField(
         label="Total",
         widget=forms.NumberInput(attrs={"class": "form-control", "id": "total"}),
     )
