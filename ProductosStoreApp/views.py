@@ -26,7 +26,7 @@ from utils.helpers import buscar_campos
 class ProductoListView(ListView):
     model = Producto
     template_name = "tienda.html"
-    paginate_by = 4
+    paginate_by = 5
 
     def get_queryset(self):
         busqueda = self.request.GET.get("buscar")

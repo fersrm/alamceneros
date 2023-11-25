@@ -7,7 +7,8 @@ from .choices import tipoMedida, tipoImpuesto
 
 class BaseProductoForm(forms.ModelForm):
     precio_bruto_producto = forms.DecimalField(
-        label="Precio Bruto", widget=forms.NumberInput(attrs={"class": "form-control"})
+        label="Precio Proveedor",
+        widget=forms.NumberInput(attrs={"class": "form-control"}),
     )
 
     margen_ganancia = forms.DecimalField(
@@ -30,9 +31,17 @@ class BaseProductoForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         descripcion_producto = cleaned_data.get("descripcion_producto")
+        precio_bruto_producto = cleaned_data.get("precio_bruto_producto")
+        precio_venta = cleaned_data.get("precio_venta")
 
         if descripcion_producto:
             cleaned_data["descripcion_producto"] = descripcion_producto.upper()
+
+        if precio_bruto_producto and precio_venta:
+            if precio_bruto_producto >= precio_venta:
+                raise forms.ValidationError(
+                    "El precio de venta tiene que ser mayor al precio de compra"
+                )
 
         return cleaned_data
 
@@ -110,7 +119,7 @@ class ProductoAgregarForm(ProductoEditarForm):
 
 class PlusProductoForm(BaseProductoForm):
     precio_bruto_old = forms.DecimalField(
-        label="Precio bruto antiguo",
+        label="Precio compra antiguo",
         widget=forms.NumberInput(
             attrs={"class": "form-control", "readonly": "readonly"}
         ),

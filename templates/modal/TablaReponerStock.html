@@ -39,7 +39,7 @@
                 <img
                   class="img-fluid mx-auto d-block"
                   src="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'img/producto.png' %}{% endif %}"
-                  style="max-height: 75px"
+                  style="max-height: 60px"
                   alt="{{producto.nombre_producto}}"
                 />
               </td>
@@ -70,7 +70,7 @@
                   </button>
 
                   <button
-                    class="btn btn-outline-light d-flex"
+                    class="btn btn-outline-primary d-flex"
                     onclick="abrir_modal_plus('{% url 'añadir_producto' producto.id_producto %}')"
                   >
                     <i class="bi bi-plus-square"></i>

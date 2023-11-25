@@ -80,7 +80,7 @@
     "tipo_impuesto": 1
   },
   {
-    "codigo_producto": "788492808274",
+    "codigo_producto": "9788492808274",
     "descripcion_producto": "Lentejas 6 Mm Bonanza, 1kg",
     "categoria_FK": 1,
     "precio_bruto_producto": 400,
@@ -110,7 +110,7 @@
     "tipo_impuesto": 1
   },
   {
-    "codigo_producto": "0123456789012",
+    "codigo_producto": "123456789012",
     "descripcion_producto": "Sal Yodada Fina Lobos, 1kg",
     "categoria_FK": 3,
     "precio_bruto_producto": 350,
