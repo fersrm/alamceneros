@@ -36,7 +36,7 @@ class TenantAccessMiddleware:
         response = self.get_response(request)
         return response
 
-
+# Decorador 
 def cargo_check(function):
     def wrap(request, *args, **kwargs):
         if request.tenant.schema_name != get_public_schema_name() and not (

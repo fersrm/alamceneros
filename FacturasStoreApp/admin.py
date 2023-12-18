@@ -5,7 +5,7 @@ from FacturasStoreApp.models import Facturas
 class SharedModelAdminBase(admin.ModelAdmin):
     def has_module_permission(self, request):
         tenant_type = request.tenant.type
-        allowed_tenant_types = ["type1", "type2"]
+        allowed_tenant_types = ["type2"]
         return tenant_type in allowed_tenant_types
 
 

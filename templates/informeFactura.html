@@ -42,6 +42,8 @@
 
 <button class="btn btn-primary mt-3" id="generate-pdf-button">Generar PDF</button>
 
+<button class="btn btn-success mt-3" onclick="exportTableToExcel('tabla-facturas', 'infoFacturas.xls')">Exportar a Excel</button>
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const btnPdf = document.getElementById("generate-pdf-button");
@@ -74,5 +76,6 @@
 {% block script %}
 
 <script defer src="{% static 'js/autoFocus.js' %}"></script>
+<script defer src="{% static 'js/execl.js' %}"></script>
 
 {% endblock %}

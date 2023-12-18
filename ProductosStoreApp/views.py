@@ -10,6 +10,7 @@ from django.shortcuts import redirect, render
 # Modelos y formularios
 from .forms import ProductoAgregarForm, ProductoEditarForm, PlusProductoForm
 from .models import Producto
+from django.db.models import F, Case, When, Value, IntegerField
 
 # Para trabajar con clases
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
@@ -45,6 +46,45 @@ class ProductoListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+       
+        # -----------------------------------------------------------------------------      
+
+        data = []
+
+        for product in context["object_list"]:
+            
+            producto_id = product.id_producto
+   
+            query = Producto.objects.filter(id_producto__exact= producto_id)
+            
+            if query:
+              descuento_promocion = Case(
+                When(promociones__activo=True, then=F("promociones__descuento")),
+                default=Value(0),
+                output_field=IntegerField(),
+              )
+
+              query = query.annotate(descuento=descuento_promocion)
+
+              if query.count() == 1:
+                  query = query.annotate(descuento=descuento_promocion)
+
+              elif query.count() > 1:
+                  filtra_query = query.annotate(
+                      descuento=descuento_promocion
+                  ).filter(descuento__gt=0)
+
+                  if filtra_query:
+                      query = filtra_query
+                
+
+            query = query.first()
+            data.append(query)
+
+        context["object_list"] = data
+
+        # ----------------------------------------------------------------------------
+            
         paginator = Paginator(context["object_list"], self.paginate_by)
         page = self.request.GET.get("page")
         context["object_list"] = paginator.get_page(page)

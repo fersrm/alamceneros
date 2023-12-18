@@ -115,6 +115,10 @@ td button {
   font-size: 1.2rem !important;
 }
 
+.sidebar .nav-link.active {
+    background: #00e5ff1a;
+}
+
 @media screen and (max-width: 1000px) {
   .tablaCompra {
     flex-direction: column;
